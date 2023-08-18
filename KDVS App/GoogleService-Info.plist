@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBUDxMcvYv22XcSr9j2xDIRTuNG-KKwH_Y</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1058129345420</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.johncarraher.KDVS-App</string>
+	<key>PROJECT_ID</key>
+	<string>kdvs-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>kdvs-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1058129345420:ios:412ef335dc195399fcb4a9</string>
+</dict>
+</plist>

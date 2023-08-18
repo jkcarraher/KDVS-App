@@ -1,0 +1,14 @@
+{
+  "name": "kdvs-api",
+  "version": "0.1.0",
+  "dependencies": {
+    "express": "latest",
+    "underscore": "latest",
+    "jsdom": "0.2.x",
+    "jquery": "latest",
+    "request": "latest",
+    "hiredis": "latest",
+    "redis": "latest",
+    "redback": "latest"
+  }
+}

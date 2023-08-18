@@ -1,0 +1,506 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C600669F2A74E26D00752055 /* CacheingPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600669E2A74E26D00752055 /* CacheingPlayerItem.swift */; };
+		C643317C29EF53030080EB77 /* Shows.swift in Sources */ = {isa = PBXBuildFile; fileRef = C643317B29EF53030080EB77 /* Shows.swift */; };
+		C643317E29EF53DF0080EB77 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C643317D29EF53DF0080EB77 /* PlayerView.swift */; };
+		C647CA552A7511A900766E7D /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = C647CA542A7511A900766E7D /* AudioKit */; };
+		C65377BD2A79D9EF00433221 /* scheduleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */; };
+		C65377BF2A79DBF100433221 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65377BE2A79DBF100433221 /* ScheduleView.swift */; };
+		C65DB5C72A8DA108002ECF7D /* colorCodeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65DB5C62A8DA108002ECF7D /* colorCodeable.swift */; };
+		C666A8BA2A86A6D100808D79 /* ShowBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C666A8B92A86A6D100808D79 /* ShowBuilder.swift */; };
+		C67F186B2A6A09EC00A7CE7A /* aactowav.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67F186A2A6A09EC00A7CE7A /* aactowav.swift */; };
+		C68E638D29A0714100D075F5 /* KDVS_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */; };
+		C68E638F29A0714100D075F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E638E29A0714100D075F5 /* ContentView.swift */; };
+		C68E639129A0714200D075F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C68E639029A0714200D075F5 /* Assets.xcassets */; };
+		C69F5D482A2AAC2A000A38F0 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = C69F5D472A2AAC2A000A38F0 /* SocketIO */; };
+		C69F5D502A2B3C12000A38F0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C69F5D4F2A2B3C12000A38F0 /* Preview Assets.xcassets */; };
+		C6A7B3972A8ACC6A004E850E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A7B3962A8ACC6A004E850E /* Extensions.swift */; };
+		C6AAAC112A0F7DCF007EA9E7 /* RemindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AAAC102A0F7DCF007EA9E7 /* RemindView.swift */; };
+		C6B42BA12A7F92C40093B2F4 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */; };
+		C6C1CCD92A26E93800BA9166 /* LiveUserTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C1CCD82A26E93800BA9166 /* LiveUserTracker.swift */; };
+		C6C382DB29E387D900B4D347 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = C6C382DA29E387D900B4D347 /* SwiftSoup */; };
+		C6DECA4A2A47ED56006EEA89 /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DECA492A47ED56006EEA89 /* Matcher.swift */; };
+		C6DECA4E2A4D9187006EEA89 /* AudioStreamRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DECA4D2A4D9187006EEA89 /* AudioStreamRecorder.swift */; };
+		C6EA2C202A42F14A00118B7B /* NowPlayingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA2C1F2A42F14A00118B7B /* NowPlayingView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C600669E2A74E26D00752055 /* CacheingPlayerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheingPlayerItem.swift; sourceTree = "<group>"; };
+		C62EA1AC2A2B6E7900288BEC /* KDVS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "KDVS-Info.plist"; sourceTree = "<group>"; };
+		C643317B29EF53030080EB77 /* Shows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shows.swift; sourceTree = "<group>"; };
+		C643317D29EF53DF0080EB77 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		C65233A62A63B572009520A1 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scheduleBuilder.swift; sourceTree = "<group>"; };
+		C65377BE2A79DBF100433221 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		C65DB5C62A8DA108002ECF7D /* colorCodeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = colorCodeable.swift; sourceTree = "<group>"; };
+		C666A8B92A86A6D100808D79 /* ShowBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowBuilder.swift; sourceTree = "<group>"; };
+		C67F186A2A6A09EC00A7CE7A /* aactowav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aactowav.swift; sourceTree = "<group>"; };
+		C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDVS_AppApp.swift; sourceTree = "<group>"; };
+		C68E638E29A0714100D075F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C68E639029A0714200D075F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C69F5D4D2A2AAE2F000A38F0 /* KDVS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KDVS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C69F5D4F2A2B3C12000A38F0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C6A7B3962A8ACC6A004E850E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C6AAAC102A0F7DCF007EA9E7 /* RemindView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindView.swift; sourceTree = "<group>"; };
+		C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
+		C6C1CCD82A26E93800BA9166 /* LiveUserTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUserTracker.swift; sourceTree = "<group>"; };
+		C6DECA482A47D5EE006EEA89 /* KDVS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KDVS.entitlements; sourceTree = "<group>"; };
+		C6DECA492A47ED56006EEA89 /* Matcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matcher.swift; sourceTree = "<group>"; };
+		C6DECA4D2A4D9187006EEA89 /* AudioStreamRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreamRecorder.swift; sourceTree = "<group>"; };
+		C6EA2C1F2A42F14A00118B7B /* NowPlayingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C68E638629A0714100D075F5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C647CA552A7511A900766E7D /* AudioKit in Frameworks */,
+				C6C382DB29E387D900B4D347 /* SwiftSoup in Frameworks */,
+				C69F5D482A2AAC2A000A38F0 /* SocketIO in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C647CA5E2A754F6A00766E7D /* Livestream Listener */ = {
+			isa = PBXGroup;
+			children = (
+				C6DECA4D2A4D9187006EEA89 /* AudioStreamRecorder.swift */,
+				C67F186A2A6A09EC00A7CE7A /* aactowav.swift */,
+				C6DECA492A47ED56006EEA89 /* Matcher.swift */,
+				C600669E2A74E26D00752055 /* CacheingPlayerItem.swift */,
+			);
+			path = "Livestream Listener";
+			sourceTree = "<group>";
+		};
+		C65233A52A63B572009520A1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C65233A62A63B572009520A1 /* AVKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C65377BB2A79D21400433221 /* User Tracker */ = {
+			isa = PBXGroup;
+			children = (
+				C6C1CCD82A26E93800BA9166 /* LiveUserTracker.swift */,
+			);
+			path = "User Tracker";
+			sourceTree = "<group>";
+		};
+		C68E638029A0714100D075F5 = {
+			isa = PBXGroup;
+			children = (
+				C6DECA482A47D5EE006EEA89 /* KDVS.entitlements */,
+				C62EA1AC2A2B6E7900288BEC /* KDVS-Info.plist */,
+				C68E638B29A0714100D075F5 /* KDVS App */,
+				C69F5D4D2A2AAE2F000A38F0 /* KDVS.app */,
+				C65233A52A63B572009520A1 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C68E638B29A0714100D075F5 /* KDVS App */ = {
+			isa = PBXGroup;
+			children = (
+				C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */,
+				C68E638E29A0714100D075F5 /* ContentView.swift */,
+				C643317D29EF53DF0080EB77 /* PlayerView.swift */,
+				C6AAAC102A0F7DCF007EA9E7 /* RemindView.swift */,
+				C6EA2C1F2A42F14A00118B7B /* NowPlayingView.swift */,
+				C65377BE2A79DBF100433221 /* ScheduleView.swift */,
+				C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */,
+				C6A7B3962A8ACC6A004E850E /* Extensions.swift */,
+				C6B42B9F2A7E38CF0093B2F4 /* Schedule Builder */,
+				C65377BB2A79D21400433221 /* User Tracker */,
+				C647CA5E2A754F6A00766E7D /* Livestream Listener */,
+				C68E639029A0714200D075F5 /* Assets.xcassets */,
+				C69F5D4E2A2B392D000A38F0 /* Preview Content */,
+				C65DB5C62A8DA108002ECF7D /* colorCodeable.swift */,
+			);
+			path = "KDVS App";
+			sourceTree = "<group>";
+		};
+		C69F5D4E2A2B392D000A38F0 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C69F5D4F2A2B3C12000A38F0 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C6B42B9F2A7E38CF0093B2F4 /* Schedule Builder */ = {
+			isa = PBXGroup;
+			children = (
+				C643317B29EF53030080EB77 /* Shows.swift */,
+				C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */,
+				C666A8B92A86A6D100808D79 /* ShowBuilder.swift */,
+			);
+			path = "Schedule Builder";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C68E638829A0714100D075F5 /* KDVS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C68E639729A0714200D075F5 /* Build configuration list for PBXNativeTarget "KDVS" */;
+			buildPhases = (
+				C68E638529A0714100D075F5 /* Sources */,
+				C68E638629A0714100D075F5 /* Frameworks */,
+				C68E638729A0714100D075F5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KDVS;
+			packageProductDependencies = (
+				C6C382DA29E387D900B4D347 /* SwiftSoup */,
+				C69F5D472A2AAC2A000A38F0 /* SocketIO */,
+				C647CA542A7511A900766E7D /* AudioKit */,
+			);
+			productName = "KDVS App";
+			productReference = C69F5D4D2A2AAE2F000A38F0 /* KDVS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C68E638129A0714100D075F5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					C68E638829A0714100D075F5 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+				};
+			};
+			buildConfigurationList = C68E638429A0714100D075F5 /* Build configuration list for PBXProject "KDVS" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C68E638029A0714100D075F5;
+			packageReferences = (
+				C6C382D929E387D900B4D347 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				C69F5D462A2AAC2A000A38F0 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+				C647CA532A7511A900766E7D /* XCRemoteSwiftPackageReference "AudioKit" */,
+			);
+			productRefGroup = C68E638029A0714100D075F5;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C68E638829A0714100D075F5 /* KDVS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C68E638729A0714100D075F5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C69F5D502A2B3C12000A38F0 /* Preview Assets.xcassets in Resources */,
+				C68E639129A0714200D075F5 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C68E638529A0714100D075F5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C643317C29EF53030080EB77 /* Shows.swift in Sources */,
+				C6B42BA12A7F92C40093B2F4 /* CreditsView.swift in Sources */,
+				C6AAAC112A0F7DCF007EA9E7 /* RemindView.swift in Sources */,
+				C68E638F29A0714100D075F5 /* ContentView.swift in Sources */,
+				C68E638D29A0714100D075F5 /* KDVS_AppApp.swift in Sources */,
+				C643317E29EF53DF0080EB77 /* PlayerView.swift in Sources */,
+				C6EA2C202A42F14A00118B7B /* NowPlayingView.swift in Sources */,
+				C6DECA4A2A47ED56006EEA89 /* Matcher.swift in Sources */,
+				C6C1CCD92A26E93800BA9166 /* LiveUserTracker.swift in Sources */,
+				C65DB5C72A8DA108002ECF7D /* colorCodeable.swift in Sources */,
+				C65377BD2A79D9EF00433221 /* scheduleBuilder.swift in Sources */,
+				C666A8BA2A86A6D100808D79 /* ShowBuilder.swift in Sources */,
+				C6A7B3972A8ACC6A004E850E /* Extensions.swift in Sources */,
+				C600669F2A74E26D00752055 /* CacheingPlayerItem.swift in Sources */,
+				C6DECA4E2A4D9187006EEA89 /* AudioStreamRecorder.swift in Sources */,
+				C65377BF2A79DBF100433221 /* ScheduleView.swift in Sources */,
+				C67F186B2A6A09EC00A7CE7A /* aactowav.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C68E639529A0714200D075F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C68E639629A0714200D075F5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C68E639829A0714200D075F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = KDVS.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 21;
+				DEVELOPMENT_ASSET_PATHS = "\"KDVS App/Preview Content\"";
+				DEVELOPMENT_TEAM = 4TQZ9K89QB;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "KDVS-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = KDVS;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MARKETING_VERSION = 0.1.6;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.johncarraher.KDVS-App";
+				PRODUCT_MODULE_NAME = KDVS;
+				PRODUCT_NAME = KDVS;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C68E639929A0714200D075F5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = KDVS.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 21;
+				DEVELOPMENT_ASSET_PATHS = "\"KDVS App/Preview Content\"";
+				DEVELOPMENT_TEAM = 4TQZ9K89QB;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "KDVS-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = KDVS;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MARKETING_VERSION = 0.1.6;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.johncarraher.KDVS-App";
+				PRODUCT_MODULE_NAME = KDVS;
+				PRODUCT_NAME = KDVS;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C68E638429A0714100D075F5 /* Build configuration list for PBXProject "KDVS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C68E639529A0714200D075F5 /* Debug */,
+				C68E639629A0714200D075F5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C68E639729A0714200D075F5 /* Build configuration list for PBXNativeTarget "KDVS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C68E639829A0714200D075F5 /* Debug */,
+				C68E639929A0714200D075F5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C647CA532A7511A900766E7D /* XCRemoteSwiftPackageReference "AudioKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/AudioKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		C69F5D462A2AAC2A000A38F0 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		C6C382D929E387D900B4D347 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C647CA542A7511A900766E7D /* AudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C647CA532A7511A900766E7D /* XCRemoteSwiftPackageReference "AudioKit" */;
+			productName = AudioKit;
+		};
+		C69F5D472A2AAC2A000A38F0 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C69F5D462A2AAC2A000A38F0 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
+		};
+		C6C382DA29E387D900B4D347 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C6C382D929E387D900B4D347 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = C68E638129A0714100D075F5 /* Project object */;
+}
