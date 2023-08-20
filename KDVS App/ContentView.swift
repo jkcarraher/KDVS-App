@@ -53,63 +53,66 @@ struct ContentView: View {
             .sheet(isPresented: $isSettingsPresented) {
                 SettingsView()
                     .environment(\.colorScheme, .dark)
-                    .presentationDetents([.medium, .large])
+                    .presentationDetents([.height(500), .large])
                     .background(Color("RemindBackground"))
             }
         }.onAppear{
+            //wipeAllShows()
+            //wipeAllScheduledNotifications()
             isLoading = true
             scrapeHomeData(completion: { scrapedShow in
                 scrapeScheduleData { shows in
                     self.currentSeasonShows = shows
                     findShowWithName(shows, showName: scrapedShow.name) { scheduleShow in
                         self.show = scheduleShow!
+                        setupNowPlaying()
+                        startTimer()
                         self.isLoading = false
 
                     }
-                    setupNowPlaying()
-                    startTimer()
+                    
                 }
-            })
-            let playerItem = AVPlayerItem(url: streamURL)
-            //playerItem.preferredForwardBufferDuration = 5.0
-            try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            audioPlayer.replaceCurrentItem(with: playerItem)
-            
-            audioSessionInterruptionObserver = NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance(), queue: .main) { notification in
-                guard let userInfo = notification.userInfo,
-                      let interruptionTypeRawValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-                      let interruptionType = AVAudioSession.InterruptionType(rawValue: interruptionTypeRawValue) else {
-                    return
-                }
-                switch interruptionType {
-                case .began:
-                    // Audio session interrupted. Pause the player.
-                    audioPlayer.pause()
-                    isPlaying = false
-                    disconnectToSocket()
-                case .ended:
-                    // Audio session interruption ended. Resume playback if appropriate.
-                    guard let optionsRawValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else {
+                let playerItem = AVPlayerItem(url: streamURL)
+                //playerItem.preferredForwardBufferDuration = 5.0
+                try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                audioPlayer.replaceCurrentItem(with: playerItem)
+                
+                audioSessionInterruptionObserver = NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance(), queue: .main) { notification in
+                    guard let userInfo = notification.userInfo,
+                          let interruptionTypeRawValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+                          let interruptionType = AVAudioSession.InterruptionType(rawValue: interruptionTypeRawValue) else {
                         return
                     }
-                    let options = AVAudioSession.InterruptionOptions(rawValue: optionsRawValue)
-                    if options.contains(.shouldResume) {
-                        audioPlayer.play()
-                        isPlaying = true
-                        connectToSocket()
+                    switch interruptionType {
+                    case .began:
+                        // Audio session interrupted. Pause the player.
+                        audioPlayer.pause()
+                        isPlaying = false
+                        disconnectToSocket()
+                    case .ended:
+                        // Audio session interruption ended. Resume playback if appropriate.
+                        guard let optionsRawValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else {
+                            return
+                        }
+                        let options = AVAudioSession.InterruptionOptions(rawValue: optionsRawValue)
+                        if options.contains(.shouldResume) {
+                            audioPlayer.play()
+                            isPlaying = true
+                            connectToSocket()
+                        }
+                    @unknown default:
+                        return
                     }
-                @unknown default:
-                    return
                 }
-            }
-            
-            // Start the timer to call ScrapeHomeData() every minute
-            self.timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
-                scrapeHomeData(completion: { show in
-                self.show = show
+                
+                // Start the timer to call ScrapeHomeData() every minute
+                self.timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+                    scrapeHomeData(completion: { show in
+                    self.show = show
+                })
+                }
+                self.timer?.tolerance = 5.0 // Set a tolerance of 5 seconds for better energy efficiency
             })
-            }
-            self.timer?.tolerance = 5.0 // Set a tolerance of 5 seconds for better energy efficiency
         }
         .onDisappear() {
             if let observer = audioSessionInterruptionObserver {

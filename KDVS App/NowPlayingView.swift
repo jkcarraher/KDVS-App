@@ -41,43 +41,69 @@ struct NowPlayingView: View {
                     .frame(width: 20, height: 50)
             } else {
                 HStack{
-                    if let artworkURL = analyzedSong?.artworkURL {
-                        AsyncImage(url: artworkURL) { image in
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .clipped()
-                                .frame(width: 50, height: 50, alignment: .center)
-                        } placeholder: {
-                            Spacer()
-                            ProgressView()
-                            Spacer()
-                        }.frame(width: 50, height: 50)
-                        .id(UUID()) // Add this line
-
-                    }   else {
-                        ZStack {
-                            Rectangle()
-                                .fill(Color.gray)
-                            Text("?")
-                                .font(.system(size: 30, weight: .bold))
-                                .foregroundColor(.white)
+                    HStack{
+                        if let artworkURL = analyzedSong?.artworkURL {
+                            AsyncImage(url: artworkURL) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .clipped()
+                                    .frame(width: 50, height: 50, alignment: .center)
+                            } placeholder: {
+                                Spacer()
+                                ProgressView()
+                                Spacer()
+                            }.frame(width: 50, height: 50)
+                                .id(UUID()) // Add this line
+                            
+                        }   else {
+                            ZStack {
+                                Rectangle()
+                                    .fill(Color.gray)
+                                Text("?")
+                                    .font(.system(size: 30, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
+                            .frame(width: 50, height: 50)
                         }
-                        .frame(width: 50, height: 50)
-                    }
-                    
-                    VStack(alignment: .leading){
-                        Text(analyzedSong?.title ?? "Unknown Song")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(Color.white)
-                            .multilineTextAlignment(.leading)
                         
-                        Text(analyzedSong?.artist ?? "Unknown Artist")
-                            .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(Color("SecondaryText"))
-                            .multilineTextAlignment(.leading)
-                    }.onTapGesture {
-                        copyToClipboard("\(analyzedSong?.title ?? "Unknown") by \(analyzedSong?.artist ?? "Unknown")")
+                        VStack(alignment: .leading){
+                            Text(analyzedSong?.title ?? "Unknown Song")
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundColor(Color.white)
+                                .multilineTextAlignment(.leading)
+                            
+                            Text(analyzedSong?.artist ?? "Unknown Artist")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(Color("SecondaryText"))
+                                .multilineTextAlignment(.leading)
+                        }
+                    }.contextMenu {
+                        Button(action: {
+                            copyToClipboard("\(analyzedSong?.title ?? "Unknown") by \(analyzedSong?.artist ?? "Unknown")")
+                        }){
+                            Label("Copy", systemImage: "clipboard.fill")
+                        }
+                        if UIApplication.shared.canOpenURL(URL(string: "spotify:")!) {
+                            Button(action: {
+                                // Open the song on Spotify (if available)
+                                if let spotifyURL = URL(string: "spotify:search:\(analyzedSong?.title ?? "Unknown") by \(analyzedSong?.artist ?? "Unknown")") {
+                                    UIApplication.shared.open(spotifyURL)
+                                }
+                            }) {
+                                Label("Open on Spotify", systemImage: "music.quarternote.3")
+                            }
+                        }
+                        if UIApplication.shared.canOpenURL(URL(string: "music:")!) {
+                            Button(action: {
+                                // Open the song on Apple Music (if available)
+                                if let appleMusicURL = URL(string: "music://search?term=\(analyzedSong?.title ?? "Unknown") by \(analyzedSong?.artist ?? "Unknown")") {
+                                    UIApplication.shared.open(appleMusicURL)
+                                }
+                            }) {
+                                Label("Open on Apple Music", systemImage: "music.note")
+                            }
+                        }
                     }
                     
                     Spacer() // Add a spacer to push the button to the right
@@ -111,12 +137,12 @@ struct NowPlayingView: View {
     func copyToClipboard(_ text: String) {
             #if os(iOS)
             UIPasteboard.general.string = text
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
             #elseif os(macOS)
             NSPasteboard.general.clearContents()
             NSPasteboard.general.setString(text, forType: .string)
-            let generator = UINotificationFeedbackGenerator()
-                generator.notificationOccurred(.success)
-
+            
             #endif
         }
 

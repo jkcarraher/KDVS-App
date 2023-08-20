@@ -155,7 +155,7 @@ func scrapeShowPageData(show: Show, completion: @escaping (Show) -> Void) {
                         if let averageColor = uiImage.averageColor {
                             let adjustedColor = averageColor.adjusted(
                                 brightnessFactor: 0.6,
-                                saturationFactor: 8
+                                saturationFactor: 10
                             )
                             DispatchQueue.main.async {
                                 updatedShow.showColor = Color(adjustedColor)
@@ -206,7 +206,7 @@ func scrapeUpcomingPlaylistsPage(_ url: URL, completion: @escaping ([Date]) -> V
                     
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "M/dd/yyyy' @ 'h:mma"  // Adjusted date format
-                    dateFormatter.timeZone = TimeZone(identifier: "PST")
+                    dateFormatter.timeZone = TimeZone(identifier: "America/Los_Angeles") // Set PST time zone
 
                     
                     if let date = dateFormatter.date(from: extractedDate) {

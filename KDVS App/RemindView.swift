@@ -25,18 +25,10 @@ struct LargeRemindView: View {
     @State private var selectedDate = Date()
     @State private var dates: Set<DateComponents> = []
     @State private var notificationEnabledShows: [Show] = []
+    
         
     var body: some View {
         VStack {
-            VStack(alignment: .leading, spacing: 20) {
-                Text(label)
-                    .font(.system(size: 14, weight: .bold))
-                    .environment(\.colorScheme, .dark)
-                    .foregroundColor(Color("SecondaryText"))
-                    .multilineTextAlignment(.leading)
-            }
-            .padding(.horizontal, 20)
-            .frame(maxWidth: .infinity, alignment: .leading)
             if ((show.name != "")) {
                 HStack {
                     AsyncImage(url: show.playlistImageURL) { image in
@@ -44,38 +36,44 @@ struct LargeRemindView: View {
                             .resizable()
                             .scaledToFill()
                             .clipped()
-                            .frame(width: 100, height: 100, alignment: .center)
-                            .cornerRadius(5)
+                            .frame(width: 60, height: 60, alignment: .center)
+                            .cornerRadius(10)
                     } placeholder: {
-                        ZStack {
-                            Rectangle()
-                                .fill(Color.gray)
-                                .cornerRadius(5)
-                            Image(systemName: "music.note") // Filled bell icon
-                                .font(.system(size: 40))
-                                .foregroundColor(.white)
-                        }
-                        .frame(width: 100, height: 100)
-                    }.frame(width: 100, height: 100)
+                        Rectangle()
+                            .fill(Color("RemindLoading"))
+                            .cornerRadius(10)
+                        .frame(width: 60, height:60)
+                    }.frame(width: 60, height: 60)
                     
-                    VStack(alignment: .leading, spacing: 5){
+                    VStack(alignment: .leading, spacing: 0){
                         Text(show.name)
-                            .font(.system(size: 20, weight: .bold))
+                            .font(.system(size: 17, weight: .bold))
                             .environment(\.colorScheme, .dark)
+                            .lineLimit(1)
                         Text(show.djName ?? " ")
-                            .font(.system(size: 15, weight: .regular))
+                            .font(.system(size: 14, weight: .regular))
                             .foregroundColor(Color("SecondaryText"))
                             .environment(\.colorScheme, .dark)
-                        Text("\(show.DOTW!)s from \(show.startTime.formattedTime(endTime: show.endTime))")
-                            .font(.system(size: 15, weight: .regular))
-                            .foregroundColor(Color("SecondaryText"))
-                            .environment(\.colorScheme, .dark)
-                    }.frame(width: 230)
-                    .padding([.leading], 5)
-                    
-                }.frame(width: 350)
-                .padding([.leading, .trailing], 15)
+                            .lineLimit(1)
+                    }.padding([.leading], 5)
+                    Spacer()
+                }
+                .padding([.top, .bottom, .leading, .trailing], 20)
+                .frame(maxWidth: .infinity)
+                .background(Color("RemindCompiment"))
                 
+                VStack(alignment: .leading) {
+                    Text(label)
+                        .font(.system(size: 14, weight: .bold))
+                        .environment(\.colorScheme, .dark)
+                        .foregroundColor(Color("SecondaryText"))
+                        .multilineTextAlignment(.leading)
+                        .padding([.leading], 20)
+                }
+                .padding([.top], 10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Spacer()
                 // UICalendarView to display show.showDates
                 if(!isLoaded){
                     ProgressView()
@@ -83,12 +81,13 @@ struct LargeRemindView: View {
                 }else{
                     MultiDatePicker(
                         "Show Dates",
-                        selection: $dates
-                    ).frame(width: 325, height: 300, alignment: .center)
-                    .disabled(true)
-                    .padding([.top], 7)
+                        selection: $dates,
+                        in: Date()...
+                    ).frame(width: 325, height: 330, alignment: .center)
+                        .tint(show.showColor?.brightened(by: 1)) // Set your desired color here
+                        .padding([.top], 7)
                 }
-
+                Spacer()
                 Button(action: toggleRemindButton, label: {
                     if !isLoaded {
                         ProgressView()
@@ -263,9 +262,8 @@ struct RemindView: View {
                             .font(.system(size: 15, weight: .regular))
                             .foregroundColor(Color("SecondaryText"))
                             .environment(\.colorScheme, .dark)
-                    }.frame(width: 230)
-                    .padding([.leading], 5)
-                    
+                    }.padding([.leading], 5)
+                    Spacer()
                 }.frame(width: 350)
                 .padding([.leading, .trailing], 15)
                 
@@ -513,9 +511,6 @@ struct ReminderManagerView: View {
         
         // Save the updated notificationEnabledShows
         saveNotificationEnabledShows()
-        
-        print("Shows removed and notifications cleared!")
-        printAllExistingNotifications()
     }
 
     func saveNotificationEnabledShows() {
@@ -630,6 +625,27 @@ extension UIColor {
         }
         
         return self
+    }
+}
+
+extension Color {
+    func brightened(by factor: Double) -> Color {
+        let uiColor = UIColor(self)
+        guard let modifiedColor = uiColor.adjustedBrightness(by: CGFloat(factor)) else {
+            return self
+        }
+        return Color(modifiedColor)
+    }
+}
+
+extension UIColor {
+    func adjustedBrightness(by factor: CGFloat) -> UIColor? {
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        if getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
+            b = max(0, min(1, b + factor))
+            return UIColor(hue: h, saturation: s, brightness: b, alpha: a)
+        }
+        return nil
     }
 }
 
