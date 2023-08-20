@@ -46,7 +46,7 @@ struct ContentView: View {
             .sheet(isPresented: $isRemindPresented) {
                 SheetView(show: $show)
                     .environment(\.colorScheme, .dark)
-                    .presentationDetents([.fraction(0.575), .large])
+                    .presentationDetents([.height(400), .large])
                     .background(Color("RemindBackground")) // Set the color of the sheet
                 
             }
@@ -250,7 +250,7 @@ struct SheetView: View {
                 .environment(\.colorScheme, .dark)
                 .foregroundColor(Color.white)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 25)
+                .padding([.horizontal, .top], 20)
             RemindView(show: $show, label: $remindLabel)
             NowPlayingView()
             Spacer()

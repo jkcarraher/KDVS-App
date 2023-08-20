@@ -22,6 +22,8 @@ struct NowPlayingView: View {
     @State private var artworkImage: Image?
     @State private var loadingBarProgress: CGFloat = 0.0
     @State private var isRecording: Bool = false
+    @State private var showToast = false
+
 
     var body: some View {
         VStack {
@@ -78,31 +80,18 @@ struct NowPlayingView: View {
                                 .foregroundColor(Color("SecondaryText"))
                                 .multilineTextAlignment(.leading)
                         }
-                    }.contextMenu {
+                    }.onTapGesture {
+                        copyToClipboard("\(analyzedSong?.title ?? "Unknown Song") by \(analyzedSong?.artist ?? "Unknown Artist")")
+                        showToast = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            showToast = false
+                        }
+                    }
+                    .contextMenu {
                         Button(action: {
                             copyToClipboard("\(analyzedSong?.title ?? "Unknown") by \(analyzedSong?.artist ?? "Unknown")")
                         }){
                             Label("Copy", systemImage: "clipboard.fill")
-                        }
-                        if UIApplication.shared.canOpenURL(URL(string: "spotify:")!) {
-                            Button(action: {
-                                // Open the song on Spotify (if available)
-                                if let spotifyURL = URL(string: "spotify:search:\(analyzedSong?.title ?? "Unknown") by \(analyzedSong?.artist ?? "Unknown")") {
-                                    UIApplication.shared.open(spotifyURL)
-                                }
-                            }) {
-                                Label("Open on Spotify", systemImage: "music.quarternote.3")
-                            }
-                        }
-                        if UIApplication.shared.canOpenURL(URL(string: "music:")!) {
-                            Button(action: {
-                                // Open the song on Apple Music (if available)
-                                if let appleMusicURL = URL(string: "music://search?term=\(analyzedSong?.title ?? "Unknown") by \(analyzedSong?.artist ?? "Unknown")") {
-                                    UIApplication.shared.open(appleMusicURL)
-                                }
-                            }) {
-                                Label("Open on Apple Music", systemImage: "music.note")
-                            }
                         }
                     }
                     
@@ -133,6 +122,11 @@ struct NowPlayingView: View {
                 self.analyzedSong = analyzedSong
                 self.analyzedSongUpdated = true
             }
+            .overlay(
+                ToastView(message: "Copied")
+                    .opacity(showToast ? 1 : 0)
+                    .animation(.easeInOut(duration: 0.5))
+                )
     }
     func copyToClipboard(_ text: String) {
             #if os(iOS)
@@ -177,3 +171,18 @@ struct NowPlayingView: View {
         
     }
 
+
+struct ToastView: View {
+    let message: String
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundColor(Color.black.opacity(0.7))
+                .frame(width: 100, height: 40)
+            Text(message)
+                .foregroundColor(.white)
+                .fontWeight(.bold)
+        }
+    }
+}

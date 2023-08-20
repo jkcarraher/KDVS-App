@@ -86,6 +86,7 @@ struct LargeRemindView: View {
                     ).frame(width: 325, height: 330, alignment: .center)
                         .tint(show.showColor?.brightened(by: 1)) // Set your desired color here
                         .padding([.top], 7)
+                        .disabled(true)
                 }
                 Spacer()
                 Button(action: toggleRemindButton, label: {
@@ -228,7 +229,7 @@ struct RemindView: View {
     
     var body: some View {
         VStack {
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading) {
                 Text(label)
                     .font(.system(size: 14, weight: .bold))
                     .environment(\.colorScheme, .dark)
@@ -264,8 +265,7 @@ struct RemindView: View {
                             .environment(\.colorScheme, .dark)
                     }.padding([.leading], 5)
                     Spacer()
-                }.frame(width: 350)
-                .padding([.leading, .trailing], 15)
+                }.padding([.leading, .trailing], 20)
                 
                 Button(action: toggleRemindButton, label: {
                     if(isLoading){
@@ -283,10 +283,10 @@ struct RemindView: View {
                             .foregroundColor(Color(.white))
                             .environment(\.colorScheme, .dark)
                     }
-                }).frame(width: 350, height: 50, alignment: .center)
+                }).frame(maxWidth: .infinity, maxHeight: 50, alignment: .center)
                     .background(Color("NotiButtonColor2"))
                     .cornerRadius(10)
-                    .padding([.top], 7)
+                    .padding([.horizontal], 20)
             }else {
                 Spacer()
                 HStack{
