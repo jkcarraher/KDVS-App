@@ -48,8 +48,8 @@ struct ScheduleView: View {
             }.listStyle(InsetListStyle()) // Apply a scrollable list style
              .searchable(text: $searchText)
              .sheet(isPresented: $isRemindSheetPresented) {
-                 LargeRemindView(show: $selectedShow, label: $remindLabel)
-                     .presentationDetents([.height(560), .large])
+                 LargeRemindView(show: $selectedShow, label: $remindLabel, scheduleGrid: $shows)
+                     .presentationDetents([.height(575), .large])
             }
         }.preferredColorScheme(.dark) // Set the dark color scheme for the entire view
         .navigationBarTitle("Schedule Grid", displayMode: .inline)

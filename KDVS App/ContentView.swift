@@ -46,7 +46,7 @@ struct ContentView: View {
             .sheet(isPresented: $isRemindPresented) {
                 SheetView(show: $show)
                     .environment(\.colorScheme, .dark)
-                    .presentationDetents([.height(400), .large])
+                    .presentationDetents([.height(450), .large])
                     .background(Color("RemindBackground")) // Set the color of the sheet
                 
             }

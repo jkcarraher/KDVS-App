@@ -14,10 +14,11 @@ import EventKit
 struct LargeRemindView: View {
     @Binding var show: Show
     @Binding var label: String
+    @Binding var scheduleGrid: [Show]
     
     @State var loadedShow: Show?
 
-    @State var scheduleGrid: [Show] = []
+    
     
     @State private var isLoaded = false
     @State private var isPerformingNotificationAction = false
@@ -79,14 +80,26 @@ struct LargeRemindView: View {
                     ProgressView()
                         .frame(width: 325, height: 300, alignment: .center)
                 }else{
-                    MultiDatePicker(
-                        "Show Dates",
-                        selection: $dates,
-                        in: Date()...
-                    ).frame(width: 325, height: 330, alignment: .center)
-                        .tint(show.showColor?.brightened(by: 1)) // Set your desired color here
-                        .padding([.top], 7)
-                        .disabled(true)
+                    if(!show.showDates.isEmpty){
+                        MultiDatePicker(
+                            "Show Dates",
+                            selection: $dates,
+                            in: Date()...
+                        ).frame(width: 325, height: 330, alignment: .center)
+                            .tint(show.showColor?.brightened(by: 1)) // Set your desired color here
+                            .padding([.top], 7)
+                            .disabled(true)
+                    } else{
+                        Spacer()
+                        Text("No Upcoming Shows")
+                            .font(.system(size: 16, weight: .semibold))
+                            .environment(\.colorScheme, .dark)
+                            .foregroundColor(Color.white)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.horizontal, 25)
+                            .padding(.vertical, 15)
+                        Spacer()
+                    }
                 }
                 Spacer()
                 Button(action: toggleRemindButton, label: {
@@ -106,7 +119,7 @@ struct LargeRemindView: View {
                 }).frame(width: 350, height: 50, alignment: .center)
                 .background(Color("NotiButtonColor2"))
                 .cornerRadius(10)
-                .padding([.top], 7)
+                .padding([.top, .bottom], 20)
                 .disabled(!isLoaded)
             } else {
                 Spacer()
@@ -124,15 +137,13 @@ struct LargeRemindView: View {
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("RemindBackground"))
         .onAppear {
-            scrapeScheduleData { Shows in
-                scheduleGrid = Shows
-                findShowWithName(scheduleGrid, showName: show.name) { foundShow in
-                    show = foundShow!
-                    dates = getShowDates(for: show)
-                    loadNotificationEnabledShows()
-                    isLoaded = true
-                }
+            findShowWithName(scheduleGrid, showName: show.name) { foundShow in
+                show = foundShow!
+                dates = getShowDates(for: show)
+                loadNotificationEnabledShows()
+                isLoaded = true
             }
+            
         }
     }
     
@@ -146,10 +157,12 @@ struct LargeRemindView: View {
             notificationEnabledShows.append(show)
             saveNotificationEnabledShows()
             scheduleNotifications(inShow: show)
+            printAllExistingNotifications()
         } else {
             removeMatchingShow(from: &notificationEnabledShows, showToRemove: show)
             saveNotificationEnabledShows()
             removeNotificationsForShow(withTitle: show.name)
+            printAllExistingNotifications()
         }
         
         isPerformingNotificationAction = false
@@ -287,6 +300,7 @@ struct RemindView: View {
                     .background(Color("NotiButtonColor2"))
                     .cornerRadius(10)
                     .padding([.horizontal], 20)
+                    .padding([.top], 5)
             }else {
                 Spacer()
                 HStack{
@@ -311,8 +325,6 @@ struct RemindView: View {
                 print("NotificationEnabledShows: \(notificationEnabledShows.count)")
                 isLoading = false
             }
-            
-            
         }
     }
     
