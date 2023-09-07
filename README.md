@@ -10,7 +10,7 @@ Listen to 24/7 Freeform Radio anywhere in the world
 
 ## How it works
 
-Simpily start up the app and press play to tune into KDVS Davis 90.3 FM via internet webstream. you can press the calendar button to see the current season's schedule/show list, seach for shows and turn on show reminders. Clicking the info button on the player screen allows you to turn on reminders and identify songs live on air. 
+Simpily start up the app and press play to tune into KDVS Davis 90.3 FM via internet webstream. You can press the calendar button to see the current season's schedule/show list, seach for shows and turn on show reminders. Clicking the info button on the player screen allows you to turn on reminders and identify songs live on air. 
 
 ## Under the Hood
 the KDVS Radio App was built with:
