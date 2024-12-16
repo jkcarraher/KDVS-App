@@ -9,7 +9,7 @@ import Foundation
 import SwiftSoup
 
 
-func scrapeScheduleData(completion: @escaping ([Show]) -> Void) {
+func getSchedule(completion: @escaping ([Show]) -> Void) {
     guard let url = URL(string: "https://kdvs.org/programming/schedule-grid/") else {
         completion([])
         return

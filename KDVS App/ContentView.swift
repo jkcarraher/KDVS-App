@@ -30,7 +30,6 @@ struct ContentView: View {
         seasonStartDate: Date(),
         seasonEndDate: Date()
     )
-    
     @State private var currentSeasonShows: [Show] = []
     
     var body: some View {
@@ -47,7 +46,7 @@ struct ContentView: View {
                 SheetView(show: $show)
                     .environment(\.colorScheme, .dark)
                     .presentationDetents([.height(450), .large])
-                    .background(Color("RemindBackground")) // Set the color of the sheet
+                    .background(Color("RemindBackground"))
                 
             }
             .sheet(isPresented: $isSettingsPresented) {
@@ -57,8 +56,6 @@ struct ContentView: View {
                     .background(Color("RemindBackground"))
             }
         }.onAppear{
-            //wipeAllShows()
-            //wipeAllScheduledNotifications()
             isLoading = true
             scrapeHomeData(completion: { scrapedShow in
                 scrapeScheduleData { shows in
@@ -73,7 +70,6 @@ struct ContentView: View {
                     
                 }
                 let playerItem = AVPlayerItem(url: streamURL)
-                //playerItem.preferredForwardBufferDuration = 5.0
                 try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
                 audioPlayer.replaceCurrentItem(with: playerItem)
                 
@@ -121,6 +117,7 @@ struct ContentView: View {
             }
         }
     }
+    
     func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { timer in
             DispatchQueue.global(qos: .background).async {
@@ -136,6 +133,7 @@ struct ContentView: View {
             }
         }
     }
+    
     func setupNowPlaying() {
         let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
         
