@@ -14,15 +14,18 @@ struct ScheduleView: View {
     @State private var filteredData: [Show] = []
     @State private var selectedDay: String? = nil
     @State var selectedShow = Show(
+        id: 0,
         name: "",
         djName: " ",
         playlistImageURL: URL(string: "https://library.kdvs.org/static/core/images/kdvs-image-placeholder.jpg"),
-        alternatingType: 0,
+        showColor: .clear,  // Assuming `showColor` is a `Color` type
         startTime: Date(),
         endTime: Date(),
-        showDates: [],
-        seasonStartDate: Date(),
-        seasonEndDate: Date())
+        alternates: false,
+        DOTW: "Funday",
+        dates: [],
+        firstShowDate: Date(),
+        lastShowDate: Date())
     @State var isRemindSheetPresented = false
     @State var remindLabel = "UPCOMING SHOW DATES"
     
@@ -78,12 +81,12 @@ struct ScheduleView: View {
         }
     
     private func showTimeText(for show: Show) -> String {
-        if show.alternatingType! > 1 {
+        if show.alternates {
             // Handle different text for alternating shows
-            return "\(show.DOTW!)s  \(show.startTime.formattedTime(endTime: show.endTime)) • Alternating #\(show.alternatingPos!)"
+            return "\(show.DOTW)s  \(show.startTime.formattedTime(endTime: show.endTime)) • Alternating"
         } else {
             // Normal show text
-            return "\(show.DOTW!)s  \(show.startTime.formattedTime(endTime: show.endTime)) •  Every week"
+            return "\(show.DOTW)s  \(show.startTime.formattedTime(endTime: show.endTime)) •  Every week"
         }
     }
 }

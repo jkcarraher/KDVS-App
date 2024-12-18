@@ -20,15 +20,17 @@ struct ContentView: View {
     @State private var audioSessionInterruptionObserver: NSObjectProtocol?
     @State private var timer: Timer?
     @State private var show = Show(
+        id: 0,
         name: " ",
         djName: " ",
         playlistImageURL: URL(string: "https://library.kdvs.org/static/core/images/kdvs-image-placeholder.jpg"),
-        alternatingType: 0,
         startTime: Date(),
         endTime: Date(),
-        showDates: [],
-        seasonStartDate: Date(),
-        seasonEndDate: Date()
+        alternates: false,
+        DOTW: "Funday",
+        dates: [],
+        firstShowDate: Date(),
+        lastShowDate: Date()
     )
     @State private var currentSeasonShows: [Show] = []
     
@@ -57,18 +59,21 @@ struct ContentView: View {
             }
         }.onAppear{
             isLoading = true
-            scrapeHomeData(completion: { scrapedShow in
-                scrapeScheduleData { shows in
-                    self.currentSeasonShows = shows
-                    findShowWithName(shows, showName: scrapedShow.name) { scheduleShow in
-                        self.show = scheduleShow!
-                        setupNowPlaying()
-                        startTimer()
-                        self.isLoading = false
-
-                    }
-                    
+            getCurrentShow { scrapedShow in
+                guard let fetchedShow = scrapedShow else {
+                    print("Failed to fetch current show")
+                    isLoading = false
+                    return
                 }
+                
+                fetchShows { shows in
+                    self.currentSeasonShows = shows
+                    self.show = fetchedShow
+                    setupNowPlaying()
+                    startTimer()
+                    isLoading = false
+                }
+                
                 let playerItem = AVPlayerItem(url: streamURL)
                 try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
                 audioPlayer.replaceCurrentItem(with: playerItem)
@@ -103,12 +108,12 @@ struct ContentView: View {
                 
                 // Start the timer to call ScrapeHomeData() every minute
                 self.timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
-                    scrapeHomeData(completion: { show in
-                    self.show = show
+                    getCurrentShow(completion: { show in
+                        self.show = show!
                 })
                 }
                 self.timer?.tolerance = 5.0 // Set a tolerance of 5 seconds for better energy efficiency
-            })
+            }
         }
         .onDisappear() {
             if let observer = audioSessionInterruptionObserver {
@@ -125,8 +130,8 @@ struct ContentView: View {
                     // Handle any cleanup needed for the background task here
                 }
                 // Code to run every minute while app is in background
-                scrapeHomeData(completion: { show in
-                    self.show = show
+                getCurrentShow(completion: { show in
+                    self.show = show!
                     setupNowPlaying()
                 })
                 UIApplication.shared.endBackgroundTask(UIBackgroundTaskIdentifier.invalid)
@@ -139,7 +144,7 @@ struct ContentView: View {
         
         nowPlayingInfoCenter.nowPlayingInfo = [
             MPMediaItemPropertyTitle: show.name,
-            MPMediaItemPropertyArtist: show.djName!,
+            MPMediaItemPropertyArtist: show.djName,
             
             MPMediaItemPropertyMediaType: MPMediaType.anyAudio.rawValue,
             MPNowPlayingInfoPropertyIsLiveStream: true,

@@ -42,7 +42,7 @@ struct PlayerView : View {
                                 .frame(maxWidth: .infinity)
                             }
                             ScrollView(.horizontal, showsIndicators: false) {
-                                Text(show.djName!)
+                                Text(show.djName)
                                     .font(.system(size: 15, weight: .medium))
                                     .lineLimit(1)
                                     .environment(\.colorScheme, .dark)

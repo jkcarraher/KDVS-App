@@ -51,7 +51,7 @@ struct LargeRemindView: View {
                             .font(.system(size: 17, weight: .bold))
                             .environment(\.colorScheme, .dark)
                             .lineLimit(1)
-                        Text(show.djName ?? " ")
+                        Text(show.djName)
                             .font(.system(size: 14, weight: .regular))
                             .foregroundColor(Color("SecondaryText"))
                             .environment(\.colorScheme, .dark)
@@ -80,7 +80,7 @@ struct LargeRemindView: View {
                     ProgressView()
                         .frame(width: 325, height: 300, alignment: .center)
                 }else{
-                    if(!show.showDates.isEmpty){
+                    if(!show.dates.isEmpty){
                         MultiDatePicker(
                             "Show Dates",
                             selection: $dates,
@@ -177,7 +177,7 @@ struct LargeRemindView: View {
         
         notificationCenter.requestAuthorization(options: [.alert, .sound]) { granted, error in
             if granted {
-                for date in show.showDates {
+                for date in show.dates {
                     let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
                     
                     let content = UNMutableNotificationContent()
@@ -236,7 +236,7 @@ struct RemindView: View {
     
     var bounds: Range<Date> {
         let start = Date()
-        let end = show.seasonEndDate
+        let end = show.lastShowDate
         return start ..< end
     }
     
@@ -268,7 +268,7 @@ struct RemindView: View {
                         Text(show.name)
                             .font(.system(size: 20, weight: .bold))
                             .environment(\.colorScheme, .dark)
-                        Text(show.djName ?? " ")
+                        Text(show.djName)
                             .font(.system(size: 15, weight: .regular))
                             .foregroundColor(Color("SecondaryText"))
                             .environment(\.colorScheme, .dark)
@@ -318,7 +318,7 @@ struct RemindView: View {
             .background(Color("RemindBackground"))
         .onAppear{
             //Load in List of Shows to find current show
-            scrapeScheduleData { Shows in
+            fetchShows { Shows in
                 scheduleGrid = Shows
                 dates = getShowDates(for: show)
                 loadNotificationEnabledShows()
@@ -368,7 +368,7 @@ struct RemindView: View {
         notificationCenter.requestAuthorization(options: [.alert, .sound]) { granted, error in
             if granted {
                 // Schedule notifications for selected dates
-                for date in show.showDates {
+                for date in show.dates {
                     let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
                     
                     let content = UNMutableNotificationContent()
@@ -428,7 +428,7 @@ struct MiniRemindView: View {
     
     var bounds: Range<Date> {
         let start = Date()
-        let end = show.seasonEndDate
+        let end = show.lastShowDate
         return start ..< end
     }
     
@@ -486,9 +486,8 @@ struct ReminderManagerView: View {
                 .background(Color("RemindBackground"))
                 .scrollContentBackground(.hidden)
                 .navigationBarTitle("Reminder Manager", displayMode: .inline)
-                .listStyle(DefaultListStyle()) // Use PlainListStyle for tighter spacing
-
-            }else {
+                .listStyle(DefaultListStyle())
+            } else {
                 Spacer()
                 HStack{
                     Text("No Reminders Scheduled :)")
@@ -502,6 +501,7 @@ struct ReminderManagerView: View {
                 Spacer()
             }
         }.onAppear {
+            
             loadNotificationEnabledShows()
         }
     }
@@ -544,9 +544,7 @@ struct ReminderManagerView: View {
 
 func findShowWithName(_ shows: [Show], showName: String, completion: @escaping (Show?) -> Void) {
     let matchingShow = shows.first { $0.name == showName }
-    scrapeShowPageData(show: matchingShow!) { matchingShow2 in
-        completion(matchingShow2)
-    }
+    completion(matchingShow)
 }
 
 //Removes Show from List of CoreData JSON
@@ -568,33 +566,17 @@ func removeNotificationsForShow(withTitle title: String) {
     _ = semaphore.wait(timeout: .distantFuture) // Wait for the task to complete
 }
 
-//Finds all the show Dates for the given show, and returns an array with them
+//Returns formatted set of show dates
 func getShowDates(for show: Show) -> Set<DateComponents> {
-    var showDates: Set<DateComponents> = []
-
     let calendar = Calendar.current
-    
-    for date in show.showDates {
-        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
-        var showDateComponents = DateComponents()
-        showDateComponents.year = components.year
-        showDateComponents.month = components.month
-        showDateComponents.day = components.day
-        showDateComponents.hour = calendar.component(.hour, from: date)
-        showDateComponents.minute = calendar.component(.minute, from: date)
-        showDateComponents.second = 0
-        showDateComponents.timeZone = calendar.timeZone
-        
-        showDates.insert(showDateComponents)
-    }
-
-    return showDates
+    let dates = Set(show.dates.map { calendar.dateComponents([.year, .month, .day], from: $0) })
+    print(dates)
+    return dates
 }
 
 //Deletes all shows from JSON memory
 func wipeAllShows() {
     let notificationCenter = UNUserNotificationCenter.current()
-    
     UserDefaults.standard.removeObject(forKey: "NotificationEnabledShows")
     notificationCenter.removeAllPendingNotificationRequests()
 }

@@ -13,41 +13,35 @@ import SwiftSoup
 
 struct Show : Codable, Identifiable, Hashable {
     //General Show Info
-    var id = UUID()
+    var id: Int
     var name: String
-    var djName: String?
-    var showURL: URL?
+    var djName: String
     var playlistImageURL: URL?
     var showColor: Color?
-    
-    var alternatingType: Int? // 1 = show every week, 2 = show every 2 weeks...
-    var alternatingPos: Int?
-        
     var startTime: Date
     var endTime: Date
+    var alternates: Bool
     
-    var colSize: Int?
-    var DOTW: String? //Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+    var DOTW: String //Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
     
-    var showDates: [Date]
-    var seasonStartDate: Date
-    var seasonEndDate: Date
+    var dates: [Date]
+    var firstShowDate: Date
+    var lastShowDate: Date
     
     enum CodingKeys: String, CodingKey {
-            case name
-            case showURL
-            case playlistImageURL
-            case showColor
-            case alternatingType
-            case alternatingPos
-            case colSize
-            case startTime
-            case endTime
-            case DOTW
-            case showDates
-            case seasonStartDate
-            case seasonEndDate
-        }
+        case id
+        case name
+        case djName = "dj_name"
+        case playlistImageURL = "playlist_image_url"
+        case showColor
+        case startTime = "start_time"
+        case endTime = "end_time"
+        case DOTW = "current_dotw"
+        case alternates = "alternates"
+        case dates = "dates"
+        case firstShowDate = "first_show_date"
+        case lastShowDate = "last_show_date"
+    }
 }
 
 func containsMatchingShow(shows: [Show], show: Show) -> Bool {
