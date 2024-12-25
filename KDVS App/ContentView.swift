@@ -23,7 +23,7 @@ struct ContentView: View {
         id: 0,
         name: " ",
         djName: " ",
-        playlistImageURL: URL(string: "https://library.kdvs.org/static/core/images/kdvs-image-placeholder.jpg"),
+        playlistImageURL: URL(string: "https://library.kdvs.org/static/core/images/kdvs-image-placeholder.jpg")!,
         startTime: Date(),
         endTime: Date(),
         alternates: false,
@@ -59,6 +59,7 @@ struct ContentView: View {
             }
         }.onAppear{
             isLoading = true
+            
             getCurrentShow { scrapedShow in
                 guard let fetchedShow = scrapedShow else {
                     print("Failed to fetch current show")

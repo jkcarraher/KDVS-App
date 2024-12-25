@@ -11,7 +11,7 @@ import UIKit
 import SwiftUI
 
 func getCurrentShow(completion: @escaping (Show?) -> Void) {
-    guard let url = URL(string: "https://sl2yinqpd0.execute-api.us-west-1.amazonaws.com/current-show") else {
+    guard let url = URL(string: "https://sl2yinqpd0.execute-api.us-west-1.amazonaws.com/current-show/current-show") else {
         print("Invalid URL")
         completion(nil)
         return
@@ -25,45 +25,41 @@ func getCurrentShow(completion: @escaping (Show?) -> Void) {
         }
 
         do {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .custom { decoder in
-                let container = try decoder.singleValueContainer()
-                let dateString = try container.decode(String.self)
-
-                let formats = ["HH:mm:ss", "yyyy-MM-dd"]
-                let dateFormatter = DateFormatter()
-                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-
-                for format in formats {
-                    dateFormatter.dateFormat = format
-                    if let date = dateFormatter.date(from: dateString) {
-                        return date
-                    }
-                }
-
-                throw DecodingError.dataCorruptedError(
-                    in: container,
-                    debugDescription: "Date string '\(dateString)' does not match any known format."
-                )
-            }
-
-            // Decode the top-level response
-            if let responseDict = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-               let bodyString = responseDict["body"] as? String,
+            // Decode the outer JSON object
+            let responseDict = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+            
+            // Ensure the body is a valid string containing JSON
+            if let bodyString = responseDict?["body"] as? String,
                let bodyData = bodyString.data(using: .utf8) {
-
-                let shows = try decoder.decode([Show].self, from: bodyData)
-                if let currentShow = shows.first {
-                    print("Fetched current show: \(currentShow)")
-                    DispatchQueue.main.async {
-                        completion(currentShow)
+                
+                // Decode the inner body JSON into the Show object
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .custom { decoder in
+                    let container = try decoder.singleValueContainer()
+                    let dateString = try container.decode(String.self)
+                    let formats = ["HH:mm:ss", "yyyy-MM-dd"]
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                    
+                    for format in formats {
+                        dateFormatter.dateFormat = format
+                        if let date = dateFormatter.date(from: dateString) {
+                            return date
+                        }
                     }
-                } else {
-                    print("No current show found.")
-                    completion(nil)
+                    
+                    throw DecodingError.dataCorruptedError(
+                        in: container,
+                        debugDescription: "Date string '\(dateString)' does not match any known format."
+                    )
+                }
+                
+                let show = try decoder.decode(Show.self, from: bodyData)
+                DispatchQueue.main.async {
+                    completion(show)
                 }
             } else {
-                print("Body is missing or not a string")
+                print("Body is missing or not a valid string")
                 completion(nil)
             }
         } catch {
@@ -73,6 +69,7 @@ func getCurrentShow(completion: @escaping (Show?) -> Void) {
     }
     task.resume()
 }
+
 
 func scrapeUpcomingPlaylistsPage(_ url: URL, completion: @escaping ([Date]) -> Void) {
     URLSession.shared.dataTask(with: url) { data, response, error in

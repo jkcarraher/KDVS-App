@@ -28,6 +28,21 @@ struct Show : Codable, Identifiable, Hashable {
     var firstShowDate: Date
     var lastShowDate: Date
     
+    // Custom initializer for manual creation of a Show instance with parameters
+    init(id: Int, name: String, djName: String, playlistImageURL: URL, startTime: Date, endTime: Date, alternates: Bool, DOTW: String, dates: [Date], firstShowDate: Date, lastShowDate: Date) {
+        self.id = id
+        self.name = name
+        self.djName = djName
+        self.startTime = startTime
+        self.endTime = endTime
+        self.DOTW = DOTW
+        self.dates = dates
+        self.firstShowDate = firstShowDate
+        self.lastShowDate = lastShowDate
+        self.alternates = alternates
+        self.playlistImageURL = playlistImageURL
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case name
@@ -41,6 +56,35 @@ struct Show : Codable, Identifiable, Hashable {
         case dates = "dates"
         case firstShowDate = "first_show_date"
         case lastShowDate = "last_show_date"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+        // Decode all fields
+        id = try container.decode(Int.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        startTime = try container.decode(Date.self, forKey: .startTime)
+        endTime = try container.decode(Date.self, forKey: .endTime)
+        DOTW = try container.decode(String.self, forKey: .DOTW)
+        
+        let dateStrings = try container.decode([String].self, forKey: .dates)
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        self.dates = dateStrings.compactMap { dateFormatter.date(from: $0) }
+
+        firstShowDate = try container.decode(Date.self, forKey: .firstShowDate)
+        lastShowDate = try container.decode(Date.self, forKey: .lastShowDate)
+        alternates = try container.decode(Bool.self, forKey: .alternates)
+        
+        if let playlistImageUrlString = try? container.decode(String.self, forKey: .playlistImageURL) {
+            playlistImageURL = URL(string: playlistImageUrlString)
+        } else {
+            playlistImageURL = nil
+        }
+        // Decode djName with fallback
+        djName = try container.decodeIfPresent(String.self, forKey: .djName) ?? "Unknown DJ"
     }
 }
 

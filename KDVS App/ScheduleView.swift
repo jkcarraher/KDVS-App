@@ -17,8 +17,7 @@ struct ScheduleView: View {
         id: 0,
         name: "",
         djName: " ",
-        playlistImageURL: URL(string: "https://library.kdvs.org/static/core/images/kdvs-image-placeholder.jpg"),
-        showColor: .clear,  // Assuming `showColor` is a `Color` type
+        playlistImageURL: URL(string: "https://library.kdvs.org/static/core/images/kdvs-image-placeholder.jpg")!,
         startTime: Date(),
         endTime: Date(),
         alternates: false,
