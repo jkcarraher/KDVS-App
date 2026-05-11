@@ -8,6 +8,8 @@
 import AVFoundation
 
 final class AudioPlayerService {
+    @Published private(set) var isPlaying = false
+    
     private let player = AVPlayer()
     
     func load(url: URL) {
@@ -18,8 +20,10 @@ final class AudioPlayerService {
     
     func play() {
         player.play()
+        isPlaying = true
     }
     func pause() {
         player.pause()
+        isPlaying = false
     }
 }

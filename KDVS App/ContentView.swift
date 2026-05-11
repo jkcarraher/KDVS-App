@@ -11,6 +11,9 @@ import MediaPlayer
 import SwiftSoup
 
 struct ContentView: View {
+    let audioService = AudioPlayerService()
+    let socketService = SocketService()
+    
     let streamURL = URL(string: "https://archives.kdvs.org/stream")!
     @State var audioPlayer = AVPlayer()
     @State private var isRemindPresented = false
@@ -39,8 +42,8 @@ struct ContentView: View {
             VStack {
                 myHeader(openCredit: $isSettingsPresented, currentScheduleList: $currentSeasonShows)
                 Spacer()
-                PlayerView(openRemind: $isRemindPresented, show: $show, audioPlayer: $audioPlayer, isLoading: $isLoading, isPlaying: $isPlaying)
-                Spacer()            
+                PlayerView2(audioService: audioService, socketService: socketService)
+                Spacer()
             }
             .frame(maxWidth: .infinity)
             .background(Color("BackgroundColor"))
