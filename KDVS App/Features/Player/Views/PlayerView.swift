@@ -74,6 +74,13 @@ struct PlayerView2: View {
             RoundedRectangle(cornerRadius: 15)
                 .stroke(Color("OutlineColor"), lineWidth: 2)
         )
+        .sheet(isPresented: $vm.showReminderSheet) {
+            SheetView(show: $vm.show)
+                .environment(\.colorScheme, .dark)
+                .presentationDetents([.height(450), .large])
+                .background(Color("RemindBackground"))
+            
+        }
     }
     
 
