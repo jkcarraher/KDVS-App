@@ -42,7 +42,7 @@ struct ContentView: View {
             VStack {
                 myHeader(openCredit: $isSettingsPresented, currentScheduleList: $currentSeasonShows)
                 Spacer()
-                PlayerView2(audioService: audioService, socketService: socketService)
+                PlayerView(audioService: audioService, socketService: socketService)
                 Spacer()
             }
             .frame(maxWidth: .infinity)

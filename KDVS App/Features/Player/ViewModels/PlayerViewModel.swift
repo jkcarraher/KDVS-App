@@ -9,13 +9,22 @@ import Foundation
 
 @MainActor
 final class PlayerViewModel: ObservableObject {
+    @Published private(set) var isPlaying = false
     @Published var showReminderSheet = false
     @Published var isLoading = false
-    @Published var show: Show
-    
-    var isPlaying: Bool {
-        playerService.isPlaying
-    }
+    @Published var show: Show = Show(
+        id: 0,
+        name: " ",
+        djName: " ",
+        playlistImageURL: URL(string: "https://library.kdvs.org/static/core/images/kdvs-image-placeholder.jpg")!,
+        startTime: Date(),
+        endTime: Date(),
+        alternates: false,
+        DOTW: "Funday",
+        dates: [],
+        firstShowDate: Date(),
+        lastShowDate: Date()
+    )
     
     private let playerService: AudioPlayerService
     private let socketService: SocketService
@@ -31,6 +40,10 @@ final class PlayerViewModel: ObservableObject {
         // Load livestream to shared PLAYER_SERVICE
         let streamURL = URL(string: "https://archives.kdvs.org/stream")!
         playerService.load(url: streamURL)
+        
+        // Link isPlaying state to playerService
+        playerService.$isPlaying
+            .assign(to: &$isPlaying)
     }
     
     func togglePlayback() {
