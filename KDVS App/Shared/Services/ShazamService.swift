@@ -13,11 +13,9 @@ final class ShazamService: NSObject {
     
     private let session = SHSession()
     
+    // Turns livestream url into an AVBuffer OBJ which we can identify a song with
     func scanStream(audioURL: URL) async throws -> ShazamSong? {
-        // Create an AVAudioFile for the recorded audio file
         let recordedFile = try AVAudioFile(forReading: audioURL)
-        
-        // Determine the source file format
         let sourceFormat = recordedFile.processingFormat
         
         // Create the output format as 16-bit PCM with a sample rate matching the source format

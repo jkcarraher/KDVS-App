@@ -26,7 +26,6 @@
 		C6C382DB29E387D900B4D347 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = C6C382DA29E387D900B4D347 /* SwiftSoup */; };
 		C6DECA4A2A47ED56006EEA89 /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DECA492A47ED56006EEA89 /* Matcher.swift */; };
 		C6DECA4E2A4D9187006EEA89 /* AudioStreamRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DECA4D2A4D9187006EEA89 /* AudioStreamRecorder.swift */; };
-		C6EA2C202A42F14A00118B7B /* NowPlayingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA2C1F2A42F14A00118B7B /* NowPlayingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,7 +49,6 @@
 		C6DECA482A47D5EE006EEA89 /* KDVS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KDVS.entitlements; sourceTree = "<group>"; };
 		C6DECA492A47ED56006EEA89 /* Matcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matcher.swift; sourceTree = "<group>"; };
 		C6DECA4D2A4D9187006EEA89 /* AudioStreamRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreamRecorder.swift; sourceTree = "<group>"; };
-		C6EA2C1F2A42F14A00118B7B /* NowPlayingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -118,7 +116,6 @@
 				C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */,
 				C68E638E29A0714100D075F5 /* ContentView.swift */,
 				C6AAAC102A0F7DCF007EA9E7 /* RemindView.swift */,
-				C6EA2C1F2A42F14A00118B7B /* NowPlayingView.swift */,
 				C65377BE2A79DBF100433221 /* ScheduleView.swift */,
 				C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */,
 				C6B42B9F2A7E38CF0093B2F4 /* Schedule Builder */,
@@ -238,7 +235,6 @@
 				C6AAAC112A0F7DCF007EA9E7 /* RemindView.swift in Sources */,
 				C68E638F29A0714100D075F5 /* ContentView.swift in Sources */,
 				C68E638D29A0714100D075F5 /* KDVS_AppApp.swift in Sources */,
-				C6EA2C202A42F14A00118B7B /* NowPlayingView.swift in Sources */,
 				C6DECA4A2A47ED56006EEA89 /* Matcher.swift in Sources */,
 				C6C1CCD92A26E93800BA9166 /* LiveUserTracker.swift in Sources */,
 				C65DB5C72A8DA108002ECF7D /* colorCodeable.swift in Sources */,
