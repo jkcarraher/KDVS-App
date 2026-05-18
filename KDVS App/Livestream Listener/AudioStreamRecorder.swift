@@ -34,7 +34,6 @@ class AudioStreamRecorder {
         player?.pause()
         
         // Stop downloading for CachingPlayerItem
-        //JUWAAAA~!
         cachingPlayerItem?.stopDownloading {
             let aacRecordingURL = self.cachingPlayerItem?.getDownloadedFileURL()
             let wavRecordingURL = aacRecordingURL?.deletingPathExtension().appendingPathExtension("wav")
