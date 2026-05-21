@@ -17,7 +17,8 @@ struct PlayerView: View {
         _vm = StateObject(
             wrappedValue: PlayerViewModel(
                 playerService: audioService,
-                socketService: socketService
+                socketService: socketService,
+                showService: ShowService()
             )
         )
     }
@@ -43,6 +44,9 @@ struct PlayerView: View {
                 .presentationDetents([.height(450), .large])
                 .background(Color("RemindBackground"))
             
+        }
+        .task {
+            await vm.loadCurrentShow()
         }
     }
     

@@ -120,6 +120,32 @@ func scrapeUpcomingPlaylistsPage(_ url: URL, completion: @escaping ([Date]) -> V
     }.resume()
 }
 
-private func setAverageColor(show: inout Show) {
-    
+private extension ShowService {
+
+    func dateDecoder(_ decoder: Decoder) throws -> Date {
+
+        let container = try decoder.singleValueContainer()
+        let dateString = try container.decode(String.self)
+
+        let formats = [
+            "HH:mm:ss",
+            "yyyy-MM-dd"
+        ]
+
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+
+        for format in formats {
+            formatter.dateFormat = format
+
+            if let date = formatter.date(from: dateString) {
+                return date
+            }
+        }
+
+        throw DecodingError.dataCorruptedError(
+            in: container,
+            debugDescription: "Unsupported date format: \(dateString)"
+        )
+    }
 }

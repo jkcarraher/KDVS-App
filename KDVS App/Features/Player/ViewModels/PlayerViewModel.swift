@@ -28,14 +28,17 @@ final class PlayerViewModel: ObservableObject {
     
     private let playerService: AudioPlayerService
     private let socketService: SocketService
+    private let showService: ShowService
     
     init(
         playerService: AudioPlayerService,
-        socketService: SocketService
+        socketService: SocketService,
+        showService: ShowService
     ){
         // Link Services
         self.playerService = playerService
         self.socketService = socketService
+        self.showService = showService
         
         // Load livestream to shared PLAYER_SERVICE
         let streamURL = URL(string: "https://archives.kdvs.org/stream")!
@@ -44,6 +47,18 @@ final class PlayerViewModel: ObservableObject {
         // Link isPlaying state to playerService
         playerService.$isPlaying
             .assign(to: &$isPlaying)
+    }
+    
+    func loadCurrentShow() async {
+        isLoading = true
+        
+        do {
+            show = try await showService.getCurrentShow()
+        } catch {
+            print("Failed to load current show - ", error)
+        }
+        
+        isLoading = false
     }
     
     func togglePlayback() {

@@ -86,7 +86,7 @@ struct LargeRemindView: View {
                             selection: $dates,
                             in: Date()...
                         ).frame(width: 325, height: 330, alignment: .center)
-                            .tint(show.showColor?.brightened(by: 1)) // Set your desired color here
+                            .tint(show.color.brightened(by: 1))
                             .padding([.top], 7)
                             .disabled(true)
                     } else{
@@ -438,7 +438,7 @@ struct MiniRemindView: View {
                 //Display Rectangle with music note icon and a 30x30 rectangle with a background
                 ZStack {
                     Rectangle()
-                        .fill(show.showColor ?? Color(.clear))
+                        .fill(show.color)
                     Image(systemName: "music.note") // Outlined bell icon
                         .font(.system(size: 15))
                         .foregroundColor(Color(.white))
