@@ -18,6 +18,8 @@ final class AudioStreamRecorderService {
     func recordSnippet(
         duration: TimeInterval = 8
     ) async throws -> URL {
+        
+        clearOldRecording()
 
         let item = await CachingPlayerItem(
             url: streamURL,
@@ -26,13 +28,20 @@ final class AudioStreamRecorderService {
 
         self.cachingPlayerItem = item
 
-        print("Recording started")
-
         try await Task.sleep(
             for: .seconds(duration)
         )
 
         return try await stopRecording()
+    }
+    
+    private func clearOldRecording() {
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("recording.aac")
+        
+        print("Recording path:", url)
+
+        try? FileManager.default.removeItem(at: url)
     }
 
     private func stopRecording() async throws -> URL {

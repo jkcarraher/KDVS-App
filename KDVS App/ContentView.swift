@@ -93,7 +93,6 @@ struct ContentView: View {
                         // Audio session interrupted. Pause the player.
                         audioPlayer.pause()
                         isPlaying = false
-                        disconnectToSocket()
                     case .ended:
                         // Audio session interruption ended. Resume playback if appropriate.
                         guard let optionsRawValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else {
@@ -103,7 +102,6 @@ struct ContentView: View {
                         if options.contains(.shouldResume) {
                             audioPlayer.play()
                             isPlaying = true
-                            connectToSocket()
                         }
                     @unknown default:
                         return
@@ -188,14 +186,12 @@ struct ContentView: View {
         commandCenter.playCommand.addTarget { [audioPlayer] _ in
             audioPlayer.play()
             isPlaying = true
-            connectToSocket()
             return .success
         }
         
         commandCenter.pauseCommand.addTarget { [audioPlayer] _ in
             audioPlayer.pause()
             isPlaying = false
-            disconnectToSocket()
             return .success
         }
     }

@@ -157,12 +157,10 @@ struct LargeRemindView: View {
             notificationEnabledShows.append(show)
             saveNotificationEnabledShows()
             scheduleNotifications(inShow: show)
-            printAllExistingNotifications()
         } else {
             removeMatchingShow(from: &notificationEnabledShows, showToRemove: show)
             saveNotificationEnabledShows()
             removeNotificationsForShow(withTitle: show.name)
-            printAllExistingNotifications()
         }
         
         isPerformingNotificationAction = false

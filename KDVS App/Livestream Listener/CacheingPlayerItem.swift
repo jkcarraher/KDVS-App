@@ -88,12 +88,9 @@ open class CachingPlayerItem: AVPlayerItem {
                 
                 // Check if the file already exists
                 if FileManager.default.fileExists(atPath: fileURL.path) {
-                    do {
-                        // Clear the contents of the existing file
-                        try Data().write(to: fileURL)
-                    } catch {
-                        print("Failed to clear existing file data: \(error)")
-                    }
+                    // Clear the contents of the existing file
+                    try? FileManager.default.removeItem(at: fileURL)
+                    FileManager.default.createFile(atPath: fileURL.path, contents: nil)
                 }
                 
                 let configuration = URLSessionConfiguration.default
@@ -201,7 +198,12 @@ open class CachingPlayerItem: AVPlayerItem {
     weak var delegate: CachingPlayerItemDelegate?
     
     func stopDownloading(completion: @escaping () -> Void) {
+
         resourceLoaderDelegate.session?.invalidateAndCancel()
+
+        resourceLoaderDelegate.outputStream?.close()
+        resourceLoaderDelegate.outputStream = nil
+
         completion()
     }
     
