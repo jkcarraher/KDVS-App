@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ShowArt : View {
+struct ShowArtView : View {
     var show : Show
     
     var body: some View {

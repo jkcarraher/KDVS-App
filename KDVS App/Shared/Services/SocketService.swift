@@ -11,7 +11,7 @@ import Foundation
 final class SocketService {
     
     private let manager = SocketManager (
-        socketURL: URL(string: "https://acute-scientific-corleggy.glitch.me")!,
+        socketURL: URL(string: "https://acute-scientific-corleggy.glitch.me")!
     )
     
     // Make this lazy connection after we create a socketService (after self exists)

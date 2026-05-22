@@ -4,10 +4,8 @@
 //
 //  Created by John Carraher on 5/18/26.
 //
+
 import Foundation
-import SwiftSoup
-import UIKit
-import SwiftUI
 
 final class ShowService {
 

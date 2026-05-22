@@ -6,8 +6,9 @@
 //
 
 import AVFoundation
+import Combine
 
-final class AudioPlayerService {
+final class AudioPlayerService: ObservableObject {
     @Published private(set) var isPlaying = false
     
     private let player = AVPlayer()

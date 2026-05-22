@@ -15,7 +15,7 @@ struct PlayerContentView: View {
     
     var body: some View {
         VStack {
-            ShowArt(show: show)
+            ShowArtView(show: show)
             HStack (alignment: .top){
                 VStack (alignment: .leading, spacing: 0) {
                     ScrollViewReader { scrollViewProxy in

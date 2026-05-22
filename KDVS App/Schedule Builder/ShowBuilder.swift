@@ -10,6 +10,8 @@ import SwiftSoup
 import UIKit
 import SwiftUI
 
+
+// TODO: Once we've re-done the contentView remove references for this function
 func getCurrentShow(completion: @escaping (Show?) -> Void) {
     guard let url = URL(string: "https://sl2yinqpd0.execute-api.us-west-1.amazonaws.com/current-show/current-show") else {
         print("Invalid URL")
@@ -118,34 +120,4 @@ func scrapeUpcomingPlaylistsPage(_ url: URL, completion: @escaping ([Date]) -> V
             print("Error parsing HTML: \(error)")
         }
     }.resume()
-}
-
-private extension ShowService {
-
-    func dateDecoder(_ decoder: Decoder) throws -> Date {
-
-        let container = try decoder.singleValueContainer()
-        let dateString = try container.decode(String.self)
-
-        let formats = [
-            "HH:mm:ss",
-            "yyyy-MM-dd"
-        ]
-
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-
-        for format in formats {
-            formatter.dateFormat = format
-
-            if let date = formatter.date(from: dateString) {
-                return date
-            }
-        }
-
-        throw DecodingError.dataCorruptedError(
-            in: container,
-            debugDescription: "Unsupported date format: \(dateString)"
-        )
-    }
 }
