@@ -3,13 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C600669F2A74E26D00752055 /* CacheingPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600669E2A74E26D00752055 /* CacheingPlayerItem.swift */; };
 		C643317C29EF53030080EB77 /* Shows.swift in Sources */ = {isa = PBXBuildFile; fileRef = C643317B29EF53030080EB77 /* Shows.swift */; };
-		C643317E29EF53DF0080EB77 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C643317D29EF53DF0080EB77 /* PlayerView.swift */; };
 		C647CA552A7511A900766E7D /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = C647CA542A7511A900766E7D /* AudioKit */; };
 		C65377BD2A79D9EF00433221 /* scheduleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */; };
 		C65377BF2A79DBF100433221 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65377BE2A79DBF100433221 /* ScheduleView.swift */; };
@@ -21,21 +19,17 @@
 		C68E639129A0714200D075F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C68E639029A0714200D075F5 /* Assets.xcassets */; };
 		C69F5D482A2AAC2A000A38F0 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = C69F5D472A2AAC2A000A38F0 /* SocketIO */; };
 		C69F5D502A2B3C12000A38F0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C69F5D4F2A2B3C12000A38F0 /* Preview Assets.xcassets */; };
-		C6A7B3972A8ACC6A004E850E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A7B3962A8ACC6A004E850E /* Extensions.swift */; };
 		C6AAAC112A0F7DCF007EA9E7 /* RemindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AAAC102A0F7DCF007EA9E7 /* RemindView.swift */; };
 		C6B42BA12A7F92C40093B2F4 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */; };
-		C6C1CCD92A26E93800BA9166 /* LiveUserTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C1CCD82A26E93800BA9166 /* LiveUserTracker.swift */; };
+		C6BD2A162FBF8A440058C3EE /* CacheingPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BD2A152FBF8A440058C3EE /* CacheingPlayerItem.swift */; };
 		C6C382DB29E387D900B4D347 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = C6C382DA29E387D900B4D347 /* SwiftSoup */; };
 		C6DECA4A2A47ED56006EEA89 /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DECA492A47ED56006EEA89 /* Matcher.swift */; };
 		C6DECA4E2A4D9187006EEA89 /* AudioStreamRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DECA4D2A4D9187006EEA89 /* AudioStreamRecorder.swift */; };
-		C6EA2C202A42F14A00118B7B /* NowPlayingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EA2C1F2A42F14A00118B7B /* NowPlayingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C600669E2A74E26D00752055 /* CacheingPlayerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheingPlayerItem.swift; sourceTree = "<group>"; };
 		C62EA1AC2A2B6E7900288BEC /* KDVS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "KDVS-Info.plist"; sourceTree = "<group>"; };
 		C643317B29EF53030080EB77 /* Shows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shows.swift; sourceTree = "<group>"; };
-		C643317D29EF53DF0080EB77 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		C65233A62A63B572009520A1 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scheduleBuilder.swift; sourceTree = "<group>"; };
 		C65377BE2A79DBF100433221 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
@@ -47,15 +41,18 @@
 		C68E639029A0714200D075F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C69F5D4D2A2AAE2F000A38F0 /* KDVS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KDVS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C69F5D4F2A2B3C12000A38F0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C6A7B3962A8ACC6A004E850E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C6AAAC102A0F7DCF007EA9E7 /* RemindView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindView.swift; sourceTree = "<group>"; };
 		C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
-		C6C1CCD82A26E93800BA9166 /* LiveUserTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUserTracker.swift; sourceTree = "<group>"; };
+		C6BD2A152FBF8A440058C3EE /* CacheingPlayerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheingPlayerItem.swift; sourceTree = "<group>"; };
 		C6DECA482A47D5EE006EEA89 /* KDVS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KDVS.entitlements; sourceTree = "<group>"; };
 		C6DECA492A47ED56006EEA89 /* Matcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matcher.swift; sourceTree = "<group>"; };
 		C6DECA4D2A4D9187006EEA89 /* AudioStreamRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreamRecorder.swift; sourceTree = "<group>"; };
-		C6EA2C1F2A42F14A00118B7B /* NowPlayingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C6977E362FB18C900061118B /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
+		C6977E3B2FB18CF30061118B /* Shared */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Shared; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C68E638629A0714100D075F5 /* Frameworks */ = {
@@ -77,7 +74,7 @@
 				C6DECA4D2A4D9187006EEA89 /* AudioStreamRecorder.swift */,
 				C67F186A2A6A09EC00A7CE7A /* aactowav.swift */,
 				C6DECA492A47ED56006EEA89 /* Matcher.swift */,
-				C600669E2A74E26D00752055 /* CacheingPlayerItem.swift */,
+				C6BD2A152FBF8A440058C3EE /* CacheingPlayerItem.swift */,
 			);
 			path = "Livestream Listener";
 			sourceTree = "<group>";
@@ -88,14 +85,6 @@
 				C65233A62A63B572009520A1 /* AVKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C65377BB2A79D21400433221 /* User Tracker */ = {
-			isa = PBXGroup;
-			children = (
-				C6C1CCD82A26E93800BA9166 /* LiveUserTracker.swift */,
-			);
-			path = "User Tracker";
 			sourceTree = "<group>";
 		};
 		C68E638029A0714100D075F5 = {
@@ -112,16 +101,14 @@
 		C68E638B29A0714100D075F5 /* KDVS App */ = {
 			isa = PBXGroup;
 			children = (
+				C6977E3B2FB18CF30061118B /* Shared */,
+				C6977E362FB18C900061118B /* Features */,
 				C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */,
 				C68E638E29A0714100D075F5 /* ContentView.swift */,
-				C643317D29EF53DF0080EB77 /* PlayerView.swift */,
 				C6AAAC102A0F7DCF007EA9E7 /* RemindView.swift */,
-				C6EA2C1F2A42F14A00118B7B /* NowPlayingView.swift */,
 				C65377BE2A79DBF100433221 /* ScheduleView.swift */,
 				C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */,
-				C6A7B3962A8ACC6A004E850E /* Extensions.swift */,
 				C6B42B9F2A7E38CF0093B2F4 /* Schedule Builder */,
-				C65377BB2A79D21400433221 /* User Tracker */,
 				C647CA5E2A754F6A00766E7D /* Livestream Listener */,
 				C68E639029A0714200D075F5 /* Assets.xcassets */,
 				C69F5D4E2A2B392D000A38F0 /* Preview Content */,
@@ -163,6 +150,10 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				C6977E362FB18C900061118B /* Features */,
+				C6977E3B2FB18CF30061118B /* Shared */,
+			);
 			name = KDVS;
 			packageProductDependencies = (
 				C6C382DA29E387D900B4D347 /* SwiftSoup */,
@@ -181,7 +172,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 2640;
 				TargetAttributes = {
 					C68E638829A0714100D075F5 = {
 						CreatedOnToolsVersion = 14.2;
@@ -231,17 +222,13 @@
 				C643317C29EF53030080EB77 /* Shows.swift in Sources */,
 				C6B42BA12A7F92C40093B2F4 /* CreditsView.swift in Sources */,
 				C6AAAC112A0F7DCF007EA9E7 /* RemindView.swift in Sources */,
+				C6BD2A162FBF8A440058C3EE /* CacheingPlayerItem.swift in Sources */,
 				C68E638F29A0714100D075F5 /* ContentView.swift in Sources */,
 				C68E638D29A0714100D075F5 /* KDVS_AppApp.swift in Sources */,
-				C643317E29EF53DF0080EB77 /* PlayerView.swift in Sources */,
-				C6EA2C202A42F14A00118B7B /* NowPlayingView.swift in Sources */,
 				C6DECA4A2A47ED56006EEA89 /* Matcher.swift in Sources */,
-				C6C1CCD92A26E93800BA9166 /* LiveUserTracker.swift in Sources */,
 				C65DB5C72A8DA108002ECF7D /* colorCodeable.swift in Sources */,
 				C65377BD2A79D9EF00433221 /* scheduleBuilder.swift in Sources */,
 				C666A8BA2A86A6D100808D79 /* ShowBuilder.swift in Sources */,
-				C6A7B3972A8ACC6A004E850E /* Extensions.swift in Sources */,
-				C600669F2A74E26D00752055 /* CacheingPlayerItem.swift in Sources */,
 				C6DECA4E2A4D9187006EEA89 /* AudioStreamRecorder.swift in Sources */,
 				C65377BF2A79DBF100433221 /* ScheduleView.swift in Sources */,
 				C67F186B2A6A09EC00A7CE7A /* aactowav.swift in Sources */,
@@ -285,8 +272,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 4TQZ9K89QB;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
@@ -301,6 +290,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -339,8 +329,10 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 4TQZ9K89QB;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -353,6 +345,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -368,7 +361,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_ASSET_PATHS = "\"KDVS App/Preview Content\"";
-				DEVELOPMENT_TEAM = 4TQZ9K89QB;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -406,7 +398,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_ASSET_PATHS = "\"KDVS App/Preview Content\"";
-				DEVELOPMENT_TEAM = 4TQZ9K89QB;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;

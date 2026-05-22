@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
-//import AudioKit
 
 @main
 struct KDVS_AppApp: App {
+    
+    let audioService = AudioPlayerService()
+    let socketService = SocketService()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
