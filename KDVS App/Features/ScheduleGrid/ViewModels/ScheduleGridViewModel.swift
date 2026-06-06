@@ -10,7 +10,9 @@ import Foundation
 @MainActor
 final class ScheduleGridViewModel: ObservableObject {
     @Published var shows: [Show] = []
+    
     @Published var isLoading = false
+    @Published var errorMessage: String? = nil
 
     private let api = KDVSAPIService()
 
@@ -21,7 +23,8 @@ final class ScheduleGridViewModel: ObservableObject {
         do {
             shows = try await api.fetchShows()
         } catch {
-            print(error)
+            errorMessage = error.localizedDescription
+            print("Failed to load shows:", error)
         }
     }
 }
