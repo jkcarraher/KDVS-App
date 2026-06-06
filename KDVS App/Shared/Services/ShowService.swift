@@ -9,27 +9,20 @@ import Foundation
 
 final class ShowService {
 
-    func getCurrentShow() async throws -> Show {
-        guard let url = URL(
-            string: "https://sl2yinqpd0.execute-api.us-west-1.amazonaws.com/current-show/current-show"
-        ) else {
-            throw URLError(.badURL)
-        }
-        
-        let (data, _) = try await URLSession.shared.data(from: url)
-        
-        // Decode the outer JSON object
-        let responseDict = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-                
-        guard let bodyString = responseDict?["body"] as? String,
-              let bodyData = bodyString.data(using: .utf8) else {
-            throw ShowServiceError.invalidBody
-        }
-        
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .custom(flexibleDateDecoder)
-        
-        return try decoder.decode(Show.self, from: bodyData)
+    func getCurrentShow() -> Show {
+        return Show(
+            id: "",
+            name: "",
+            djName: "",
+            playlistImageURL: URL(string: "https://")!,
+            startTime: TimeOfDay(hour: 0, minute: 0, second: 0),
+            endTime: TimeOfDay(hour: 0, minute: 0, second: 0),
+            alternates: false,
+            DOTW: "",
+            dates: [],
+            firstShowDate: Date(),
+            lastShowDate: Date()
+        )
     }
 }
 

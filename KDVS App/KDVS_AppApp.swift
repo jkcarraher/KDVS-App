@@ -12,6 +12,8 @@ struct KDVS_AppApp: App {
     
     let audioService = AudioPlayerService()
     let socketService = SocketService()
+    let showService = ShowService()
+
     
     var body: some Scene {
         WindowGroup {

@@ -5,10 +5,25 @@
 //  Created by John Carraher on 6/6/26.
 //
 
-struct TimeOfDay {
+struct TimeOfDay: Codable, Hashable {
     let hour: Int
     let minute: Int
     let second: Int
+}
+
+extension TimeOfDay {
+    func to12HourString() -> String {
+            let isPM = hour >= 12
+            let hour12 = hour % 12 == 0 ? 12 : hour % 12
+            let minuteString = String(format: "%02d", minute)
+            let ampm = isPM ? "PM" : "AM"
+
+            if minute == 0 {
+                return "\(hour12) \(ampm)"
+            } else {
+                return "\(hour12):\(minuteString) \(ampm)"
+            }
+        }
 }
 
 extension String {

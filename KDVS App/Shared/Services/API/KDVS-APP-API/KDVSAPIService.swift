@@ -29,20 +29,25 @@ final class KDVSAPIService {
         return try decoder.decode(T.self, from: data)
     }
     
-    func fetchTimeslots() async throws -> [TimeslotDTO] {
+    func fetchDTOTimeslots() async throws -> [TimeslotDTO] {
         try await request("timeslots")
     }
     
-    func fetchShows() async throws -> [ShowDTO] {
+    func fetchDTOShows() async throws -> [ShowDTO] {
         try await request("shows")
     }
     
-    func fetchPersonas() async throws -> [PersonaDTO] {
+    func fetchDTOPersonas() async throws -> [PersonaDTO] {
         try await request("personas")
     }
     
-    func fetchSeasons() async throws -> [SeasonDTO] {
+    func fetchDTOSeasons() async throws -> [SeasonDTO] {
         try await request("seasons")
+    }
+    
+    func fetchShows() async throws -> [Show] {
+        let timeslots: [TimeslotDTO] = try await request("timeslots")
+        return timeslots.compactMap { $0.toShow() }
     }
     
 }

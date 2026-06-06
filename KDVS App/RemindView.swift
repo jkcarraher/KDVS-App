@@ -270,7 +270,7 @@ struct RemindView: View {
                             .font(.system(size: 15, weight: .regular))
                             .foregroundColor(Color("SecondaryText"))
                             .environment(\.colorScheme, .dark)
-                        Text("\(Date().dayOfWeek()!)s from \(show.startTime.formattedTime(endTime: show.endTime))")
+                        Text("\(Date().dayOfWeek())s from \(show.startTime.to12HourString()) - \(show.endTime.to12HourString())")
                             .font(.system(size: 15, weight: .regular))
                             .foregroundColor(Color("SecondaryText"))
                             .environment(\.colorScheme, .dark)
@@ -676,5 +676,13 @@ extension UIImage {
                        green: CGFloat(bitmap[1]) / 255,
                        blue: CGFloat(bitmap[2]) / 255,
                        alpha: CGFloat(bitmap[3]) / 255)
+    }
+}
+extension Date {
+    func dayOfWeek() -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "EEEE" // Full day name
+        return formatter.string(from: self)
     }
 }

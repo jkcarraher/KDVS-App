@@ -13,12 +13,12 @@ final class PlayerViewModel: ObservableObject {
     @Published var showReminderSheet = false
     @Published var isLoading = false
     @Published var show: Show = Show(
-        id: 0,
+        id: "0",
         name: " ",
         djName: " ",
         playlistImageURL: URL(string: "https://library.kdvs.org/static/core/images/kdvs-image-placeholder.jpg")!,
-        startTime: Date(),
-        endTime: Date(),
+        startTime: "1:1:1".toTimeOfDay()!,
+        endTime: "1:1:1".toTimeOfDay()!,
         alternates: false,
         DOTW: "Funday",
         dates: [],

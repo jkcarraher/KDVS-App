@@ -49,16 +49,6 @@ func fetchShows(completion: @escaping ([Show]) -> Void) {
 
             let responseDict = try JSONSerialization.jsonObject(with: data) as? [String: Any]
 
-            if let body = responseDict?["body"] as? String,
-               let bodyData = body.data(using: .utf8) {
-                let shows = try decoder.decode([Show].self, from: bodyData)
-                print("SHOWS: \(shows)")
-                DispatchQueue.main.async {
-                    completion(shows)
-                }
-            } else {
-                print("Body is missing or not a string")
-            }
         } catch {
             print("Error decoding JSON: \(error)")
         }
@@ -66,19 +56,6 @@ func fetchShows(completion: @escaping ([Show]) -> Void) {
     task.resume()
 }
 
-
-func sortShowsByTimeAndDay(_ shows: inout [Show]) {
-    let calendar = Calendar.current
-    shows.sort(by: { (show1, show2) -> Bool in
-        let dayOfWeek1 = (show1.DOTW == "Sunday" ? 0 : calendar.weekdaySymbols.firstIndex(of: show1.DOTW) ?? 0)
-        let dayOfWeek2 = (show2.DOTW == "Sunday" ? 0 : calendar.weekdaySymbols.firstIndex(of: show2.DOTW) ?? 0)
-        
-        let timeAndDay1 = dayOfWeek1 * 24 * 60 + show1.startTime.totalMinutesSinceMidnight
-        let timeAndDay2 = dayOfWeek2 * 24 * 60 + show2.startTime.totalMinutesSinceMidnight
-        
-        return timeAndDay1 < timeAndDay2
-    })
-}
 
 extension String {
     func toDate(format: String) -> Date? {
