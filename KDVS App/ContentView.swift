@@ -11,6 +11,9 @@ import MediaPlayer
 import SwiftSoup
 
 struct ContentView: View {
+    let audioService = AudioPlayerService()
+    let socketService = SocketService()
+    
     let streamURL = URL(string: "https://archives.kdvs.org/stream")!
     @State var audioPlayer = AVPlayer()
     @State private var isRemindPresented = false
@@ -39,8 +42,8 @@ struct ContentView: View {
             VStack {
                 myHeader(openCredit: $isSettingsPresented, currentScheduleList: $currentSeasonShows)
                 Spacer()
-                PlayerView(openRemind: $isRemindPresented, show: $show, audioPlayer: $audioPlayer, isLoading: $isLoading, isPlaying: $isPlaying)
-                Spacer()            
+                PlayerView(audioService: audioService, socketService: socketService)
+                Spacer()
             }
             .frame(maxWidth: .infinity)
             .background(Color("BackgroundColor"))
@@ -90,7 +93,6 @@ struct ContentView: View {
                         // Audio session interrupted. Pause the player.
                         audioPlayer.pause()
                         isPlaying = false
-                        disconnectToSocket()
                     case .ended:
                         // Audio session interruption ended. Resume playback if appropriate.
                         guard let optionsRawValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else {
@@ -100,7 +102,6 @@ struct ContentView: View {
                         if options.contains(.shouldResume) {
                             audioPlayer.play()
                             isPlaying = true
-                            connectToSocket()
                         }
                     @unknown default:
                         return
@@ -185,14 +186,12 @@ struct ContentView: View {
         commandCenter.playCommand.addTarget { [audioPlayer] _ in
             audioPlayer.play()
             isPlaying = true
-            connectToSocket()
             return .success
         }
         
         commandCenter.pauseCommand.addTarget { [audioPlayer] _ in
             audioPlayer.pause()
             isPlaying = false
-            disconnectToSocket()
             return .success
         }
     }

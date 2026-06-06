@@ -1,14 +1,14 @@
 //
-//  ScheduleView.swift
+//  ScheduleGridView.swift
 //  KDVS
 //
-//  Created by John Carraher on 8/1/23.
+//  Created by John Carraher on 6/5/26.
 //
 
 import Foundation
 import SwiftUI
 
-struct ScheduleView: View {
+struct ScheduleGridView: View {
     @Binding var shows: [Show]
     @State private var searchText: String = ""
     @State private var filteredData: [Show] = []
@@ -90,7 +90,7 @@ struct ScheduleView: View {
     }
 }
 
-struct CustomFilterButton: View {
+struct FilterButton: View {
     @Binding var selectedDay: String?
     @State private var isFilterMenuPresented = false
     
@@ -122,7 +122,7 @@ struct CustomFilterButton: View {
     }
 }
 
-struct CustomBackButton: View {
+struct BackButton: View {
     @Environment(\.presentationMode) private var presentationMode
 
     var body: some View {
@@ -136,16 +136,5 @@ struct CustomBackButton: View {
                 .foregroundColor(.gray)
 
         }
-    }
-}
-
-extension UINavigationController: UIGestureRecognizerDelegate {
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        interactivePopGestureRecognizer?.delegate = self
-    }
-
-    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return viewControllers.count > 1
     }
 }

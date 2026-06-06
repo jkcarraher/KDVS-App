@@ -10,6 +10,8 @@ import SwiftSoup
 import UIKit
 import SwiftUI
 
+
+// TODO: Once we've re-done the contentView remove references for this function
 func getCurrentShow(completion: @escaping (Show?) -> Void) {
     guard let url = URL(string: "https://sl2yinqpd0.execute-api.us-west-1.amazonaws.com/current-show/current-show") else {
         print("Invalid URL")
@@ -118,8 +120,4 @@ func scrapeUpcomingPlaylistsPage(_ url: URL, completion: @escaping ([Date]) -> V
             print("Error parsing HTML: \(error)")
         }
     }.resume()
-}
-
-private func setAverageColor(show: inout Show) {
-    
 }

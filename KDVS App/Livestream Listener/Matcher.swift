@@ -168,9 +168,3 @@ class ShazamManager: NSObject, SHSessionDelegate, ObservableObject {
         }
     }
 }
-
-struct ShazamSong {
-    let title: String
-    let artist: String
-    let artworkURL: URL?
-}
