@@ -84,11 +84,10 @@ struct LargeRemindView: View {
                         MultiDatePicker(
                             "Show Dates",
                             selection: $dates,
-                            in: Date()...
+                            in: show.firstShowDate...
                         ).frame(width: 325, height: 330, alignment: .center)
                             .tint(show.color.brightened(by: 1))
                             .padding([.top], 7)
-                            .disabled(true)
                     } else{
                         Spacer()
                         Text("No Upcoming Shows")

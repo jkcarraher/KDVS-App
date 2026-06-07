@@ -31,10 +31,21 @@ extension TimeslotDTO {
         let targetTimeZone = TimeZone(identifier: self.timezone)
         dateFormatter.timeZone = targetTimeZone
         
-        let parsedFirstShowDate = dateFormatter.date(from: season.start_date) ?? Date()
-        let parsedLastShowDate = dateFormatter.date(from: season.end_date) ?? Date()
+        let parsedSeasonStartDate = dateFormatter.date(from: season.start_date) ?? Date()
+        let parsedSeasonEndDate = dateFormatter.date(from: season.end_date) ?? Date()
 
         let imageURL = URL(string: show.image_url) ?? URL(string: "https://kdvs.org/placeholder.png")!
+        
+        let anchor = dateFormatter.date(from: anchor_date) ?? parsedSeasonStartDate
+
+        let dates = generateShowDates(
+            weekday: weekday,
+            seasonStart: parsedSeasonStartDate,
+            seasonEnd: parsedSeasonEndDate,
+            anchorDate: anchor,
+            intervalWeeks: recurrence_interval_weeks,
+            offset: recurrence_offset,
+        )
 
         return Show(
             id: id,
@@ -47,22 +58,23 @@ extension TimeslotDTO {
             
             alternates: recurrence_interval_weeks > 1,
             DOTW: DayOfWeek(rawValue: weekday)?.displayName ?? "Unknown Day",
-            dates: [],
+            dates: dates,
             
-            firstShowDate: parsedFirstShowDate,
-            lastShowDate: parsedLastShowDate
+            firstShowDate: parsedSeasonStartDate,
+            lastShowDate: parsedSeasonEndDate
         )
     }
 }
 
 enum DayOfWeek: Int, CaseIterable{
-    case sunday = 1
-    case monday = 2
-    case tuesday = 3
-    case wednesday = 4
-    case thursday = 5
-    case friday = 6
-    case saturday = 7
+    case monday = 1
+    case tuesday = 2
+    case wednesday = 3
+    case thursday = 4
+    case friday = 5
+    case saturday = 6
+    case sunday = 7
+
 
     var displayName: String {
         switch self {
@@ -75,4 +87,64 @@ enum DayOfWeek: Int, CaseIterable{
         case .saturday: return "Saturday"
         }
     }
+}
+
+func generateShowDates(
+    weekday: Int,
+    seasonStart: Date,
+    seasonEnd: Date,
+    anchorDate: Date,
+    intervalWeeks: Int,
+    offset: Int,
+    timeZone: TimeZone = .current
+) -> [Date] {
+
+    var results: [Date] = []
+
+    var cal = Calendar(identifier: .gregorian)
+    cal.timeZone = timeZone
+
+    // Find first occurrence of target weekday on/after season start
+    let weekdayComponent = backendWeekdayToCalendarWeekday(weekday)
+    var current = seasonStart
+
+    while cal.component(.weekday, from: current) != weekdayComponent {
+        guard let next = cal.date(byAdding: .day, value: 1, to: current) else { break }
+        current = next
+    }
+
+    // Move backward to the anchor-aligned week boundary
+    let anchorWeekStart = cal.dateInterval(of: .weekOfYear, for: anchorDate)?.start ?? anchorDate
+
+    while current <= seasonEnd {
+
+        guard let weekStart = cal.dateInterval(of: .weekOfYear, for: current)?.start else {
+            break
+        }
+
+        let weeksSinceAnchor = cal.dateComponents([.weekOfYear],
+                                                   from: anchorWeekStart,
+                                                   to: weekStart).weekOfYear ?? 0
+
+        if intervalWeeks == 1 {
+            // Every week
+            results.append(current)
+        } else {
+            if (weeksSinceAnchor + offset) % intervalWeeks == 0 {
+                results.append(current)
+            }
+        }
+
+        // Jump forward one week at a time (same weekday)
+        guard let next = cal.date(byAdding: .weekOfYear, value: 1, to: current) else {
+            break
+        }
+        current = next
+    }
+
+    return results
+}
+
+func backendWeekdayToCalendarWeekday(_ weekday: Int) -> Int {
+    weekday == 7 ? 1 : weekday + 1
 }

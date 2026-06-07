@@ -64,7 +64,7 @@ struct ScheduleGridView: View {
 
         return show.alternates
             ? "\(base) • Alternating"
-            : "\(base) • Every week"
+            : "\(base) • Weekly"
     }
     
     private var filteredShows: [Show] {
