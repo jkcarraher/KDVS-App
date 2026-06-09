@@ -26,7 +26,7 @@ struct ShowArtView : View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Text("\(show.startTime.formattedTime(endTime: show.endTime))")
+                    Text((show.startTime.to12HourString()+" - "+show.endTime.to12HourString()))
                         .foregroundColor(.white)
                         .font(.system(size: 15, weight: .bold))
                         .padding(.all, 5)

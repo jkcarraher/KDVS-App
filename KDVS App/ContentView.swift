@@ -13,8 +13,13 @@ import SwiftSoup
 struct ContentView: View {
     let audioService = AudioPlayerService()
     let socketService = SocketService()
+    let showService: ShowService
     
-    let streamURL = URL(string: "https://archives.kdvs.org/stream")!
+    init(showService: ShowService) {
+        self.showService = showService
+    }
+    
+    let streamURL = Stream.kdvsArchive
     @State var audioPlayer = AVPlayer()
     @State private var isRemindPresented = false
     @State private var isSettingsPresented = false
@@ -22,19 +27,7 @@ struct ContentView: View {
     @State private var isPlaying = false
     @State private var audioSessionInterruptionObserver: NSObjectProtocol?
     @State private var timer: Timer?
-    @State private var show = Show(
-        id: 0,
-        name: " ",
-        djName: " ",
-        playlistImageURL: URL(string: "https://library.kdvs.org/static/core/images/kdvs-image-placeholder.jpg")!,
-        startTime: Date(),
-        endTime: Date(),
-        alternates: false,
-        DOTW: "Funday",
-        dates: [],
-        firstShowDate: Date(),
-        lastShowDate: Date()
-    )
+    @State private var show: Show = .empty
     @State private var currentSeasonShows: [Show] = []
     
     var body: some View {
@@ -42,7 +35,7 @@ struct ContentView: View {
             VStack {
                 myHeader(openCredit: $isSettingsPresented, currentScheduleList: $currentSeasonShows)
                 Spacer()
-                PlayerView(audioService: audioService, socketService: socketService)
+                PlayerView(audioService: audioService, socketService: socketService, showService: showService)
                 Spacer()
             }
             .frame(maxWidth: .infinity)
@@ -60,68 +53,56 @@ struct ContentView: View {
                     .presentationDetents([.height(500), .large])
                     .background(Color("RemindBackground"))
             }
-        }.onAppear{
-            isLoading = true
-            
-            getCurrentShow { scrapedShow in
-                guard let fetchedShow = scrapedShow else {
-                    print("Failed to fetch current show")
-                    isLoading = false
-                    return
-                }
-                
+        }.onAppear {
+            Task {
+                isLoading = true
+
+                self.show = try! await showService.getCurrentShow()
+
                 fetchShows { shows in
                     self.currentSeasonShows = shows
-                    self.show = fetchedShow
-                    setupNowPlaying()
                     startTimer()
                     isLoading = false
                 }
-                
+
                 let playerItem = AVPlayerItem(url: streamURL)
                 try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
                 audioPlayer.replaceCurrentItem(with: playerItem)
-                
-                audioSessionInterruptionObserver = NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance(), queue: .main) { notification in
+
+                audioSessionInterruptionObserver = NotificationCenter.default.addObserver(
+                    forName: AVAudioSession.interruptionNotification,
+                    object: AVAudioSession.sharedInstance(),
+                    queue: .main
+                ) { notification in
                     guard let userInfo = notification.userInfo,
                           let interruptionTypeRawValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
                           let interruptionType = AVAudioSession.InterruptionType(rawValue: interruptionTypeRawValue) else {
                         return
                     }
+
                     switch interruptionType {
                     case .began:
-                        // Audio session interrupted. Pause the player.
                         audioPlayer.pause()
                         isPlaying = false
                     case .ended:
-                        // Audio session interruption ended. Resume playback if appropriate.
                         guard let optionsRawValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else {
                             return
                         }
+
                         let options = AVAudioSession.InterruptionOptions(rawValue: optionsRawValue)
                         if options.contains(.shouldResume) {
                             audioPlayer.play()
                             isPlaying = true
                         }
+
                     @unknown default:
-                        return
+                        break
                     }
                 }
-                
-                // Start the timer to call ScrapeHomeData() every minute
-                self.timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
-                    getCurrentShow(completion: { show in
-                        self.show = show!
-                })
-                }
-                self.timer?.tolerance = 5.0 // Set a tolerance of 5 seconds for better energy efficiency
+
+                timer?.tolerance = 5.0
             }
         }
-        .onDisappear() {
-            if let observer = audioSessionInterruptionObserver {
-                NotificationCenter.default.removeObserver(observer, name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
-                audioSessionInterruptionObserver = nil
-            }
         }
     }
     
@@ -131,71 +112,11 @@ struct ContentView: View {
                 UIApplication.shared.beginBackgroundTask(withName: "PlayerViewTimer") {
                     // Handle any cleanup needed for the background task here
                 }
-                // Code to run every minute while app is in background
-                getCurrentShow(completion: { show in
-                    self.show = show!
-                    setupNowPlaying()
-                })
                 UIApplication.shared.endBackgroundTask(UIBackgroundTaskIdentifier.invalid)
             }
         }
     }
     
-    func setupNowPlaying() {
-        let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
-        
-        nowPlayingInfoCenter.nowPlayingInfo = [
-            MPMediaItemPropertyTitle: show.name,
-            MPMediaItemPropertyArtist: show.djName,
-            
-            MPMediaItemPropertyMediaType: MPMediaType.anyAudio.rawValue,
-            MPNowPlayingInfoPropertyIsLiveStream: true,
-            MPNowPlayingInfoPropertyPlaybackRate: 1.0
-        ]
-        
-        if let url = show.playlistImageURL {
-                let session = URLSession.shared
-                let task = session.dataTask(with: url) { data, response, error in
-                    if let error = error {
-                        print("Error fetching image: \(error)")
-                        return
-                    }
-                    
-                    if let data = data, let image = UIImage(data: data) {
-                        // Create a new image that is a square crop of the original image
-                        let imageSize = image.size
-                        let shorterSide = min(imageSize.width, imageSize.height)
-                        let squareRect = CGRect(x: (imageSize.width - shorterSide) / 2, y: (imageSize.height - shorterSide) / 2, width: shorterSide, height: shorterSide)
-                        if let croppedImage = image.cgImage?.cropping(to: squareRect) {
-                            let squareImage = UIImage(cgImage: croppedImage)
-                            
-                            var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
-                            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: CGSize(width: 300, height: 300)) { _ in
-                                return squareImage
-                            }
-                            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        }
-                    }
-                }
-                
-                task.resume()
-            }
-        
-        
-        let commandCenter = MPRemoteCommandCenter.shared()
-        commandCenter.playCommand.addTarget { [audioPlayer] _ in
-            audioPlayer.play()
-            isPlaying = true
-            return .success
-        }
-        
-        commandCenter.pauseCommand.addTarget { [audioPlayer] _ in
-            audioPlayer.pause()
-            isPlaying = false
-            return .success
-        }
-    }
-}
 
 struct myHeader: View {
     @Binding var openCredit: Bool
@@ -224,12 +145,14 @@ struct myHeader: View {
                 .foregroundColor(shouldDisplayAlternateImage ? Color("HeaderTextColor_2") : Color.white)
                 .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
-            NavigationLink(destination: ScheduleView(shows: $currentScheduleList)) {
+            NavigationLink {
+                ScheduleGridView()
+            } label: {
                 Image(systemName: "calendar")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 20) // Adjust the size of the icon as needed
-                    .foregroundColor(Color(.white)) // Set the color of the icon
+                    .frame(width: 20)
+                    .foregroundColor(.white)
             }
         }
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
