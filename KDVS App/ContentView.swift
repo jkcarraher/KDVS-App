@@ -84,7 +84,6 @@ struct ContentView: View {
                     case .began:
                         audioPlayer.pause()
                         isPlaying = false
-
                     case .ended:
                         guard let optionsRawValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else {
                             return
@@ -118,7 +117,6 @@ struct ContentView: View {
         }
     }
     
-
 
 struct myHeader: View {
     @Binding var openCredit: Bool
