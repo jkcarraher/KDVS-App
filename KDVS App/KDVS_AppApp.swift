@@ -12,12 +12,17 @@ struct KDVS_AppApp: App {
     
     let audioService = AudioPlayerService()
     let socketService = SocketService()
-    let showService = ShowService()
+    let apiService = KDVSAPIService()
+    let showService: ShowService
+    
+    init() {
+        self.showService = ShowService(apiService: apiService)
+    }
 
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(showService: showService)
         }
     }
 }

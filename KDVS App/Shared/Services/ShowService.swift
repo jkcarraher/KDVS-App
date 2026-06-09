@@ -8,21 +8,14 @@
 import Foundation
 
 final class ShowService {
+    private let apiService: KDVSAPIService
+    
+    init (apiService: KDVSAPIService) {
+        self.apiService = apiService
+    }
 
-    func getCurrentShow() -> Show {
-        return Show(
-            id: "",
-            name: "",
-            djName: "",
-            playlistImageURL: URL(string: "https://")!,
-            startTime: TimeOfDay(hour: 0, minute: 0, second: 0),
-            endTime: TimeOfDay(hour: 0, minute: 0, second: 0),
-            alternates: false,
-            DOTW: "",
-            dates: [],
-            firstShowDate: Date(),
-            lastShowDate: Date()
-        )
+    func getCurrentShow() async throws -> Show {
+        try await apiService.fetchCurrentShow()
     }
 }
 

@@ -10,8 +10,7 @@ import AVFoundation
 
 final class AudioStreamRecorderService {
 
-    private let streamURL =
-        URL(string: "https://archives.kdvs.org/stream")!
+    private let streamURL = Stream.kdvsArchive
 
     private var cachingPlayerItem: CachingPlayerItem?
 

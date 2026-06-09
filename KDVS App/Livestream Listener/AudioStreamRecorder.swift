@@ -16,7 +16,7 @@ class AudioStreamRecorder {
     
     func startRecording (completion: @escaping () -> Void) {
         // Create the CachingPlayerItem with the stream URL
-        let streamURL = URL(string: "https://archives.kdvs.org/stream")!
+        let streamURL = Stream.kdvsArchive
         cachingPlayerItem = CachingPlayerItem(url: streamURL, recordingName: "recording.aac") // Use CachingPlayerItem
         
         // Create the AVPlayer with the CachingPlayerItem

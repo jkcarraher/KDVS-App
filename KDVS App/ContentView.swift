@@ -13,9 +13,13 @@ import SwiftSoup
 struct ContentView: View {
     let audioService = AudioPlayerService()
     let socketService = SocketService()
-    let showService = ShowService()
+    let showService: ShowService
     
-    let streamURL = URL(string: "https://archives.kdvs.org/stream")!
+    init(showService: ShowService) {
+        self.showService = showService
+    }
+    
+    let streamURL = Stream.kdvsArchive
     @State var audioPlayer = AVPlayer()
     @State private var isRemindPresented = false
     @State private var isSettingsPresented = false
@@ -31,7 +35,7 @@ struct ContentView: View {
             VStack {
                 myHeader(openCredit: $isSettingsPresented, currentScheduleList: $currentSeasonShows)
                 Spacer()
-                PlayerView(audioService: audioService, socketService: socketService)
+                PlayerView(audioService: audioService, socketService: socketService, showService: showService)
                 Spacer()
             }
             .frame(maxWidth: .infinity)
@@ -49,49 +53,57 @@ struct ContentView: View {
                     .presentationDetents([.height(500), .large])
                     .background(Color("RemindBackground"))
             }
-        }.onAppear{
-            isLoading = true
-            
-            self.show = showService.getCurrentShow()
-                
+        }.onAppear {
+            Task {
+                isLoading = true
+
+                self.show = try! await showService.getCurrentShow()
+
                 fetchShows { shows in
                     self.currentSeasonShows = shows
                     startTimer()
                     isLoading = false
                 }
-                
+
                 let playerItem = AVPlayerItem(url: streamURL)
                 try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
                 audioPlayer.replaceCurrentItem(with: playerItem)
-                
-                audioSessionInterruptionObserver = NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance(), queue: .main) { notification in
+
+                audioSessionInterruptionObserver = NotificationCenter.default.addObserver(
+                    forName: AVAudioSession.interruptionNotification,
+                    object: AVAudioSession.sharedInstance(),
+                    queue: .main
+                ) { notification in
                     guard let userInfo = notification.userInfo,
                           let interruptionTypeRawValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
                           let interruptionType = AVAudioSession.InterruptionType(rawValue: interruptionTypeRawValue) else {
                         return
                     }
+
                     switch interruptionType {
                     case .began:
-                        // Audio session interrupted. Pause the player.
                         audioPlayer.pause()
                         isPlaying = false
+
                     case .ended:
-                        // Audio session interruption ended. Resume playback if appropriate.
                         guard let optionsRawValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else {
                             return
                         }
+
                         let options = AVAudioSession.InterruptionOptions(rawValue: optionsRawValue)
                         if options.contains(.shouldResume) {
                             audioPlayer.play()
                             isPlaying = true
                         }
+
                     @unknown default:
-                        return
+                        break
                     }
                 }
-                
-                self.timer?.tolerance = 5.0 // Set a tolerance of 5 seconds for better energy efficiency
+
+                timer?.tolerance = 5.0
             }
+        }
         }
     }
     

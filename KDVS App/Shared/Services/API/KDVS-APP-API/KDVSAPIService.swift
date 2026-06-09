@@ -8,7 +8,7 @@
 import Foundation
 
 final class KDVSAPIService {
-    private let baseURL = URL(string: "https://kdvs-api.jkcarraher.com/v1")!
+    private let baseURL = API.KDVS_App.v1
     private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         return decoder
@@ -32,6 +32,11 @@ final class KDVSAPIService {
     func fetchShows() async throws -> [Show] {
         let timeslots: [TimeslotDTO] = try await request("timeslots")
         return timeslots.compactMap { $0.toShow() }
+    }
+    
+    func fetchCurrentShow() async throws -> Show {
+        let timeslot: TimeslotDTO = try await request("timeslots/current")
+        return timeslot.toShow()
     }
     
 }

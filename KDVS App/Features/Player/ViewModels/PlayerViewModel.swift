@@ -41,7 +41,7 @@ final class PlayerViewModel: ObservableObject {
         self.showService = showService
         
         // Load livestream to shared PLAYER_SERVICE
-        let streamURL = URL(string: "https://archives.kdvs.org/stream")!
+        let streamURL = Stream.kdvsArchive
         playerService.load(url: streamURL)
         
         // Link isPlaying state to playerService
