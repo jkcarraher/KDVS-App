@@ -48,7 +48,7 @@ extension TimeslotDTO {
         )
 
         return Show(
-            id: id,
+            id: show.id,
             name: show.name,
             djName: personas.map { $0.name }.joined(separator: ", "),
             playlistImageURL: imageURL,
