@@ -27,7 +27,7 @@ struct ContentView: View {
     @State private var isPlaying = false
     @State private var audioSessionInterruptionObserver: NSObjectProtocol?
     @State private var timer: Timer?
-    @State private var show: Show = .empty
+    @State private var show: Show? = nil
     @State private var currentSeasonShows: [Show] = []
     
     var body: some View {
@@ -57,7 +57,12 @@ struct ContentView: View {
             Task {
                 isLoading = true
 
-                self.show = try! await showService.getCurrentShow()
+                do {
+                    self.show = try await showService.getCurrentShow()
+                } catch {
+                    self.show = nil
+                    print("Failed to fetch current show:", error)
+                }
 
                 fetchShows { shows in
                     self.currentSeasonShows = shows
@@ -158,14 +163,13 @@ struct myHeader: View {
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
         .background(Color("BackgroundColor"))
         .onAppear {
-            printAllExistingNotifications()
             UserDefaults.standard.set(launchCount + 1, forKey: "LaunchCount")
         }
     }
 }
 
 struct SheetView: View {
-    @Binding var show : Show
+    @Binding var show : Show?
     @State var remindLabel = "CURRENT SHOW"
 
     var body: some View {
@@ -177,7 +181,16 @@ struct SheetView: View {
                 .foregroundColor(Color.white)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding([.horizontal, .top], 20)
-            RemindView(show: $show, label: $remindLabel)
+            if let show {
+                RemindView(
+                    show: .constant(show),
+                    label: $remindLabel
+                )
+            } else {
+                Text("No show is currently scheduled.")
+                    .foregroundColor(.secondary)
+                    .padding()
+            }
             NowPlayingView()
             Spacer()
         }.frame(maxWidth: .infinity, maxHeight: .infinity)

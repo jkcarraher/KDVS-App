@@ -12,19 +12,7 @@ final class PlayerViewModel: ObservableObject {
     @Published private(set) var isPlaying = false
     @Published var showReminderSheet = false
     @Published var isLoading = false
-    @Published var show: Show = Show(
-        id: "0",
-        name: " ",
-        djName: " ",
-        playlistImageURL: URL(string: "https://library.kdvs.org/static/core/images/kdvs-image-placeholder.jpg")!,
-        startTime: "1:1:1".toTimeOfDay()!,
-        endTime: "1:1:1".toTimeOfDay()!,
-        alternates: false,
-        DOTW: "Funday",
-        dates: [],
-        firstShowDate: Date(),
-        lastShowDate: Date()
-    )
+    @Published var show: Show? = nil
     
     private let playerService: AudioPlayerService
     private let socketService: SocketService

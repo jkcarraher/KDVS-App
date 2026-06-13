@@ -14,7 +14,7 @@ final class ShowService {
         self.apiService = apiService
     }
 
-    func getCurrentShow() async throws -> Show {
+    func getCurrentShow() async throws -> Show? {
         try await apiService.fetchCurrentShow()
     }
 }

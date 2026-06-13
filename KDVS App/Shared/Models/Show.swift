@@ -77,3 +77,10 @@ extension Show {
         lastShowDate: Date()
     )
 }
+
+func getShowDates(for show: Show) -> Set<DateComponents> {
+    let calendar = Calendar.current
+    let dates = Set(show.dates.map { calendar.dateComponents([.year, .month, .day], from: $0) })
+    print(dates)
+    return dates
+}
