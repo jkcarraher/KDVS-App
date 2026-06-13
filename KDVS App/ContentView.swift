@@ -163,7 +163,6 @@ struct myHeader: View {
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
         .background(Color("BackgroundColor"))
         .onAppear {
-            printAllExistingNotifications()
             UserDefaults.standard.set(launchCount + 1, forKey: "LaunchCount")
         }
     }

@@ -12,7 +12,6 @@
 		C65377BD2A79D9EF00433221 /* scheduleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */; };
 		C65522AB2FD9FD9D001E6E21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65522AA2FD9FD99001E6E21 /* AppDelegate.swift */; };
 		C65522FB2FDA692F001E6E21 /* ReminderManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65522FA2FDA6927001E6E21 /* ReminderManagerView.swift */; };
-		C65522FD2FDA6F32001E6E21 /* MiniRemindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65522FC2FDA6F2E001E6E21 /* MiniRemindView.swift */; };
 		C65DB5C72A8DA108002ECF7D /* colorCodeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65DB5C62A8DA108002ECF7D /* colorCodeable.swift */; };
 		C67F186B2A6A09EC00A7CE7A /* aactowav.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67F186A2A6A09EC00A7CE7A /* aactowav.swift */; };
 		C68E638D29A0714100D075F5 /* KDVS_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */; };
@@ -20,7 +19,6 @@
 		C68E639129A0714200D075F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C68E639029A0714200D075F5 /* Assets.xcassets */; };
 		C69F5D482A2AAC2A000A38F0 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = C69F5D472A2AAC2A000A38F0 /* SocketIO */; };
 		C69F5D502A2B3C12000A38F0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C69F5D4F2A2B3C12000A38F0 /* Preview Assets.xcassets */; };
-		C6AAAC112A0F7DCF007EA9E7 /* RemindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AAAC102A0F7DCF007EA9E7 /* RemindView.swift */; };
 		C6B42BA12A7F92C40093B2F4 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */; };
 		C6BD2A162FBF8A440058C3EE /* CacheingPlayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BD2A152FBF8A440058C3EE /* CacheingPlayerItem.swift */; };
 		C6C382DB29E387D900B4D347 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = C6C382DA29E387D900B4D347 /* SwiftSoup */; };
@@ -35,7 +33,6 @@
 		C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scheduleBuilder.swift; sourceTree = "<group>"; };
 		C65522AA2FD9FD99001E6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C65522FA2FDA6927001E6E21 /* ReminderManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderManagerView.swift; sourceTree = "<group>"; };
-		C65522FC2FDA6F2E001E6E21 /* MiniRemindView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniRemindView.swift; sourceTree = "<group>"; };
 		C65DB5C62A8DA108002ECF7D /* colorCodeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = colorCodeable.swift; sourceTree = "<group>"; };
 		C67F186A2A6A09EC00A7CE7A /* aactowav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = aactowav.swift; sourceTree = "<group>"; };
 		C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDVS_AppApp.swift; sourceTree = "<group>"; };
@@ -43,7 +40,6 @@
 		C68E639029A0714200D075F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C69F5D4D2A2AAE2F000A38F0 /* KDVS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KDVS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C69F5D4F2A2B3C12000A38F0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C6AAAC102A0F7DCF007EA9E7 /* RemindView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindView.swift; sourceTree = "<group>"; };
 		C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
 		C6BD2A152FBF8A440058C3EE /* CacheingPlayerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheingPlayerItem.swift; sourceTree = "<group>"; };
 		C6DECA482A47D5EE006EEA89 /* KDVS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KDVS.entitlements; sourceTree = "<group>"; };
@@ -103,14 +99,12 @@
 		C68E638B29A0714100D075F5 /* KDVS App */ = {
 			isa = PBXGroup;
 			children = (
-				C65522FC2FDA6F2E001E6E21 /* MiniRemindView.swift */,
 				C65522FA2FDA6927001E6E21 /* ReminderManagerView.swift */,
 				C65522AA2FD9FD99001E6E21 /* AppDelegate.swift */,
 				C6977E3B2FB18CF30061118B /* Shared */,
 				C6977E362FB18C900061118B /* Features */,
 				C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */,
 				C68E638E29A0714100D075F5 /* ContentView.swift */,
-				C6AAAC102A0F7DCF007EA9E7 /* RemindView.swift */,
 				C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */,
 				C6B42B9F2A7E38CF0093B2F4 /* Schedule Builder */,
 				C647CA5E2A754F6A00766E7D /* Livestream Listener */,
@@ -224,7 +218,6 @@
 			files = (
 				C643317C29EF53030080EB77 /* Shows.swift in Sources */,
 				C6B42BA12A7F92C40093B2F4 /* CreditsView.swift in Sources */,
-				C6AAAC112A0F7DCF007EA9E7 /* RemindView.swift in Sources */,
 				C6BD2A162FBF8A440058C3EE /* CacheingPlayerItem.swift in Sources */,
 				C68E638F29A0714100D075F5 /* ContentView.swift in Sources */,
 				C65522AB2FD9FD9D001E6E21 /* AppDelegate.swift in Sources */,
@@ -235,7 +228,6 @@
 				C65377BD2A79D9EF00433221 /* scheduleBuilder.swift in Sources */,
 				C6DECA4E2A4D9187006EEA89 /* AudioStreamRecorder.swift in Sources */,
 				C67F186B2A6A09EC00A7CE7A /* aactowav.swift in Sources */,
-				C65522FD2FDA6F32001E6E21 /* MiniRemindView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

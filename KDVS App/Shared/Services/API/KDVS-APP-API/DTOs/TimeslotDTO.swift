@@ -34,7 +34,7 @@ extension TimeslotDTO {
         let parsedSeasonStartDate = dateFormatter.date(from: season.start_date) ?? Date()
         let parsedSeasonEndDate = dateFormatter.date(from: season.end_date) ?? Date()
 
-        let imageURL = URL(string: show.image_url) ?? URL(string: "https://kdvs.org/placeholder.png")!
+        let imageURL = URL(string: show.image_url!) ?? URL(string: "https://kdvs.org/placeholder.png")!
         
         let anchor = dateFormatter.date(from: anchor_date) ?? parsedSeasonStartDate
 

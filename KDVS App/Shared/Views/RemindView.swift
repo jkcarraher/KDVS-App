@@ -1,107 +1,86 @@
 //
-//  LargeRemindView.swift
+//  RemindView.swift
 //  KDVS
 //
-//  Created by John Carraher on 6/10/26.
+//  Created by John Carraher on 5/13/23.
 //
 
+import Foundation
 import SwiftUI
+import UserNotifications
+import UIKit
+import EventKit
 
-struct LargeRemindView: View {
-    @Binding var show: Show
-    @Binding var label: String
-    @Binding var scheduleGrid: [Show]
-
-    let notificationService = NotificationService(apiService: KDVSAPIService())
-
+struct RemindView: View {
+    @Binding var show : Show
+    @Binding var label : String
+    
     @State private var isLoaded = false
     @State private var isSubscribed = false
     @State private var isLoadingSubscription = true
     @State private var isPerformingNotificationAction = false
-
+    
     @State private var dates: Set<DateComponents> = []
     
-        
+    let notificationService = NotificationService(
+        apiService: KDVSAPIService()
+    )
+    
+    var bounds: Range<Date> {
+        let start = Date()
+        let end = show.lastShowDate
+        return start ..< end
+    }
+    
     var body: some View {
         VStack {
-            if ((show.name != "")) {
+            VStack(alignment: .leading) {
+                Text(label)
+                    .font(.system(size: 14, weight: .bold))
+                    .environment(\.colorScheme, .dark)
+                    .foregroundColor(Color("SecondaryText"))
+                    .multilineTextAlignment(.leading)
+            }
+            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            if(show.name != ""){
                 HStack {
                     AsyncImage(url: show.playlistImageURL) { image in
                         image
                             .resizable()
                             .scaledToFill()
                             .clipped()
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .cornerRadius(10)
+                            .frame(width: 100, height: 100, alignment: .center)
+                            .cornerRadius(5)
                     } placeholder: {
-                        Rectangle()
-                            .fill(Color("RemindLoading"))
-                            .cornerRadius(10)
-                        .frame(width: 60, height:60)
-                    }.frame(width: 60, height: 60)
+                        ProgressView()
+                    }.frame(width: 100, height: 100)
                     
-                    VStack(alignment: .leading, spacing: 0){
+                    VStack(alignment: .leading, spacing: 5){
                         Text(show.name)
-                            .font(.system(size: 17, weight: .bold))
+                            .font(.system(size: 20, weight: .bold))
                             .environment(\.colorScheme, .dark)
-                            .lineLimit(1)
                         Text(show.djName)
-                            .font(.system(size: 14, weight: .regular))
+                            .font(.system(size: 15, weight: .regular))
                             .foregroundColor(Color("SecondaryText"))
                             .environment(\.colorScheme, .dark)
-                            .lineLimit(1)
+                        Text("\(Date().dayOfWeek())s from \(show.startTime.to12HourString()) - \(show.endTime.to12HourString())")
+                            .font(.system(size: 15, weight: .regular))
+                            .foregroundColor(Color("SecondaryText"))
+                            .environment(\.colorScheme, .dark)
                     }.padding([.leading], 5)
                     Spacer()
-                }
-                .padding([.top, .bottom, .leading, .trailing], 20)
-                .frame(maxWidth: .infinity)
-                .background(Color("RemindCompiment"))
+                }.padding([.leading, .trailing], 20)
                 
-                VStack(alignment: .leading) {
-                    Text(label)
-                        .font(.system(size: 14, weight: .bold))
-                        .environment(\.colorScheme, .dark)
-                        .foregroundColor(Color("SecondaryText"))
-                        .multilineTextAlignment(.leading)
-                        .padding([.leading], 20)
-                }
-                .padding([.top], 10)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                
-                Spacer()
-                // UICalendarView to display show.showDates
-                if(!isLoaded){
-                    ProgressView()
-                        .frame(width: 325, height: 300, alignment: .center)
-                }else{
-                    if(!show.dates.isEmpty){
-                        MultiDatePicker(
-                            "Show Dates",
-                            selection: $dates,
-                            in: show.firstShowDate...
-                        ).frame(width: 325, height: 330, alignment: .center)
-                            .tint(show.color.brightened(by: 1))
-                            .padding([.top], 7)
-                    } else{
-                        Spacer()
-                        Text("No Upcoming Shows")
-                            .font(.system(size: 16, weight: .semibold))
-                            .environment(\.colorScheme, .dark)
-                            .foregroundColor(Color.white)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.horizontal, 25)
-                            .padding(.vertical, 15)
-                        Spacer()
-                    }
-                }
-                Spacer()
                 Button {
                     Task {
                         await toggleRemindButton()
                     }
                 } label: {
                     if isLoadingSubscription || isPerformingNotificationAction {
+                        Spacer()
                         ProgressView()
+                        Spacer()
                     } else if isSubscribed {
                         Text("Turn off Notifications")
                             .font(.system(size: 15, weight: .bold))
@@ -112,14 +91,15 @@ struct LargeRemindView: View {
                             .foregroundColor(.white)
                     }
                 }
-                .frame(width: 350, height: 50)
+                .frame(maxWidth: .infinity, maxHeight: 50)
                 .background(Color("NotiButtonColor2"))
                 .cornerRadius(10)
-                .padding([.top, .bottom], 20)
+                .padding(.horizontal, 20)
+                .padding(.top, 5)
                 .disabled(!isLoaded)
-            } else {
+            }else {
                 Spacer()
-                HStack {
+                HStack{
                     Text("No Scheduled Programming")
                         .font(.system(size: 16, weight: .semibold))
                         .environment(\.colorScheme, .dark)
@@ -130,25 +110,17 @@ struct LargeRemindView: View {
                 }.frame(alignment: .center)
                 Spacer()
             }
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("RemindBackground"))
-        .onAppear {
-            findShowWithName(scheduleGrid, showName: show.name) { foundShow in
-                guard let foundShow else {
-                    return
-                }
-
-                show = foundShow
+        }.frame(maxWidth: .infinity, maxHeight: 220)
+            .background(Color("RemindBackground"))
+            .onAppear {
                 dates = getShowDates(for: show)
-
+                
                 Task {
                     await loadSubscriptionStatus()
                     isLoaded = true
                 }
             }
-        }
     }
-    
     @MainActor
     func loadSubscriptionStatus() async {
         isLoadingSubscription = true
@@ -198,9 +170,5 @@ struct LargeRemindView: View {
         }
     }
     
-}
-
-func findShowWithName(_ shows: [Show], showName: String, completion: @escaping (Show?) -> Void) {
-    let matchingShow = shows.first { $0.name == showName }
-    completion(matchingShow)
+    
 }

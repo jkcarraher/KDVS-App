@@ -25,7 +25,7 @@ struct MiniRemindView: View {
                 //Display Rectangle with music note icon and a 30x30 rectangle with a background
                 ZStack {
                     Rectangle()
-//                        .fill(show.color)
+                        .fill(Color(hex: show.color) ?? .gray)
                     Image(systemName: "music.note") // Outlined bell icon
                         .font(.system(size: 15))
                         .foregroundColor(Color(.white))
