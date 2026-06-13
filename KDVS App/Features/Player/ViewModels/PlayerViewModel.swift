@@ -51,7 +51,7 @@ final class PlayerViewModel: ObservableObject {
     
     func togglePlayback() {
         if isPlaying {
-            playerService.pause()
+            playerService.stop()
             socketService.disconnect()
         } else {
             playerService.play()
