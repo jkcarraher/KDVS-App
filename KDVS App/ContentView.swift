@@ -31,7 +31,7 @@ struct ContentView: View {
     @State private var currentSeasonShows: [Show] = []
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 myHeader(openCredit: $isSettingsPresented, currentScheduleList: $currentSeasonShows)
                 Spacer()
