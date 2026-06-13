@@ -16,45 +16,44 @@ struct ScheduleGridView: View {
     @State private var showSheet = false
 
     var body: some View {
-        NavigationStack {
-            List(filteredShows, id: \.id) { show in
-                Button {
-                    selectedShow = show
-                    showSheet = true
-                } label: {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(show.name)
-                            .font(.headline)
+        List(filteredShows, id: \.id) { show in
+            Button {
+                selectedShow = show
+                showSheet = true
+            } label: {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(show.name)
+                        .font(.headline)
 
-                        Text(showTimeText(for: show))
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                    }
+                    Text(showTimeText(for: show))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
             }
-            .listStyle(.inset)
-            .navigationTitle("Schedule Grid")
-            .searchable(text: $searchText)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    CustomBackButton()
-                }
-
-                ToolbarItem(placement: .topBarTrailing) {
-                    CustomFilterButton(selectedDay: $selectedDay)
-                }
+        }
+        .listStyle(.inset)
+        .navigationTitle("Schedule Grid")
+        .navigationBarBackButtonHidden(true)
+        .searchable(text: $searchText)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                CustomBackButton()
             }
-            .sheet(isPresented: $showSheet) {
-                LargeRemindView(
-                    show: $selectedShow,
-                    label: .constant("UPCOMING SHOW DATES"),
-                    scheduleGrid: $viewModel.shows
-                )
-                .presentationDetents([.height(575), .large])
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                CustomFilterButton(selectedDay: $selectedDay)
             }
-            .task {
-                await viewModel.load()
-            }
+        }
+        .sheet(isPresented: $showSheet) {
+            LargeRemindView(
+                show: $selectedShow,
+                label: .constant("UPCOMING SHOW DATES"),
+                scheduleGrid: $viewModel.shows
+            )
+            .presentationDetents([.height(575), .large])
+        }
+        .task {
+            await viewModel.load()
         }
         .preferredColorScheme(.dark)
     }
