@@ -24,23 +24,17 @@ final class AudioPlayerService: ObservableObject {
     
     func load(url: URL) {
         self.url = url
-        player.replaceCurrentItem(with: AVPlayerItem(url: url))
+        if player.currentItem == nil {
+            player.replaceCurrentItem(with: AVPlayerItem(url: url))
+        }
     }
     
     func play() {
-        guard let url = url else { return }
-        let item = AVPlayerItem(url: url)
-        player.replaceCurrentItem(with: item)
-        
         player.play()
-        isPlaying = true
-        updateNowPlaying()
     }
     
     func stop() {
         player.pause()
-        player.replaceCurrentItem(with: nil)
-        isPlaying = false
     }
     
     private func setupAudioSession() {
@@ -75,28 +69,18 @@ final class AudioPlayerService: ObservableObject {
         }
     }
     
-    private func updateNowPlaying() {
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = [
-            MPMediaItemPropertyTitle: "KDVS 90.3 FM",
-            MPMediaItemPropertyArtist: "Live Radio",
-            MPNowPlayingInfoPropertyIsLiveStream: true,
-            MPNowPlayingInfoPropertyPlaybackRate: isPlaying ? 1.0 : 0.0
-        ]
-    }
-    
     private func observePlayer() {
-        statusObserver = player.observe(\.timeControlStatus, options: [.new]) { [weak self] player, _ in
-            DispatchQueue.main.async {
+        statusObserver = player.observe(\.timeControlStatus, options: [.new]) { player, _ in
+
+            DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
 
                 switch player.timeControlStatus {
                 case .playing:
                     self.isPlaying = true
-                    self.updateNowPlaying()
 
                 case .paused, .waitingToPlayAtSpecifiedRate:
                     self.isPlaying = false
-                    self.updateNowPlaying()
 
                 @unknown default:
                     self.isPlaying = false
