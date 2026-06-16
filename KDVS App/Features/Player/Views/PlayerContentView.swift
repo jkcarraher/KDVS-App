@@ -9,13 +9,14 @@ import SwiftUI
 
 struct PlayerContentView: View {
     let show: Show
+    let showImage: UIImage?
     let isPlaying: Bool
     let onPlayPause: () -> Void
     let onOpenReminder: () -> Void
     
     var body: some View {
         VStack {
-            ShowArtView(show: show)
+            ShowArtView(show: show, showImage: showImage)
             HStack (alignment: .top){
                 VStack (alignment: .leading, spacing: 0) {
                     ScrollViewReader { scrollViewProxy in

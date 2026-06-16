@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PlayerView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var vm: PlayerViewModel
 
     init(
@@ -29,7 +30,7 @@ struct PlayerView: View {
             if(vm.isLoading || vm.show == nil){
                 LoadingPlayerView()
             } else {
-                PlayerContentView(show: vm.show!, isPlaying: vm.isPlaying, onPlayPause: vm.togglePlayback, onOpenReminder: vm.openReminderSheet)
+                PlayerContentView(show: vm.show!, showImage: vm.showImage, isPlaying: vm.isPlaying, onPlayPause: vm.togglePlayback, onOpenReminder: vm.openReminderSheet)
             }
         }.frame(width: 330, height: 490, alignment: .top)
         .padding([.top], 10)
@@ -49,9 +50,12 @@ struct PlayerView: View {
         .task {
             await vm.loadCurrentShow()
         }
+        .onChange(of: scenePhase) { phase in
+            if phase == .active {
+                Task {
+                    await vm.appDidBecomeActive()
+                }
+            }
+        }
     }
-    
-
-    
-    
 }

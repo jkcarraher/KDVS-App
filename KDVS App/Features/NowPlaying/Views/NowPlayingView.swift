@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct NowPlayingView: View {
-
     @StateObject private var viewModel = NowPlayingViewModel()
-
     @State private var showToast = false
 
     var body: some View {
@@ -45,6 +43,9 @@ struct NowPlayingView: View {
         .task {
             await viewModel.recognizeCurrentSong()
         }
+        .task(id: viewModel.analyzedSong?.artworkURL) {
+            await viewModel.loadArtwork(url: viewModel.analyzedSong?.artworkURL)
+        }
         .animation(.easeInOut(duration: 0.25), value: showToast)
     }
 }
@@ -55,33 +56,28 @@ private extension NowPlayingView {
 
         Group {
 
-            if let artworkURL = viewModel.analyzedSong?.artworkURL {
-
-                AsyncImage(url: artworkURL) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(width: 50, height: 50)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-
+            if let image = viewModel.artworkImage {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 50, height: 50)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
             } else {
-
-                ZStack {
-
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.gray)
-
-                    Text("?")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.white)
-                }
-                .frame(width: 50, height: 50)
+                placeholder
             }
         }
+    }
+    
+    var placeholder: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.gray)
+
+            Text("?")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(.white)
+        }
+        .frame(width: 50, height: 50)
     }
 
     var songInfoView: some View {

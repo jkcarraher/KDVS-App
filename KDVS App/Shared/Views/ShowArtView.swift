@@ -9,16 +9,18 @@ import SwiftUI
 
 struct ShowArtView : View {
     var show : Show
+    var showImage: UIImage?
+
     
     var body: some View {
         ZStack(alignment: .bottom, content: {
-            AsyncImage(url: show.playlistImageURL) { image in
-                image
+            if let showImage {
+                Image(uiImage: showImage)
                     .resizable()
                     .scaledToFill()
                     .clipped()
                     .frame(width: 290, height: 290, alignment: .center)
-            } placeholder: {
+            } else {
                 ProgressView()
             }
             

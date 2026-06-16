@@ -15,6 +15,8 @@ final class PlayerViewModel: ObservableObject {
     @Published var showReminderSheet = false
     @Published var isLoading = false
     @Published var show: Show?
+    @Published var showImage: UIImage?
+    
 
     private let playerService: AudioPlayerService
     private let socketService: SocketService
@@ -50,29 +52,45 @@ final class PlayerViewModel: ObservableObject {
     }
 
     func loadCurrentShow() async {
-        isLoading = true
-
-        defer {
-            isLoading = false
-        }
-
         do {
-            guard let show = try await showService.getCurrentShow() else {
+            guard let newShow = try await showService.getCurrentShow() else {
+                if show != nil {
+                    isLoading = true
+                }
+
                 self.show = nil
+                self.showImage = nil
+
+                isLoading = false
                 return
             }
 
-            self.show = show
+            if let current = show, current.id == newShow.id {
+                return
+            }
 
-            await updateNowPlaying(for: show)
-            scheduleRefresh(for: show)
+            isLoading = true
+
+            self.show = newShow
+
+            if let url = newShow.playlistImageURL {
+                self.showImage = await ImageCacheService.shared.loadImage(from: url)
+            } else {
+                self.showImage = nil
+            }
+
+            await updateMediaCenter(for: newShow)
+            scheduleRefresh(for: newShow)
+
+            isLoading = false
 
         } catch {
             print("Failed to load current show:", error)
+            isLoading = false
         }
     }
     
-    func updateNowPlaying(for show: Show) async {
+    func updateMediaCenter(for show: Show) async {
         var nowPlaying: [String: Any] = [
             MPMediaItemPropertyTitle: show.name,
             MPMediaItemPropertyArtist: show.djName,
@@ -80,11 +98,9 @@ final class PlayerViewModel: ObservableObject {
             MPNowPlayingInfoPropertyPlaybackRate: isPlaying ? 1.0 : 0.0
         ]
 
-        if let url = show.playlistImageURL,
-           let image = await loadArtwork(from: url) {
-
+        if let image = showImage {
             let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
-                return image
+                image
             }
 
             nowPlaying[MPMediaItemPropertyArtwork] = artwork
@@ -93,18 +109,6 @@ final class PlayerViewModel: ObservableObject {
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlaying
     }
     
-    private func loadArtwork(from url: URL?) async -> UIImage? {
-        guard let url else { return nil }
-
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            return UIImage(data: data)
-        } catch {
-            print("Artwork load failed:", error)
-            return nil
-        }
-    }
-
     private func scheduleRefresh(for show: Show) {
         showRefreshTask?.cancel()
 
@@ -112,7 +116,14 @@ final class PlayerViewModel: ObservableObject {
             return
         }
 
-        let seconds = endDate.timeIntervalSinceNow
+        // add 1 minute buffer after show ends
+        let refreshDate = endDate.addingTimeInterval(60)
+
+        let seconds = refreshDate.timeIntervalSinceNow
+        guard seconds > 0 else {
+            Task { await loadCurrentShow() }
+            return
+        }
 
         showRefreshTask = Task { [weak self] in
             do {
