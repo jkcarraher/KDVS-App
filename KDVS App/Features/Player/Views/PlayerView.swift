@@ -27,10 +27,10 @@ struct PlayerView: View {
     
     var body: some View {
         VStack {
-            if(vm.isLoading || vm.show == nil){
+            if( vm.isLoading ){
                 LoadingPlayerView()
             } else {
-                PlayerContentView(show: vm.show!, showImage: vm.showImage, isPlaying: vm.isPlaying, onPlayPause: vm.togglePlayback, onOpenReminder: vm.openReminderSheet)
+                PlayerContentView(show: vm.show, showImage: vm.showImage, isPlaying: vm.isPlaying, onPlayPause: vm.togglePlayback, onOpenReminder: vm.openReminderSheet)
             }
         }.frame(width: 330, height: 490, alignment: .top)
         .padding([.top], 10)

@@ -8,35 +8,37 @@
 import SwiftUI
 
 struct ShowArtView : View {
-    var show : Show
+    var show : Show?
     var showImage: UIImage?
 
     
     var body: some View {
         ZStack(alignment: .bottom, content: {
-            if let showImage {
-                Image(uiImage: showImage)
-                    .resizable()
-                    .scaledToFill()
-                    .clipped()
-                    .frame(width: 290, height: 290, alignment: .center)
-            } else {
-                ProgressView()
-            }
-            
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Text((show.startTime.to12HourString()+" - "+show.endTime.to12HourString()))
-                        .foregroundColor(.white)
-                        .font(.system(size: 15, weight: .bold))
-                        .padding(.all, 5)
-                        .background(Color.black.opacity(0.7))
-                        .cornerRadius(5)
+            Group {
+                if let showImage {
+                    Image(uiImage: showImage)
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    Image("Unscheduled_Icon")
                 }
             }
-            .padding(.all, 10)
+            .frame(width: 290, height: 290)
+            if show != nil {
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Text((show!.startTime.to12HourString()+" - "+show!.endTime.to12HourString()))
+                            .foregroundColor(.white)
+                            .font(.system(size: 15, weight: .bold))
+                            .padding(.all, 5)
+                            .background(Color.black.opacity(0.7))
+                            .cornerRadius(5)
+                    }
+                }
+                .padding(.all, 10)
+            }
         })
         .frame(width: 290, height: 290, alignment: .top)
         .background(Color.white)
