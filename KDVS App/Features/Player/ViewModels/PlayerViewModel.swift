@@ -13,7 +13,7 @@ import MediaPlayer
 final class PlayerViewModel: ObservableObject {
     @Published private(set) var isPlaying = false
     @Published var showReminderSheet = false
-    @Published var isLoading = false
+    @Published var isLoading = true
     @Published var show: Show?
     @Published var showImage: UIImage?
     
