@@ -27,7 +27,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C62EA1AC2A2B6E7900288BEC /* KDVS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "KDVS-Info.plist"; sourceTree = "<group>"; };
 		C643317B29EF53030080EB77 /* Shows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shows.swift; sourceTree = "<group>"; };
 		C65233A62A63B572009520A1 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scheduleBuilder.swift; sourceTree = "<group>"; };
@@ -89,7 +88,6 @@
 			isa = PBXGroup;
 			children = (
 				C6DECA482A47D5EE006EEA89 /* KDVS.entitlements */,
-				C62EA1AC2A2B6E7900288BEC /* KDVS-Info.plist */,
 				C68E638B29A0714100D075F5 /* KDVS App */,
 				C69F5D4D2A2AAE2F000A38F0 /* KDVS.app */,
 				C65233A52A63B572009520A1 /* Frameworks */,
@@ -363,6 +361,7 @@
 				INFOPLIST_FILE = "KDVS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = KDVS;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Used for audio recording";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
@@ -400,6 +399,7 @@
 				INFOPLIST_FILE = "KDVS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = KDVS;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Used for audio recording";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;

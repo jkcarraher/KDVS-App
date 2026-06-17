@@ -5,6 +5,8 @@
 //  Created by John Carraher on 6/6/26.
 //
 
+import Foundation
+
 struct TimeOfDay: Codable, Hashable {
     let hour: Int
     let minute: Int
@@ -13,17 +15,42 @@ struct TimeOfDay: Codable, Hashable {
 
 extension TimeOfDay {
     func to12HourString() -> String {
-            let isPM = hour >= 12
-            let hour12 = hour % 12 == 0 ? 12 : hour % 12
-            let minuteString = String(format: "%02d", minute)
-            let ampm = isPM ? "PM" : "AM"
+        let isPM = hour >= 12
+        let hour12 = hour % 12 == 0 ? 12 : hour % 12
+        let minuteString = String(format: "%02d", minute)
+        let ampm = isPM ? "PM" : "AM"
 
-            if minute == 0 {
-                return "\(hour12) \(ampm)"
-            } else {
-                return "\(hour12):\(minuteString) \(ampm)"
-            }
+        if minute == 0 {
+            return "\(hour12) \(ampm)"
+        } else {
+            return "\(hour12):\(minuteString) \(ampm)"
         }
+    }
+    func nextOccurrenceDate() -> Date? {
+        let calendar = Calendar.current
+        let now = Date()
+
+        var components = calendar.dateComponents(
+            [.year, .month, .day],
+            from: now
+        )
+
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+
+        guard var date = calendar.date(from: components) else {
+            return nil
+        }
+
+        // If today's occurrence already passed,
+        // schedule for tomorrow.
+        if date <= now {
+            date = calendar.date(byAdding: .day, value: 1, to: date)!
+        }
+
+        return date
+    }
 }
 
 extension String {
