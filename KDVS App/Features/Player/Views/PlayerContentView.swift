@@ -24,7 +24,7 @@ struct PlayerContentView: View {
                 VStack (alignment: .leading, spacing: 0) {
                     ScrollViewReader { scrollViewProxy in
                         ScrollView(.horizontal, showsIndicators: false) {
-                            Text(show?.name ?? "Unscheduled Programming")
+                            Text(show?.name ?? "")
                                 .font(.system(size: 20, weight: .medium))
                                 .environment(\.colorScheme, .dark)
                                 .lineLimit(1)

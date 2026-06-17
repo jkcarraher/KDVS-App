@@ -20,7 +20,14 @@ struct ShowArtView : View {
                         .resizable()
                         .scaledToFill()
                 } else {
-                    Image("Unscheduled_Icon")
+                    VStack(spacing: 20){
+                        Image("Unavailable_icon")
+                            .scaleEffect(1.2)
+                        Text("Error: Unscheduled Programming")
+                            .font(Font.custom(
+                                "Silkscreen-Regular",
+                                size: 10))
+                    }
                 }
             }
             .frame(width: 290, height: 290)
