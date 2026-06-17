@@ -40,13 +40,43 @@ final class KDVSAPIService {
         return try decoder.decode(T.self, from: data)
     }
     
+    func requestOptional<T: Decodable>(
+        _ path: String,
+        queryItems: [URLQueryItem]? = nil
+    ) async throws -> T? {
+
+        var components = URLComponents(
+            url: baseURL.appending(path: path),
+            resolvingAgainstBaseURL: false
+        )!
+
+        components.queryItems = queryItems
+
+        guard let url = components.url else {
+            throw APIError.invalidResponse
+        }
+
+        let (data, response) = try await URLSession.shared.data(from: url)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              200..<300 ~= httpResponse.statusCode else {
+            throw APIError.invalidResponse
+        }
+
+        if data.isEmpty {
+            return nil
+        }
+
+        return try decoder.decode(T.self, from: data)
+    }
+    
     func fetchShows() async throws -> [Show] {
         let timeslots: [TimeslotDTO] = try await request("timeslots")
         return timeslots.compactMap { $0.toShow() }
     }
     
     func fetchCurrentShow() async throws -> Show? {
-        let timeslot: TimeslotDTO? = try await request("timeslots/current")
+        let timeslot: TimeslotDTO? = try await requestOptional("timeslots/current")
         
         if timeslot == nil {
             return nil

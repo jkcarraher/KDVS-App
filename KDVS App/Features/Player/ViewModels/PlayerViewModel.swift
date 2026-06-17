@@ -52,8 +52,11 @@ final class PlayerViewModel: ObservableObject {
     }
 
     func loadCurrentShow() async {
+        print("loadCurrentShow called")
         do {
             guard let newShow = try await showService.getCurrentShow() else {
+                // Unscheduled programming (getCurrentShow returned nil)
+                print("Unscheduled programming")
                 if show != nil {
                     isLoading = true
                 }

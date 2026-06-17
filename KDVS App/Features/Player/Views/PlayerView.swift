@@ -48,7 +48,7 @@ struct PlayerView: View {
             
         }
         .task {
-            await vm.loadCurrentShow()
+            await vm.start()
         }
         .onChange(of: scenePhase) { phase in
             if phase == .active {
