@@ -10,12 +10,22 @@ import SwiftUI
 struct ShowArtView : View {
     var show : Show?
     var showImage: UIImage?
+    var errorMessage: String?
 
     
     var body: some View {
         ZStack(alignment: .bottom, content: {
             Group {
-                if let showImage {
+                if let errorMessage {
+                    VStack(spacing: 20){
+                        Image("Cloud_error_icon")
+                            .scaleEffect(1.2)
+                        Text(errorMessage)
+                            .font(Font.custom(
+                                "Silkscreen-Regular",
+                                size: 10))
+                    }
+                } else if let showImage {
                     Image(uiImage: showImage)
                         .resizable()
                         .scaledToFill()

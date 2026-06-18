@@ -8,18 +8,14 @@
 import SwiftUI
 
 struct ScheduleGridView: View {
-    @StateObject private var viewModel = ScheduleGridViewModel()
+    @StateObject private var vm = ScheduleGridViewModel()
 
-    @State private var searchText = ""
-    @State private var selectedDay: DayOfWeek? = nil
-    @State private var selectedShow: Show = .empty
-    @State private var showSheet = false
 
     var body: some View {
-        List(filteredShows, id: \.id) { show in
+        List(vm.filteredShows, id: \.id) { show in
             Button {
-                selectedShow = show
-                showSheet = true
+                vm.selectedShow = show
+                vm.isShowingSheet = true
             } label: {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(show.name)
@@ -34,26 +30,24 @@ struct ScheduleGridView: View {
         .listStyle(.inset)
         .navigationTitle("Schedule Grid")
         .navigationBarBackButtonHidden(true)
-        .searchable(text: $searchText)
+        .searchable(text: $vm.searchText)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 CustomBackButton()
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                CustomFilterButton(selectedDay: $selectedDay)
+                CustomFilterButton(selectedDay: $vm.selectedDay)
             }
         }
-        .sheet(isPresented: $showSheet) {
-            LargeRemindView(
-                show: $selectedShow,
-                label: .constant("UPCOMING SHOW DATES"),
-                scheduleGrid: $viewModel.shows
-            )
-            .presentationDetents([.height(575), .large])
+        .sheet(isPresented: $vm.isShowingSheet) {
+            if let show = vm.selectedShow {
+                LargeRemindView( show: show )
+                .presentationDetents([.height(575), .large])
+            }
         }
         .task {
-            await viewModel.load()
+            await vm.load()
         }
         .preferredColorScheme(.dark)
     }
@@ -64,23 +58,5 @@ struct ScheduleGridView: View {
         return show.alternates
             ? "\(base) • Alternating"
             : "\(base) • Weekly"
-    }
-    
-    private var filteredShows: [Show] {
-        var result = viewModel.shows
-
-        if let selectedDay {
-            result = result.filter {
-                $0.DOTW == selectedDay.displayName
-            }
-        }
-
-        if !searchText.isEmpty {
-            result = result.filter {
-                $0.name.localizedCaseInsensitiveContains(searchText)
-            }
-        }
-
-        return result
     }
 }

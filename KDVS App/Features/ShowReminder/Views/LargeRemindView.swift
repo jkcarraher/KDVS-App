@@ -8,44 +8,43 @@
 import SwiftUI
 
 struct LargeRemindView: View {
-    @Binding var show: Show
-    @Binding var label: String
-    @Binding var scheduleGrid: [Show]
-
-    let notificationService = NotificationService(apiService: KDVSAPIService())
-
-    @State private var isLoaded = false
-    @State private var isSubscribed = false
-    @State private var isLoadingSubscription = true
-    @State private var isPerformingNotificationAction = false
-
-    @State private var dates: Set<DateComponents> = []
+    @StateObject private var vm: LargeRemindViewModel
     
-        
+    init(show: Show) {
+        _vm = StateObject(
+            wrappedValue: LargeRemindViewModel(
+                show: show,
+                notificationService: NotificationService(
+                    apiService: KDVSAPIService()
+                )
+            )
+        )
+    }
+    
     var body: some View {
         VStack {
-            if ((show.name != "")) {
+            if ((vm.show.name != "")) {
                 HStack {
-                    AsyncImage(url: show.playlistImageURL) { image in
-                        image
+                    if let image = vm.showImage {
+                        Image(uiImage: image)
                             .resizable()
                             .scaledToFill()
                             .clipped()
-                            .frame(width: 60, height: 60, alignment: .center)
+                            .frame(width: 60, height: 60)
                             .cornerRadius(10)
-                    } placeholder: {
+                    } else {
                         Rectangle()
                             .fill(Color("RemindLoading"))
+                            .frame(width: 60, height: 60)
                             .cornerRadius(10)
-                        .frame(width: 60, height:60)
-                    }.frame(width: 60, height: 60)
+                    }
                     
                     VStack(alignment: .leading, spacing: 0){
-                        Text(show.name)
+                        Text(vm.show.name)
                             .font(.system(size: 17, weight: .bold))
                             .environment(\.colorScheme, .dark)
                             .lineLimit(1)
-                        Text(show.djName)
+                        Text(vm.show.djName)
                             .font(.system(size: 14, weight: .regular))
                             .foregroundColor(Color("SecondaryText"))
                             .environment(\.colorScheme, .dark)
@@ -58,7 +57,7 @@ struct LargeRemindView: View {
                 .background(Color("RemindCompiment"))
                 
                 VStack(alignment: .leading) {
-                    Text(label)
+                    Text("UPCOMING SHOW DATES:")
                         .font(.system(size: 14, weight: .bold))
                         .environment(\.colorScheme, .dark)
                         .foregroundColor(Color("SecondaryText"))
@@ -70,17 +69,17 @@ struct LargeRemindView: View {
                 
                 Spacer()
                 // UICalendarView to display show.showDates
-                if(!isLoaded){
+                if(vm.isDatesLoading){
                     ProgressView()
                         .frame(width: 325, height: 300, alignment: .center)
                 }else{
-                    if(!show.dates.isEmpty){
+                    if(!vm.showDates.isEmpty){
                         MultiDatePicker(
                             "Show Dates",
-                            selection: $dates,
-                            in: show.firstShowDate...
+                            selection: $vm.showDates,
+                            in: vm.show.firstShowDate...
                         ).frame(width: 325, height: 330, alignment: .center)
-                            .tint(show.color.brightened(by: 1))
+                            .tint(vm.show.color.brightened(by: 1))
                             .padding([.top], 7)
                     } else{
                         Spacer()
@@ -97,12 +96,12 @@ struct LargeRemindView: View {
                 Spacer()
                 Button {
                     Task {
-                        await toggleRemindButton()
+                        await vm.toggleRemindButton()
                     }
                 } label: {
-                    if isLoadingSubscription || isPerformingNotificationAction {
+                    if vm.isLoadingSubscription || vm.isPerformingNotificationAction {
                         ProgressView()
-                    } else if isSubscribed {
+                    } else if vm.isSubscribed {
                         Text("Turn off Notifications")
                             .font(.system(size: 15, weight: .bold))
                             .foregroundColor(.white)
@@ -116,7 +115,7 @@ struct LargeRemindView: View {
                 .background(Color("NotiButtonColor2"))
                 .cornerRadius(10)
                 .padding([.top, .bottom], 20)
-                .disabled(!isLoaded)
+                .disabled(vm.isLoadingSubscription || vm.isPerformingNotificationAction)
             } else {
                 Spacer()
                 HStack {
@@ -133,74 +132,11 @@ struct LargeRemindView: View {
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("RemindBackground"))
         .onAppear {
-            findShowWithName(scheduleGrid, showName: show.name) { foundShow in
-                guard let foundShow else {
-                    return
-                }
-
-                show = foundShow
-                dates = getShowDates(for: show)
-
-                Task {
-                    await loadSubscriptionStatus()
-                    isLoaded = true
-                }
+            Task {
+                await vm.loadImage()
+                await vm.loadSubscriptionStatus()
+                vm.loadDates()
             }
         }
     }
-    
-    @MainActor
-    func loadSubscriptionStatus() async {
-        isLoadingSubscription = true
-
-        defer {
-            isLoadingSubscription = false
-        }
-
-        do {
-            isSubscribed = try await notificationService.isSubscribed(
-                showId: show.id
-            )
-        } catch {
-            print("Failed to load subscription status:", error)
-            isSubscribed = false
-        }
-    }
-    
-    @MainActor
-    func toggleRemindButton() async {
-        guard !isPerformingNotificationAction else {
-            return
-        }
-
-        isPerformingNotificationAction = true
-
-        defer {
-            isPerformingNotificationAction = false
-        }
-
-        do {
-            if isSubscribed {
-                try await notificationService.unsubscribe(
-                    showId: show.id
-                )
-
-                isSubscribed = false
-            } else {
-                try await notificationService.subscribe(
-                    showId: show.id
-                )
-
-                isSubscribed = true
-            }
-        } catch {
-            print("Notification action failed:", error)
-        }
-    }
-    
-}
-
-func findShowWithName(_ shows: [Show], showName: String, completion: @escaping (Show?) -> Void) {
-    let matchingShow = shows.first { $0.name == showName }
-    completion(matchingShow)
 }

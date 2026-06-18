@@ -10,6 +10,7 @@ import SwiftUI
 struct PlayerContentView: View {
     let show: Show?
     let showImage: UIImage?
+    let errorMessage: String?
     let isPlaying: Bool
     let onPlayPause: () -> Void
     let onOpenReminder: () -> Void
@@ -19,7 +20,7 @@ struct PlayerContentView: View {
             if show != nil {
                 
             }
-            ShowArtView(show: show, showImage: showImage)
+            ShowArtView(show: show, showImage: showImage, errorMessage: errorMessage)
             HStack (alignment: .top){
                 VStack (alignment: .leading, spacing: 0) {
                     ScrollViewReader { scrollViewProxy in

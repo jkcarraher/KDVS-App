@@ -11,11 +11,14 @@ import MediaPlayer
 
 @MainActor
 final class PlayerViewModel: ObservableObject {
+    @Published var show: Show?
+    @Published var showImage: UIImage?
+    
+    // STATES
     @Published private(set) var isPlaying = false
     @Published var showReminderSheet = false
     @Published var isLoading = true
-    @Published var show: Show?
-    @Published var showImage: UIImage?
+    @Published var errorMessage: String? = nil
     
 
     private let playerService: AudioPlayerService
@@ -53,6 +56,8 @@ final class PlayerViewModel: ObservableObject {
 
     func loadCurrentShow() async {
         do {
+            errorMessage = nil
+            
             guard let newShow = try await showService.getCurrentShow() else {
                 if show != nil {
                     isLoading = true
@@ -85,7 +90,7 @@ final class PlayerViewModel: ObservableObject {
             isLoading = false
 
         } catch {
-            print("Failed to load current show:", error)
+            errorMessage = "Error: "+error.localizedDescription
             isLoading = false
         }
     }
