@@ -30,7 +30,7 @@ struct PlayerView: View {
             if( vm.isLoading ){
                 LoadingPlayerView()
             } else {
-                PlayerContentView(show: vm.show, showImage: vm.showImage, isPlaying: vm.isPlaying, onPlayPause: vm.togglePlayback, onOpenReminder: vm.openReminderSheet)
+                PlayerContentView(show: vm.show, showImage: vm.showImage, errorMessage: vm.errorMessage, isPlaying: vm.isPlaying, onPlayPause: vm.togglePlayback, onOpenReminder: vm.openReminderSheet)
             }
         }.frame(width: 330, height: 490, alignment: .top)
         .padding([.top], 10)
