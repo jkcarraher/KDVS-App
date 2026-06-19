@@ -12,6 +12,14 @@ import MediaPlayer
 final class AudioPlayerService: ObservableObject {
     @Published private(set) var isPlaying = false
     
+    func play() {
+        player.play()
+    }
+    
+    func stop() {
+        player.pause()
+    }
+    
     private let player = AVPlayer()
     private var url: URL?
     private var statusObserver: NSKeyValueObservation?
@@ -27,14 +35,6 @@ final class AudioPlayerService: ObservableObject {
         if player.currentItem == nil {
             player.replaceCurrentItem(with: AVPlayerItem(url: url))
         }
-    }
-    
-    func play() {
-        player.play()
-    }
-    
-    func stop() {
-        player.pause()
     }
     
     private func setupAudioSession() {
@@ -75,17 +75,23 @@ final class AudioPlayerService: ObservableObject {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
 
-                switch player.timeControlStatus {
-                case .playing:
-                    self.isPlaying = true
-
-                case .paused, .waitingToPlayAtSpecifiedRate:
-                    self.isPlaying = false
-
-                @unknown default:
-                    self.isPlaying = false
-                }
+                self.isPlaying = player.timeControlStatus == .playing
+                self.updateNowPlayingState()
             }
         }
+    }
+    
+    private func updateNowPlayingState() {
+        var info = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [:]
+
+        info[MPNowPlayingInfoPropertyPlaybackRate] =
+            isPlaying ? 1.0 : 0.0
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+
+        
+        MPNowPlayingInfoCenter.default().playbackState =
+            isPlaying ? .playing : .paused
+        
     }
 }
