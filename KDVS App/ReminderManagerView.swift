@@ -29,9 +29,14 @@ struct ReminderManagerView: View {
             if(!notificationEnabledShows.isEmpty){
                 List{
                     ForEach(notificationEnabledShows, id: \.id) { show in
-                        MiniRemindView(show: .constant(show), label: .constant("Existing Notifications"))
-                            .listRowBackground(Color("ListBackground"))
-                    }.onDelete(perform: deleteShow)
+                        MiniRemindView(
+                            show: .constant(show),
+                            label: .constant("Existing Notifications")
+                        )
+                        .listRowBackground(Color("ListBackground"))
+                        .listRowInsets(EdgeInsets())
+                    }
+                    .onDelete(perform: deleteShow)
                 }
                 .background(Color("RemindBackground"))
                 .scrollContentBackground(.hidden)

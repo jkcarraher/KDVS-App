@@ -24,6 +24,7 @@
 		C6C382DB29E387D900B4D347 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = C6C382DA29E387D900B4D347 /* SwiftSoup */; };
 		C6DECA4A2A47ED56006EEA89 /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DECA492A47ED56006EEA89 /* Matcher.swift */; };
 		C6DECA4E2A4D9187006EEA89 /* AudioStreamRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DECA4D2A4D9187006EEA89 /* AudioStreamRecorder.swift */; };
+		C6F700462FE5CDE10055F8CF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F700452FE5CDDD0055F8CF /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		C6DECA482A47D5EE006EEA89 /* KDVS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KDVS.entitlements; sourceTree = "<group>"; };
 		C6DECA492A47ED56006EEA89 /* Matcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matcher.swift; sourceTree = "<group>"; };
 		C6DECA4D2A4D9187006EEA89 /* AudioStreamRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioStreamRecorder.swift; sourceTree = "<group>"; };
+		C6F700452FE5CDDD0055F8CF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -97,6 +99,7 @@
 		C68E638B29A0714100D075F5 /* KDVS App */ = {
 			isa = PBXGroup;
 			children = (
+				C6F700452FE5CDDD0055F8CF /* SettingsView.swift */,
 				C65522FA2FDA6927001E6E21 /* ReminderManagerView.swift */,
 				C65522AA2FD9FD99001E6E21 /* AppDelegate.swift */,
 				C6977E3B2FB18CF30061118B /* Shared */,
@@ -219,6 +222,7 @@
 				C6BD2A162FBF8A440058C3EE /* CacheingPlayerItem.swift in Sources */,
 				C68E638F29A0714100D075F5 /* ContentView.swift in Sources */,
 				C65522AB2FD9FD9D001E6E21 /* AppDelegate.swift in Sources */,
+				C6F700462FE5CDE10055F8CF /* SettingsView.swift in Sources */,
 				C68E638D29A0714100D075F5 /* KDVS_AppApp.swift in Sources */,
 				C65522FB2FDA692F001E6E21 /* ReminderManagerView.swift in Sources */,
 				C6DECA4A2A47ED56006EEA89 /* Matcher.swift in Sources */,
