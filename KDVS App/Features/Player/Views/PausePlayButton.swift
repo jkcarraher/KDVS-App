@@ -13,21 +13,28 @@ struct PausePlayButton: View {
     
     var body: some View {
         ZStack {
-            VStack{
-                Button(action: action, label: {
+            Circle()
+                .fill(Color("ButtonBackground"))
+                .frame(width: 80, height: 80)
+
+            Button(action: action) {
+                ZStack {
+                    Circle()
+                        .fill(Color("BoxColor"))
+
                     Image(systemName: isPlaying ? "stop.fill" : "play.fill")
                         .resizable()
+                        .scaledToFit()
                         .foregroundColor(Color(UIColor.label))
                         .environment(\.colorScheme, .dark)
                         .background(Color.clear)
                         .frame(width: 30, height: 30)
-                        .padding(isPlaying ? EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0) : EdgeInsets(top: 0, leading: 22, bottom: 0, trailing: 0))
-                }).frame(width: 70, height: 70, alignment: isPlaying ? .center : .leading)
-                    .background(Color("BoxColor"))
-                    .cornerRadius(35)
-            }.frame(width: 80, height: 80)
-                .background(Color("ButtonBackground"))
-                .cornerRadius(40)
-        }.padding()
+                        .offset(x: isPlaying ? 0 : 4)
+                }
+                .frame(width: 70, height: 70)
+                .contentShape(Circle())
+            }
+        }
+        .padding()
     }
 }

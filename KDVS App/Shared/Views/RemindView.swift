@@ -15,22 +15,15 @@ struct RemindView: View {
     @Binding var show : Show
     @Binding var label : String
     
+    @State private var showImage: UIImage?
     @State private var isLoaded = false
     @State private var isSubscribed = false
     @State private var isLoadingSubscription = true
     @State private var isPerformingNotificationAction = false
     
-    @State private var dates: Set<DateComponents> = []
-    
     let notificationService = NotificationService(
         apiService: KDVSAPIService()
     )
-    
-    var bounds: Range<Date> {
-        let start = Date()
-        let end = show.lastShowDate
-        return start ..< end
-    }
     
     var body: some View {
         VStack {
@@ -45,16 +38,17 @@ struct RemindView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             if(show.name != ""){
                 HStack {
-                    AsyncImage(url: show.playlistImageURL) { image in
-                        image
+                    if let image = showImage {
+                        Image(uiImage: image)
                             .resizable()
                             .scaledToFill()
                             .clipped()
-                            .frame(width: 100, height: 100, alignment: .center)
+                            .frame(width: 100, height: 100)
                             .cornerRadius(5)
-                    } placeholder: {
+                    } else {
                         ProgressView()
-                    }.frame(width: 100, height: 100)
+                            .frame(width: 100, height: 100)
+                    }
                     
                     VStack(alignment: .leading, spacing: 5){
                         Text(show.name)
@@ -77,23 +71,21 @@ struct RemindView: View {
                         await toggleRemindButton()
                     }
                 } label: {
-                    if isLoadingSubscription || isPerformingNotificationAction {
-                        Spacer()
-                        ProgressView()
-                        Spacer()
-                    } else if isSubscribed {
-                        Text("Turn off Notifications")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(.white)
-                    } else {
-                        Text("Notify Me!")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(.white)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color("NotiButtonColor2"))
+
+                        if isLoadingSubscription || isPerformingNotificationAction {
+                            ProgressView()
+                        } else {
+                            Text(isSubscribed ? "Turn off Notifications" : "Notify Me!")
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundColor(.white)
+                        }
                     }
+                    .frame(width: 350, height: 50)
+                    .contentShape(Rectangle())
                 }
-                .frame(maxWidth: .infinity, maxHeight: 50)
-                .background(Color("NotiButtonColor2"))
-                .cornerRadius(10)
                 .padding(.horizontal, 20)
                 .padding(.top, 5)
                 .disabled(!isLoaded)
@@ -113,13 +105,20 @@ struct RemindView: View {
         }.frame(maxWidth: .infinity, maxHeight: 220)
             .background(Color("RemindBackground"))
             .onAppear {
-                dates = getShowDates(for: show)
-                
                 Task {
+                    await loadImage()
                     await loadSubscriptionStatus()
                     isLoaded = true
                 }
             }
+    }
+    @MainActor
+    func loadImage() async {
+        guard let url = show.playlistImageURL else {
+            return
+        }
+
+        showImage = await ImageCacheService.shared.loadImage(from: url)
     }
     @MainActor
     func loadSubscriptionStatus() async {
