@@ -36,14 +36,14 @@ extension TimeslotDTO {
 
         let imageURL = URL(string: show.image_url!) ?? URL(string: "https://kdvs.org/placeholder.png")!
         
-        let anchor = dateFormatter.date(from: anchor_date) ?? parsedSeasonStartDate
+        let anchor = dateFormatter.date(from: anchor_date)!
 
         let dates = generateShowDates(
             weekday: weekday,
             seasonStart: parsedSeasonStartDate,
             seasonEnd: parsedSeasonEndDate,
             anchorDate: anchor,
-            intervalWeeks: recurrence_interval_weeks,
+            recurrence_interval_weeks: recurrence_interval_weeks,
         )
 
         return Show(
@@ -93,22 +93,22 @@ func generateShowDates(
     seasonStart: Date,
     seasonEnd: Date,
     anchorDate: Date,
-    intervalWeeks: Int,
+    recurrence_interval_weeks: Int,
     timeZone: TimeZone = .current
 ) -> [Date] {
 
-    guard intervalWeeks > 0 else { return [] }
+    guard recurrence_interval_weeks > 0 else { return [] }
 
     var cal = Calendar(identifier: .gregorian)
     cal.timeZone = timeZone
-    cal.firstWeekday = 2
+    cal.firstWeekday = 1
 
     var results: [Date] = []
 
     var current = anchorDate
 
     while current < seasonStart {
-        guard let next = cal.date(byAdding: .day, value: 7 * intervalWeeks, to: current) else {
+        guard let next = cal.date(byAdding: .day, value: 7 * recurrence_interval_weeks, to: current) else {
             return results
         }
         current = next
@@ -117,7 +117,7 @@ func generateShowDates(
     while current <= seasonEnd {
         results.append(current)
 
-        guard let next = cal.date(byAdding: .day, value: 7 * intervalWeeks, to: current) else {
+        guard let next = cal.date(byAdding: .day, value: 7 * recurrence_interval_weeks, to: current) else {
             break
         }
 
