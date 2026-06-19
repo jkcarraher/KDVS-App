@@ -44,7 +44,6 @@ extension TimeslotDTO {
             seasonEnd: parsedSeasonEndDate,
             anchorDate: anchor,
             intervalWeeks: recurrence_interval_weeks,
-            offset: recurrence_offset,
         )
 
         return Show(
@@ -95,50 +94,36 @@ func generateShowDates(
     seasonEnd: Date,
     anchorDate: Date,
     intervalWeeks: Int,
-    offset: Int,
     timeZone: TimeZone = .current
 ) -> [Date] {
 
-    var results: [Date] = []
+    guard intervalWeeks > 0 else { return [] }
 
     var cal = Calendar(identifier: .gregorian)
     cal.timeZone = timeZone
+    cal.firstWeekday = 2 // Monday
 
-    // Find first occurrence of target weekday on/after season start
-    let weekdayComponent = backendWeekdayToCalendarWeekday(weekday)
-    var current = seasonStart
+    var results: [Date] = []
 
-    while cal.component(.weekday, from: current) != weekdayComponent {
-        guard let next = cal.date(byAdding: .day, value: 1, to: current) else { break }
+    // Step 1: normalize anchor forward to first valid occurrence
+    var current = anchorDate
+
+    // If anchor is before season start, jump forward
+    while current < seasonStart {
+        guard let next = cal.date(byAdding: .day, value: 7 * intervalWeeks, to: current) else {
+            return results
+        }
         current = next
     }
 
-    // Move backward to the anchor-aligned week boundary
-    let anchorWeekStart = cal.dateInterval(of: .weekOfYear, for: anchorDate)?.start ?? anchorDate
-
+    // Step 2: generate recurring dates
     while current <= seasonEnd {
+        results.append(current)
 
-        guard let weekStart = cal.dateInterval(of: .weekOfYear, for: current)?.start else {
+        guard let next = cal.date(byAdding: .day, value: 7 * intervalWeeks, to: current) else {
             break
         }
 
-        let weeksSinceAnchor = cal.dateComponents([.weekOfYear],
-                                                   from: anchorWeekStart,
-                                                   to: weekStart).weekOfYear ?? 0
-
-        if intervalWeeks == 1 {
-            // Every week
-            results.append(current)
-        } else {
-            if (weeksSinceAnchor + offset) % intervalWeeks == 0 {
-                results.append(current)
-            }
-        }
-
-        // Jump forward one week at a time (same weekday)
-        guard let next = cal.date(byAdding: .weekOfYear, value: 1, to: current) else {
-            break
-        }
         current = next
     }
 
