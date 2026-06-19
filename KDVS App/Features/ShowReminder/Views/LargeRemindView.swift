@@ -114,6 +114,8 @@ struct LargeRemindView: View {
                     .cornerRadius(10)
                 }
                 .disabled(vm.isLoadingSubscription || vm.isPerformingNotificationAction)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
             } else {
                 Spacer()
                 HStack {
