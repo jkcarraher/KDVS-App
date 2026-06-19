@@ -99,22 +99,20 @@ struct LargeRemindView: View {
                         await vm.toggleRemindButton()
                     }
                 } label: {
-                    if vm.isLoadingSubscription || vm.isPerformingNotificationAction {
-                        ProgressView()
-                    } else if vm.isSubscribed {
-                        Text("Turn off Notifications")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(.white)
-                    } else {
-                        Text("Notify Me!")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(.white)
+                    ZStack {
+                        Color("NotiButtonColor2")
+
+                        if vm.isLoadingSubscription || vm.isPerformingNotificationAction {
+                            ProgressView()
+                        } else {
+                            Text(vm.isSubscribed ? "Turn off Notifications" : "Notify Me!")
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundColor(.white)
+                        }
                     }
+                    .frame(width: 350, height: 50)
+                    .cornerRadius(10)
                 }
-                .frame(width: 350, height: 50)
-                .background(Color("NotiButtonColor2"))
-                .cornerRadius(10)
-                .padding([.top, .bottom], 20)
                 .disabled(vm.isLoadingSubscription || vm.isPerformingNotificationAction)
             } else {
                 Spacer()

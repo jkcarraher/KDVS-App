@@ -77,23 +77,21 @@ struct RemindView: View {
                         await toggleRemindButton()
                     }
                 } label: {
-                    if isLoadingSubscription || isPerformingNotificationAction {
-                        Spacer()
-                        ProgressView()
-                        Spacer()
-                    } else if isSubscribed {
-                        Text("Turn off Notifications")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(.white)
-                    } else {
-                        Text("Notify Me!")
-                            .font(.system(size: 15, weight: .bold))
-                            .foregroundColor(.white)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color("NotiButtonColor2"))
+
+                        if isLoadingSubscription || isPerformingNotificationAction {
+                            ProgressView()
+                        } else {
+                            Text(isSubscribed ? "Turn off Notifications" : "Notify Me!")
+                                .font(.system(size: 15, weight: .bold))
+                                .foregroundColor(.white)
+                        }
                     }
+                    .frame(width: 350, height: 50)
+                    .contentShape(Rectangle())
                 }
-                .frame(maxWidth: .infinity, maxHeight: 50)
-                .background(Color("NotiButtonColor2"))
-                .cornerRadius(10)
                 .padding(.horizontal, 20)
                 .padding(.top, 5)
                 .disabled(!isLoaded)
