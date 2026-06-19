@@ -101,14 +101,12 @@ func generateShowDates(
 
     var cal = Calendar(identifier: .gregorian)
     cal.timeZone = timeZone
-    cal.firstWeekday = 2 // Monday
+    cal.firstWeekday = 2
 
     var results: [Date] = []
 
-    // Step 1: normalize anchor forward to first valid occurrence
     var current = anchorDate
 
-    // If anchor is before season start, jump forward
     while current < seasonStart {
         guard let next = cal.date(byAdding: .day, value: 7 * intervalWeeks, to: current) else {
             return results
@@ -116,7 +114,6 @@ func generateShowDates(
         current = next
     }
 
-    // Step 2: generate recurring dates
     while current <= seasonEnd {
         results.append(current)
 
