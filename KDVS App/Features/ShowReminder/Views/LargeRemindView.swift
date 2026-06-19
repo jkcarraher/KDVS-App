@@ -110,7 +110,7 @@ struct LargeRemindView: View {
                                 .foregroundColor(.white)
                         }
                     }
-                    .frame(width: 350, height: 50)
+                    .frame(height: 50)
                     .cornerRadius(10)
                 }
                 .disabled(vm.isLoadingSubscription || vm.isPerformingNotificationAction)
