@@ -38,7 +38,6 @@ final class AudioStreamRecorderService {
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent("recording.aac")
         
-        print("Recording path:", url)
 
         try? FileManager.default.removeItem(at: url)
     }

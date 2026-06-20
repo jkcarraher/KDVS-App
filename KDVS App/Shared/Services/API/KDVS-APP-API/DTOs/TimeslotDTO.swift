@@ -24,19 +24,31 @@ struct TimeslotDTO: Decodable {
 }
 
 extension TimeslotDTO {
+    
     func toShow() -> Show {
-        
+        let dtoTimezone = TimeZone(identifier: timezone)!
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let targetTimeZone = TimeZone(identifier: self.timezone)
-        dateFormatter.timeZone = targetTimeZone
-        
+        dateFormatter.timeZone = dtoTimezone
+                
         let parsedSeasonStartDate = dateFormatter.date(from: season.start_date) ?? Date()
         let parsedSeasonEndDate = dateFormatter.date(from: season.end_date) ?? Date()
 
         let imageURL = URL(string: show.image_url!) ?? URL(string: "https://kdvs.org/placeholder.png")!
         
-        let anchor = dateFormatter.date(from: anchor_date)!
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = dtoTimezone
+
+        let comps = anchor_date.split(separator: "-").map { Int($0)! }
+
+        let anchor = calendar.date(
+            from: DateComponents(
+                year: comps[0],
+                month: comps[1],
+                day: comps[2]
+            )
+        )!
 
         let dates = generateShowDates(
             weekday: weekday,
@@ -44,6 +56,7 @@ extension TimeslotDTO {
             seasonEnd: parsedSeasonEndDate,
             anchorDate: anchor,
             recurrence_interval_weeks: recurrence_interval_weeks,
+            timeZone: dtoTimezone
         )
 
         return Show(
@@ -56,6 +69,7 @@ extension TimeslotDTO {
             endTime: end_time.toTimeOfDay()!,
             
             alternates: recurrence_interval_weeks > 1,
+            timezone: TimeZone(identifier: timezone)!,
             DOTW: DayOfWeek(rawValue: weekday)?.displayName ?? "Unknown Day",
             dates: dates,
             
@@ -94,7 +108,7 @@ func generateShowDates(
     seasonEnd: Date,
     anchorDate: Date,
     recurrence_interval_weeks: Int,
-    timeZone: TimeZone = .current
+    timeZone: TimeZone,
 ) -> [Date] {
 
     guard recurrence_interval_weeks > 0 else { return [] }
