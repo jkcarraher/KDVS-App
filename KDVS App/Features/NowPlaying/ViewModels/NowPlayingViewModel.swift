@@ -16,7 +16,7 @@ final class NowPlayingViewModel: ObservableObject {
     @Published var artworkImage: UIImage?
 
     private let recorder = AudioStreamRecorderService()
-    private let shazamService = ShazamService()
+    private let songIDService = SongIdentificationService()
     
     func loadArtwork(url: URL?) async {
         guard let url else {
@@ -38,10 +38,7 @@ final class NowPlayingViewModel: ObservableObject {
 
             let url = try await recorder.recordSnippet()
 
-            analyzedSong = try await shazamService.scanStream(
-                audioURL: url
-            )
-
+            analyzedSong = try await songIDService.identifyCurrentSong()
         } catch {
             print("Recognition failed:", error)
             analyzedSong = nil

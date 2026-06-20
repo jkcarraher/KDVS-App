@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NowPlayingView: View {
-    @StateObject private var viewModel = NowPlayingViewModel()
+    @StateObject private var vm = NowPlayingViewModel()
     @State private var showToast = false
 
     var body: some View {
@@ -41,10 +41,10 @@ struct NowPlayingView: View {
             }
         }
         .task {
-            await viewModel.recognizeCurrentSong()
+            await vm.recognizeCurrentSong()
         }
-        .task(id: viewModel.analyzedSong?.artworkURL) {
-            await viewModel.loadArtwork(url: viewModel.analyzedSong?.artworkURL)
+        .task(id: vm.analyzedSong?.artworkURL) {
+            await vm.loadArtwork(url: vm.analyzedSong?.artworkURL)
         }
         .animation(.easeInOut(duration: 0.25), value: showToast)
     }
@@ -56,7 +56,7 @@ private extension NowPlayingView {
 
         Group {
 
-            if let image = viewModel.artworkImage {
+            if let image = vm.artworkImage {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
@@ -84,11 +84,11 @@ private extension NowPlayingView {
 
         VStack(alignment: .leading, spacing: 4) {
 
-            Text(viewModel.analyzedSong?.title ?? "Unknown Song")
+            Text(vm.analyzedSong?.title ?? "Unknown Song")
                 .font(.system(size: 15, weight: .bold))
                 .foregroundColor(.white)
 
-            Text(viewModel.analyzedSong?.artist ?? "Unknown Artist")
+            Text(vm.analyzedSong?.artist ?? "Unknown Artist")
                 .font(.system(size: 14, weight: .medium))
                 .foregroundColor(Color("SecondaryText"))
         }
@@ -113,7 +113,7 @@ private extension NowPlayingView {
         Button {
 
             Task {
-                await viewModel.recognizeCurrentSong()
+                await vm.recognizeCurrentSong()
             }
 
         } label: {
@@ -124,7 +124,7 @@ private extension NowPlayingView {
                     .fill(Color("NotiButtonColor"))
                     .frame(width: 40, height: 40)
 
-                if viewModel.isLoading {
+                if vm.isLoading {
 
                     ProgressView()
 
@@ -145,8 +145,8 @@ private extension NowPlayingView {
 
     func copySongToClipboard() {
 
-        let title = viewModel.analyzedSong?.title ?? "Unknown Song"
-        let artist = viewModel.analyzedSong?.artist ?? "Unknown Artist"
+        let title = vm.analyzedSong?.title ?? "Unknown Song"
+        let artist = vm.analyzedSong?.artist ?? "Unknown Artist"
 
         let text = "\(title) by \(artist)"
 
