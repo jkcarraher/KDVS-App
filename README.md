@@ -1,7 +1,4 @@
 # KDVS Radio App
-[![Status](https://api.uptimesignal.io/badge/17c081c2-bc3e-4f67-83a0-72731a8551d9/status.svg)](https://uptimesignal.io/badges)
-[![Uptime](https://api.uptimesignal.io/badge/17c081c2-bc3e-4f67-83a0-72731a8551d9/uptime.svg)](https://uptimesignal.io/badges)
-
 Listen to 24/7 Freeform Radio anywhere in the world
 
 <p align="center">
