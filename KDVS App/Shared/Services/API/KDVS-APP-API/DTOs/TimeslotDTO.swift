@@ -24,27 +24,39 @@ struct TimeslotDTO: Decodable {
 }
 
 extension TimeslotDTO {
+    
     func toShow() -> Show {
-        
+        let dtoTimezone = TimeZone(identifier: timezone)!
+
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let targetTimeZone = TimeZone(identifier: self.timezone)
-        dateFormatter.timeZone = targetTimeZone
-        
+        dateFormatter.timeZone = dtoTimezone
+                
         let parsedSeasonStartDate = dateFormatter.date(from: season.start_date) ?? Date()
         let parsedSeasonEndDate = dateFormatter.date(from: season.end_date) ?? Date()
 
         let imageURL = URL(string: show.image_url!) ?? URL(string: "https://kdvs.org/placeholder.png")!
         
-        let anchor = dateFormatter.date(from: anchor_date) ?? parsedSeasonStartDate
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = dtoTimezone
+
+        let comps = anchor_date.split(separator: "-").map { Int($0)! }
+
+        let anchor = calendar.date(
+            from: DateComponents(
+                year: comps[0],
+                month: comps[1],
+                day: comps[2]
+            )
+        )!
 
         let dates = generateShowDates(
             weekday: weekday,
             seasonStart: parsedSeasonStartDate,
             seasonEnd: parsedSeasonEndDate,
             anchorDate: anchor,
-            intervalWeeks: recurrence_interval_weeks,
-            offset: recurrence_offset,
+            recurrence_interval_weeks: recurrence_interval_weeks,
+            timeZone: dtoTimezone
         )
 
         return Show(
@@ -57,6 +69,7 @@ extension TimeslotDTO {
             endTime: end_time.toTimeOfDay()!,
             
             alternates: recurrence_interval_weeks > 1,
+            timezone: TimeZone(identifier: timezone)!,
             DOTW: DayOfWeek(rawValue: weekday)?.displayName ?? "Unknown Day",
             dates: dates,
             
@@ -94,51 +107,34 @@ func generateShowDates(
     seasonStart: Date,
     seasonEnd: Date,
     anchorDate: Date,
-    intervalWeeks: Int,
-    offset: Int,
-    timeZone: TimeZone = .current
+    recurrence_interval_weeks: Int,
+    timeZone: TimeZone,
 ) -> [Date] {
 
-    var results: [Date] = []
+    guard recurrence_interval_weeks > 0 else { return [] }
 
     var cal = Calendar(identifier: .gregorian)
     cal.timeZone = timeZone
+    cal.firstWeekday = 1
 
-    // Find first occurrence of target weekday on/after season start
-    let weekdayComponent = backendWeekdayToCalendarWeekday(weekday)
-    var current = seasonStart
+    var results: [Date] = []
 
-    while cal.component(.weekday, from: current) != weekdayComponent {
-        guard let next = cal.date(byAdding: .day, value: 1, to: current) else { break }
+    var current = anchorDate
+
+    while current < seasonStart {
+        guard let next = cal.date(byAdding: .day, value: 7 * recurrence_interval_weeks, to: current) else {
+            return results
+        }
         current = next
     }
 
-    // Move backward to the anchor-aligned week boundary
-    let anchorWeekStart = cal.dateInterval(of: .weekOfYear, for: anchorDate)?.start ?? anchorDate
-
     while current <= seasonEnd {
+        results.append(current)
 
-        guard let weekStart = cal.dateInterval(of: .weekOfYear, for: current)?.start else {
+        guard let next = cal.date(byAdding: .day, value: 7 * recurrence_interval_weeks, to: current) else {
             break
         }
 
-        let weeksSinceAnchor = cal.dateComponents([.weekOfYear],
-                                                   from: anchorWeekStart,
-                                                   to: weekStart).weekOfYear ?? 0
-
-        if intervalWeeks == 1 {
-            // Every week
-            results.append(current)
-        } else {
-            if (weeksSinceAnchor + offset) % intervalWeeks == 0 {
-                results.append(current)
-            }
-        }
-
-        // Jump forward one week at a time (same weekday)
-        guard let next = cal.date(byAdding: .weekOfYear, value: 1, to: current) else {
-            break
-        }
         current = next
     }
 

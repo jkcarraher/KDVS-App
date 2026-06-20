@@ -65,7 +65,6 @@ struct RemindView: View {
                     }.padding([.leading], 5)
                     Spacer()
                 }.padding([.leading, .trailing], 20)
-                
                 Button {
                     Task {
                         await toggleRemindButton()
@@ -83,8 +82,8 @@ struct RemindView: View {
                                 .foregroundColor(.white)
                         }
                     }
-                    .frame(width: 350, height: 50)
-                    .contentShape(Rectangle())
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 5)

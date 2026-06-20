@@ -21,6 +21,12 @@ final class LargeRemindViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let notificationService: NotificationService
+    
+    private var showCalendar: Calendar {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = show.timezone
+        return cal
+    }
 
     init(show: Show, notificationService: NotificationService) {
         self.show = show
@@ -38,7 +44,7 @@ final class LargeRemindViewModel: ObservableObject {
     func loadDates() {
         isDatesLoading = true
         self.showDates = Set(show.dates.map {
-            Calendar.current.dateComponents([.year, .month, .day], from: $0)
+            showCalendar.dateComponents([.year, .month, .day], from: $0)
         })
         isDatesLoading = false
     }

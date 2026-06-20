@@ -18,6 +18,7 @@ struct Show: Codable, Identifiable, Hashable{
     var startTime: TimeOfDay
     var endTime: TimeOfDay
     var alternates: Bool
+    var timezone: TimeZone
     
     var DOTW: String //Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
     
@@ -35,13 +36,14 @@ struct Show: Codable, Identifiable, Hashable{
         case endTime = "end_time"
         case DOTW = "current_dotw"
         case alternates
+        case timezone
         case dates
         case firstShowDate = "first_show_date"
         case lastShowDate = "last_show_date"
     }
     
     // Custom initializer for manual creation of a Show instance with parameters
-    init(id: String, name: String, djName: String, playlistImageURL: URL, startTime: TimeOfDay, endTime: TimeOfDay, alternates: Bool, DOTW: String, dates: [Date], firstShowDate: Date, lastShowDate: Date) {
+    init(id: String, name: String, djName: String, playlistImageURL: URL, startTime: TimeOfDay, endTime: TimeOfDay, alternates: Bool, timezone: TimeZone, DOTW: String, dates: [Date], firstShowDate: Date, lastShowDate: Date) {
         self.id = id
         self.name = name
         self.djName = djName
@@ -52,6 +54,7 @@ struct Show: Codable, Identifiable, Hashable{
         self.firstShowDate = firstShowDate
         self.lastShowDate = lastShowDate
         self.alternates = alternates
+        self.timezone = timezone
         self.playlistImageURL = playlistImageURL
     }
 }
@@ -62,25 +65,8 @@ extension Show {
     }
 }
 
-extension Show {
-    static let empty = Show(
-        id: "",
-        name: "",
-        djName: "",
-        playlistImageURL: URL(string: "https://")!,
-        startTime: TimeOfDay(hour: 0, minute: 0, second: 0),
-        endTime: TimeOfDay(hour: 0, minute: 0, second: 0),
-        alternates: false,
-        DOTW: "",
-        dates: [],
-        firstShowDate: Date(),
-        lastShowDate: Date()
-    )
-}
-
 func getShowDates(for show: Show) -> Set<DateComponents> {
     let calendar = Calendar.current
     let dates = Set(show.dates.map { calendar.dateComponents([.year, .month, .day], from: $0) })
-    print(dates)
     return dates
 }

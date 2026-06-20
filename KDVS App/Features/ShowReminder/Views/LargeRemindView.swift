@@ -77,10 +77,11 @@ struct LargeRemindView: View {
                         MultiDatePicker(
                             "Show Dates",
                             selection: $vm.showDates,
-                            in: vm.show.firstShowDate...
-                        ).frame(width: 325, height: 330, alignment: .center)
-                            .tint(vm.show.color.brightened(by: 1))
-                            .padding([.top], 7)
+                        )
+                        .environment(\.timeZone, vm.show.timezone)
+                        .frame(width: 325, height: 330, alignment: .center)
+                        .tint(vm.show.color.brightened(by: 1))
+                        .padding([.top], 7)
                     } else{
                         Spacer()
                         Text("No Upcoming Shows")
@@ -114,6 +115,8 @@ struct LargeRemindView: View {
                     .cornerRadius(10)
                 }
                 .disabled(vm.isLoadingSubscription || vm.isPerformingNotificationAction)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
             } else {
                 Spacer()
                 HStack {

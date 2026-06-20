@@ -25,7 +25,6 @@ class AudioStreamRecorder {
         // Start playing the audio
         player?.play()
         isRecording = true
-        print("Audio recording started")
         completion()
     }
     
@@ -37,12 +36,10 @@ class AudioStreamRecorder {
         cachingPlayerItem?.stopDownloading {
             let aacRecordingURL = self.cachingPlayerItem?.getDownloadedFileURL()
             let wavRecordingURL = aacRecordingURL?.deletingPathExtension().appendingPathExtension("wav")
-            print("AAC@: \(String(describing: aacRecordingURL)) WAV@: \(String(describing: wavRecordingURL))")
             
             self.cachingPlayerItem = nil
             
             self.isRecording = false
-            print("Audio recording stopped")
             
             convertAACtoWAV(inputURL: aacRecordingURL!, outputURL: wavRecordingURL!){ error in
                 // Handle the error, if any
@@ -51,17 +48,14 @@ class AudioStreamRecorder {
                     //completion with error, return an error
                     completion(error)
                 } else {
-                    print("AAC to WAV conversion completed successfully")
                 }
             }
             self.recordingURL = wavRecordingURL
-            print("Conversion successful!")
             completion(nil)
         }
     }
     
     func getAudioFileURL() -> URL? {
-        print("Fetched URL @:\(recordingURL!)")
         return recordingURL
     }
 }

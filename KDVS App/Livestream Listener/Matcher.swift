@@ -81,8 +81,6 @@ class ShazamManager: NSObject, SHSessionDelegate, ObservableObject {
     }
 
     func analyzeSegment(audioURL: URL, completion: @escaping () -> Void) {
-        print("Analyzing Stream")
-        
         // Create an AVAudioFile for the recorded audio file
         let recordedFile: AVAudioFile
         do {
