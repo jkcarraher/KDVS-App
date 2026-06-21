@@ -9,82 +9,64 @@ import Foundation
 import AVFAudio
 
 final class AACtoPCMService {
-
-    private let streamURL: URL
-    private let duration: TimeInterval
-
-    init(
-        streamURL: URL,
-        duration: TimeInterval = 5
-    ) {
-        self.streamURL = streamURL
-        self.duration = duration
-    }
-
-    func captureSample() async throws -> AVAudioPCMBuffer {
-        let recorder = AudioStreamRecorder()
-
-        recorder.startRecording {}
-
-        try await Task.sleep(
-            for: .seconds(duration)
-        )
-
-        return try await withCheckedThrowingContinuation {
-            (continuation: CheckedContinuation<AVAudioPCMBuffer, Error>) in
-
-            recorder.stopRecording { error in
-
-                if let error {
-                    continuation.resume(
-                        throwing: error
-                    )
-                    return
-                }
-
-                do {
-
-                    guard let fileURL =
-                        recorder.getAudioFileURL()
-                    else {
-
-                        throw AACtoPCMServiceError
-                            .recordingURLMissing
-                    }
-
-                    let audioFile = try AVAudioFile(
-                        forReading: fileURL
-                    )
-
-                    let format =
-                        audioFile.processingFormat
-
-                    guard let buffer = AVAudioPCMBuffer(
-                        pcmFormat: format,
-                        frameCapacity:
-                            AVAudioFrameCount(
-                                audioFile.length
-                            )
-                    ) else {
-                        throw AACtoPCMServiceError
-                            .bufferCreationFailed
-                    }
-
-                    try audioFile.read(into: buffer)
-
-                    continuation.resume(
-                        returning: buffer
-                    )
-
-                } catch {
-                    print(error)
-
-                    continuation.resume(
-                        throwing: error
-                    )
-                }
-            }
+    
+    func convertAACtoPCM(aacFileURL: URL) throws -> AVAudioPCMBuffer {
+        
+        let inputFile = try AVAudioFile(forReading: aacFileURL)
+        
+        let inputFormat = inputFile.processingFormat
+        
+        let outputFormat = AVAudioFormat(
+            commonFormat: .pcmFormatFloat32,
+            sampleRate: inputFormat.sampleRate,
+            channels: inputFormat.channelCount,
+            interleaved: false
+        )!
+        
+        let converter = AVAudioConverter(
+            from: inputFormat,
+            to: outputFormat
+        )!
+        
+        let frameCapacity = AVAudioFrameCount(inputFile.length)
+        
+        guard let outputBuffer = AVAudioPCMBuffer(
+            pcmFormat: outputFormat,
+            frameCapacity: frameCapacity
+        ) else {
+            throw AACtoPCMServiceError.bufferCreationFailed
         }
+        
+        var error: NSError?
+        
+        let inputBlock: AVAudioConverterInputBlock = { _, outStatus in
+            if inputFile.framePosition >= inputFile.length {
+                outStatus.pointee = .endOfStream
+                return nil
+            }
+            
+            let buffer = AVAudioPCMBuffer(
+                pcmFormat: inputFormat,
+                frameCapacity: 1024
+            )
+            
+            try? inputFile.read(into: buffer!)
+            
+            outStatus.pointee = .haveData
+            return buffer
+        }
+        
+        converter.convert(
+            to: outputBuffer,
+            error: &error,
+            withInputFrom: inputBlock
+        )
+        
+        if let error {
+            throw error
+        }
+        
+        return outputBuffer
     }
 }
 

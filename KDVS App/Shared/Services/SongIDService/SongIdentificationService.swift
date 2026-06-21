@@ -6,15 +6,18 @@
 //
 
 actor SongIdentificationService {
-
-    private let sampler: AACtoPCMService = AACtoPCMService(streamURL: Stream.kdvsArchive)
+    private let recorder: AudioStreamRecorder = AudioStreamRecorder(streamURL: Stream.kdvsArchive)
+    private let sampler: AACtoPCMService = AACtoPCMService()
     private let shazam: ShazamService = ShazamService()
 
-
     func identifyCurrentSong() async throws -> ShazamSong? {
-
-        let buffer = try await sampler.captureSample()
-
-        return try await shazam.identify(from: buffer)
+        // 1. Take AAC Stream (KDVS STREAM) and record it
+        let aacFile = try await recorder.recordStream(for: 5)
+        
+        // 2. Convert that to a PCM buffer
+        let pcmBuffer = try sampler.convertAACtoPCM(aacFileURL: aacFile)
+        
+        // 3. Give Shazam that PCM buffer
+        return try await shazam.identify(from: pcmBuffer)
     }
 }
