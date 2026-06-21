@@ -189,7 +189,7 @@ struct SheetView: View {
             } else {
                 Text("No show is currently scheduled.")
                     .foregroundColor(.secondary)
-                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
             NowPlayingView()
             Spacer()

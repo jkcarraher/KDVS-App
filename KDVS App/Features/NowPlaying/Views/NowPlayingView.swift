@@ -27,36 +27,53 @@ struct NowPlayingView: View {
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color("RemindBackground"))
-        .overlay(alignment: .center) {
-
-            if showToast {
-                ToastView(message: "Copied")
-                    .transition(.opacity)
-            }
-        }
         .task {
             await vm.recognizeCurrentSong()
         }
         .task(id: vm.analyzedSong?.artworkURL) {
             await vm.loadArtwork(url: vm.analyzedSong?.artworkURL)
         }
-        .animation(.easeInOut(duration: 0.25), value: showToast)
     }
 }
 
 private extension NowPlayingView {
     
     var nowPlayingInfoView: some View {
+        Group {
+            if vm.isLoading {
+                loadingNowPlayingView
+            } else {
+                loadedNowPlayingView
+            }
+        }
+    }
+    
+    var loadingNowPlayingView: some View {
+        RoundedCorners(
+            radius: 15,
+            corners: [.topLeft, .bottomLeft]
+        )
+        .stroke(
+            Color("NotiButtonColor"),
+            style: StrokeStyle(lineWidth: 2, dash: [6])
+        )
+        .padding(1)
+        .frame(height: 60)
+    }
+    
+    var loadedNowPlayingView: some View {
         HStack(spacing: 12) {
             artworkView
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(vm.analyzedSong?.title ?? "Unknown Song")
                     .font(.system(size: 15, weight: .bold))
+                    .lineLimit(1)
                     .foregroundColor(.white)
 
                 Text(vm.analyzedSong?.artist ?? "Unknown Artist")
                     .font(.system(size: 14, weight: .medium))
+                    .lineLimit(1)
                     .foregroundColor(Color("SecondaryText"))
             }
 
@@ -80,6 +97,13 @@ private extension NowPlayingView {
                 Label("Copy", systemImage: "clipboard.fill")
             }
         }
+        .overlay {
+            if showToast {
+                ToastView(message: "Copied")
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.25), value: showToast)
     }
     
     var artworkView: some View {
@@ -101,7 +125,7 @@ private extension NowPlayingView {
     var placeholder: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.gray)
+                .fill(Color(red: 0.5, green: 0.5, blue: 0.5))
             
             Text("?")
                 .font(.system(size: 24, weight: .bold))
@@ -128,9 +152,7 @@ private extension NowPlayingView {
         .contextMenu {
             
             Button {
-                
                 copySongToClipboard()
-                
             } label: {
                 
                 Label("Copy", systemImage: "clipboard.fill")

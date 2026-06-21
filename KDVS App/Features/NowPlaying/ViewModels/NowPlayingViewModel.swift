@@ -35,9 +35,6 @@ final class NowPlayingViewModel: ObservableObject {
         }
 
         do {
-
-            let url = try await recorder.recordSnippet()
-
             analyzedSong = try await songIDService.identifyCurrentSong()
         } catch {
             print("Recognition failed:", error)
