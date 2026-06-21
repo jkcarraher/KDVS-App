@@ -19,14 +19,8 @@ struct NowPlayingView: View {
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(Color("SecondaryText"))
 
-            HStack(spacing: 12) {
-
-                artworkView
-
-                songInfoView
-
-                Spacer()
-
+            HStack(spacing: 2) {
+                nowPlayingInfoView
                 actionButton
             }
         }
@@ -51,17 +45,53 @@ struct NowPlayingView: View {
 }
 
 private extension NowPlayingView {
+    
+    var nowPlayingInfoView: some View {
+        HStack(spacing: 12) {
+            artworkView
 
+            VStack(alignment: .leading, spacing: 4) {
+                Text(vm.analyzedSong?.title ?? "Unknown Song")
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundColor(.white)
+
+                Text(vm.analyzedSong?.artist ?? "Unknown Artist")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(Color("SecondaryText"))
+            }
+
+            Spacer(minLength: 0)
+        }
+        .padding(5)
+        .background(
+            RoundedCorners(
+                radius: 15,
+                corners: [.topLeft, .bottomLeft]
+            )
+            .fill(Color("NotiButtonColor"))
+        )
+        .onTapGesture {
+            copySongToClipboard()
+        }
+        .contextMenu {
+            Button {
+                copySongToClipboard()
+            } label: {
+                Label("Copy", systemImage: "clipboard.fill")
+            }
+        }
+    }
+    
     var artworkView: some View {
-
+        
         Group {
-
+            
             if let image = vm.artworkImage {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 50, height: 50)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
             } else {
                 placeholder
             }
@@ -70,24 +100,24 @@ private extension NowPlayingView {
     
     var placeholder: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 10)
                 .fill(Color.gray)
-
+            
             Text("?")
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(.white)
         }
         .frame(width: 50, height: 50)
     }
-
+    
     var songInfoView: some View {
-
+        
         VStack(alignment: .leading, spacing: 4) {
-
+            
             Text(vm.analyzedSong?.title ?? "Unknown Song")
                 .font(.system(size: 15, weight: .bold))
                 .foregroundColor(.white)
-
+            
             Text(vm.analyzedSong?.artist ?? "Unknown Artist")
                 .font(.system(size: 14, weight: .medium))
                 .foregroundColor(Color("SecondaryText"))
@@ -96,46 +126,39 @@ private extension NowPlayingView {
             copySongToClipboard()
         }
         .contextMenu {
-
+            
             Button {
-
+                
                 copySongToClipboard()
-
+                
             } label: {
-
+                
                 Label("Copy", systemImage: "clipboard.fill")
             }
         }
     }
-
     var actionButton: some View {
-
         Button {
-
             Task {
                 await vm.recognizeCurrentSong()
             }
-
         } label: {
-
-            ZStack {
-
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color("NotiButtonColor"))
-                    .frame(width: 40, height: 40)
-
+            Group {
                 if vm.isLoading {
-
                     ProgressView()
-
                 } else {
-
                     Image(systemName: "ear.and.waveform")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 15, height: 20)
                 }
             }
+            .padding(12)
+            .frame(width: 60, height: 60)
+            .background(
+                RoundedCorners(
+                    radius: 15,
+                    corners: [.topRight, .bottomRight]
+                )
+                .fill(Color("NotiButtonColor"))
+            )
         }
         .buttonStyle(.plain)
     }
@@ -172,5 +195,20 @@ private extension NowPlayingView {
 
             showToast = false
         }
+    }
+}
+
+struct RoundedCorners: Shape {
+    var radius: CGFloat
+    var corners: UIRectCorner
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+
+        return Path(path.cgPath)
     }
 }
