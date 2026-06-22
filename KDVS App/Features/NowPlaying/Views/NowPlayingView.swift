@@ -50,12 +50,11 @@ private extension NowPlayingView {
     
     var loadingNowPlayingView: some View {
         PartialBorderShape(radius: 15)
-            .stroke(
+            .strokeBorder(
                 Color("NotiButtonColor"),
                 style: StrokeStyle(lineWidth: 2, dash: [6])
             )
             .frame(height: 60)
-            .padding(1)
     }
     
     var loadedNowPlayingView: some View {
@@ -232,50 +231,69 @@ struct RoundedCorners: Shape {
     }
 }
 
-struct PartialBorderShape: Shape {
+struct PartialBorderShape: InsettableShape {
     var radius: CGFloat
+    var insetAmount: CGFloat = 0
 
-        func path(in rect: CGRect) -> Path {
-            var path = Path()
+    func inset(by amount: CGFloat) -> some InsettableShape {
+        var copy = self
+        copy.insetAmount += amount
+        return copy
+    }
 
-            let topLeft = CGPoint(x: rect.minX + radius, y: rect.minY)
-            let bottomLeft = CGPoint(x: rect.minX + radius, y: rect.maxY)
+    func path(in rect: CGRect) -> Path {
+        let rect = rect.insetBy(dx: insetAmount, dy: insetAmount)
 
-            // Start at top-left (after corner radius)
-            path.move(to: topLeft)
+        let radius = min(
+            self.radius,
+            min(rect.width, rect.height) / 2
+        )
 
-            // Top edge → to top-right (NO stroke drawn on right side later)
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        var path = Path()
 
-            // Move to bottom-right
-            path.move(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        let topLeft = CGPoint(x: rect.minX + radius, y: rect.minY)
+        let bottomLeft = CGPoint(x: rect.minX + radius, y: rect.maxY)
 
-            // Bottom edge → back to bottom-left (after radius)
-            path.addLine(to: bottomLeft)
+        // Top edge
+        path.move(to: topLeft)
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
 
-            // Left side with rounded corners
+        // Bottom edge
+        path.move(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.addLine(to: bottomLeft)
 
-            // Bottom-left corner arc
-            path.addArc(
-                center: CGPoint(x: rect.minX + radius, y: rect.maxY - radius),
-                radius: radius,
-                startAngle: .degrees(90),
-                endAngle: .degrees(180),
-                clockwise: false
+        // Bottom-left corner
+        path.addArc(
+            center: CGPoint(
+                x: rect.minX + radius,
+                y: rect.maxY - radius
+            ),
+            radius: radius,
+            startAngle: .degrees(90),
+            endAngle: .degrees(180),
+            clockwise: false
+        )
+
+        // Left side
+        path.addLine(
+            to: CGPoint(
+                x: rect.minX,
+                y: rect.minY + radius
             )
+        )
 
-            // Left vertical line up
-            path.addLine(to: CGPoint(x: rect.minX, y: rect.minY + radius))
+        // Top-left corner
+        path.addArc(
+            center: CGPoint(
+                x: rect.minX + radius,
+                y: rect.minY + radius
+            ),
+            radius: radius,
+            startAngle: .degrees(180),
+            endAngle: .degrees(270),
+            clockwise: false
+        )
 
-            // Top-left corner arc
-            path.addArc(
-                center: CGPoint(x: rect.minX + radius, y: rect.minY + radius),
-                radius: radius,
-                startAngle: .degrees(180),
-                endAngle: .degrees(270),
-                clockwise: false
-            )
-
-            return path
-        }
+        return path
+    }
 }
