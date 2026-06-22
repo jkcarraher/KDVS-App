@@ -50,12 +50,11 @@ private extension NowPlayingView {
     
     var loadingNowPlayingView: some View {
         PartialBorderShape(radius: 15)
-            .stroke(
+            .strokeBorder(
                 Color("NotiButtonColor"),
                 style: StrokeStyle(lineWidth: 2, dash: [6])
             )
             .frame(height: 60)
-            .padding(1)
     }
     
     var loadedNowPlayingView: some View {
