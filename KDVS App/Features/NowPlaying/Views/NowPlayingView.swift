@@ -81,7 +81,7 @@ private extension NowPlayingView {
                 radius: 15,
                 corners: [.topLeft, .bottomLeft]
             )
-            .fill(Color("NotiButtonColor"))
+            .fill(Color("NotiButtonColor2"))
         )
         .onTapGesture {
             copySongToClipboard()
@@ -175,7 +175,7 @@ private extension NowPlayingView {
                     radius: 15,
                     corners: [.topRight, .bottomRight]
                 )
-                .fill(Color("NotiButtonColor"))
+                .fill(Color("NotiButtonColor2"))
             )
         }
         .buttonStyle(.plain)
