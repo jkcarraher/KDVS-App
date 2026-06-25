@@ -7,39 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C643317C29EF53030080EB77 /* Shows.swift in Sources */ = {isa = PBXBuildFile; fileRef = C643317B29EF53030080EB77 /* Shows.swift */; };
 		C647CA552A7511A900766E7D /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = C647CA542A7511A900766E7D /* AudioKit */; };
-		C65377BD2A79D9EF00433221 /* scheduleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */; };
 		C65522AB2FD9FD9D001E6E21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65522AA2FD9FD99001E6E21 /* AppDelegate.swift */; };
 		C65522FB2FDA692F001E6E21 /* ReminderManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65522FA2FDA6927001E6E21 /* ReminderManagerView.swift */; };
-		C65DB5C72A8DA108002ECF7D /* colorCodeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65DB5C62A8DA108002ECF7D /* colorCodeable.swift */; };
 		C68E638D29A0714100D075F5 /* KDVS_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */; };
 		C68E638F29A0714100D075F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E638E29A0714100D075F5 /* ContentView.swift */; };
 		C68E639129A0714200D075F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C68E639029A0714200D075F5 /* Assets.xcassets */; };
 		C69F5D482A2AAC2A000A38F0 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = C69F5D472A2AAC2A000A38F0 /* SocketIO */; };
-		C69F5D502A2B3C12000A38F0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C69F5D4F2A2B3C12000A38F0 /* Preview Assets.xcassets */; };
-		C6B42BA12A7F92C40093B2F4 /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */; };
 		C6C382DB29E387D900B4D347 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = C6C382DA29E387D900B4D347 /* SwiftSoup */; };
-		C6DECA4A2A47ED56006EEA89 /* Matcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DECA492A47ED56006EEA89 /* Matcher.swift */; };
-		C6F700462FE5CDE10055F8CF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F700452FE5CDDD0055F8CF /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C643317B29EF53030080EB77 /* Shows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shows.swift; sourceTree = "<group>"; };
 		C65233A62A63B572009520A1 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
-		C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scheduleBuilder.swift; sourceTree = "<group>"; };
 		C65522AA2FD9FD99001E6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C65522FA2FDA6927001E6E21 /* ReminderManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderManagerView.swift; sourceTree = "<group>"; };
-		C65DB5C62A8DA108002ECF7D /* colorCodeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = colorCodeable.swift; sourceTree = "<group>"; };
 		C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDVS_AppApp.swift; sourceTree = "<group>"; };
 		C68E638E29A0714100D075F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C68E639029A0714200D075F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C69F5D4D2A2AAE2F000A38F0 /* KDVS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KDVS.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C69F5D4F2A2B3C12000A38F0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
 		C6DECA482A47D5EE006EEA89 /* KDVS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KDVS.entitlements; sourceTree = "<group>"; };
-		C6DECA492A47ED56006EEA89 /* Matcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matcher.swift; sourceTree = "<group>"; };
-		C6F700452FE5CDDD0055F8CF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -61,14 +47,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C647CA5E2A754F6A00766E7D /* Livestream Listener */ = {
-			isa = PBXGroup;
-			children = (
-				C6DECA492A47ED56006EEA89 /* Matcher.swift */,
-			);
-			path = "Livestream Listener";
-			sourceTree = "<group>";
-		};
 		C65233A52A63B572009520A1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,38 +68,15 @@
 		C68E638B29A0714100D075F5 /* KDVS App */ = {
 			isa = PBXGroup;
 			children = (
-				C6F700452FE5CDDD0055F8CF /* SettingsView.swift */,
 				C65522FA2FDA6927001E6E21 /* ReminderManagerView.swift */,
 				C65522AA2FD9FD99001E6E21 /* AppDelegate.swift */,
 				C6977E3B2FB18CF30061118B /* Shared */,
 				C6977E362FB18C900061118B /* Features */,
 				C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */,
 				C68E638E29A0714100D075F5 /* ContentView.swift */,
-				C6B42BA02A7F92C40093B2F4 /* CreditsView.swift */,
-				C6B42B9F2A7E38CF0093B2F4 /* Schedule Builder */,
-				C647CA5E2A754F6A00766E7D /* Livestream Listener */,
 				C68E639029A0714200D075F5 /* Assets.xcassets */,
-				C69F5D4E2A2B392D000A38F0 /* Preview Content */,
-				C65DB5C62A8DA108002ECF7D /* colorCodeable.swift */,
 			);
 			path = "KDVS App";
-			sourceTree = "<group>";
-		};
-		C69F5D4E2A2B392D000A38F0 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				C69F5D4F2A2B3C12000A38F0 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		C6B42B9F2A7E38CF0093B2F4 /* Schedule Builder */ = {
-			isa = PBXGroup;
-			children = (
-				C643317B29EF53030080EB77 /* Shows.swift */,
-				C65377BC2A79D9EF00433221 /* scheduleBuilder.swift */,
-			);
-			path = "Schedule Builder";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,7 +151,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C69F5D502A2B3C12000A38F0 /* Preview Assets.xcassets in Resources */,
 				C68E639129A0714200D075F5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -208,16 +162,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C643317C29EF53030080EB77 /* Shows.swift in Sources */,
-				C6B42BA12A7F92C40093B2F4 /* CreditsView.swift in Sources */,
 				C68E638F29A0714100D075F5 /* ContentView.swift in Sources */,
 				C65522AB2FD9FD9D001E6E21 /* AppDelegate.swift in Sources */,
-				C6F700462FE5CDE10055F8CF /* SettingsView.swift in Sources */,
 				C68E638D29A0714100D075F5 /* KDVS_AppApp.swift in Sources */,
 				C65522FB2FDA692F001E6E21 /* ReminderManagerView.swift in Sources */,
-				C6DECA4A2A47ED56006EEA89 /* Matcher.swift in Sources */,
-				C65DB5C72A8DA108002ECF7D /* colorCodeable.swift in Sources */,
-				C65377BD2A79D9EF00433221 /* scheduleBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,7 +294,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 38;
-				DEVELOPMENT_ASSET_PATHS = "\"KDVS App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -384,7 +331,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 38;
-				DEVELOPMENT_ASSET_PATHS = "\"KDVS App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GENERATE_INFOPLIST_FILE = YES;

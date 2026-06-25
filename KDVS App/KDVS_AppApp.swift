@@ -28,6 +28,7 @@ struct KDVS_AppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(showService: showService)
+                .environmentObject(showService)
                 .environmentObject(notificationService)
                 .environmentObject(audioService)
                 .environmentObject(socketService)

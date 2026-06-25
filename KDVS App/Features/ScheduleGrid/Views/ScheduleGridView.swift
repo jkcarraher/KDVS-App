@@ -9,7 +9,12 @@ import SwiftUI
 
 struct ScheduleGridView: View {
     @EnvironmentObject private var notificationService: NotificationService
-    @StateObject private var vm = ScheduleGridViewModel()
+
+    @StateObject private var vm: ScheduleGridViewModel
+
+    init(showService: ShowService) {
+        _vm = StateObject(wrappedValue: ScheduleGridViewModel(showService: showService))
+    }
     
     
     var body: some View {

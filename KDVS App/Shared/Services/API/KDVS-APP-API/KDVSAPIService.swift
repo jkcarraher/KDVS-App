@@ -70,11 +70,8 @@ final class KDVSAPIService {
         return try decoder.decode(T.self, from: data)
     }
     
-    func fetchShows() async throws -> [Show] {
+    func fetchAllActiveShows() async throws -> [Show] {
         let timeslots: [TimeslotDTO] = try await request("timeslots")
-//        if let timeslot = timeslots.first(where: {$0.show.id == "284677"}) {
-//            print(timeslot.toShow())
-//        }
         return timeslots.compactMap { $0.toShow() }
     }
     

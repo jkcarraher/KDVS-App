@@ -18,6 +18,12 @@ final class ScheduleGridViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String? = nil
     
+    private let showService: ShowService
+
+    init(showService: ShowService) {
+        self.showService = showService
+    }
+    
     var filteredShows: [Show] {
         var result = shows
 
@@ -33,15 +39,13 @@ final class ScheduleGridViewModel: ObservableObject {
 
         return result
     }
-
-    private let api = KDVSAPIService()
-
+    
     func load() async {
         isLoading = true
         defer { isLoading = false }
         
         do {
-            shows = try await api.fetchShows()
+            shows = try await showService.getAllActiveShows()
         } catch {
             errorMessage = error.localizedDescription
             print("Failed to load shows:", error)

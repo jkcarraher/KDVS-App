@@ -1,13 +1,13 @@
 //
-//  SettingsView.swift
+//  SettingsSheetView.swift
 //  KDVS
 //
-//  Created by John Carraher on 6/19/26.
+//  Created by John Carraher on 6/24/26.
 //
 
 import SwiftUI
 
-struct SettingsView: View {
+struct SettingsSheetView: View {
     var body: some View {
         Spacer()
         Text("Settings")

@@ -42,12 +42,11 @@ struct PlayerView: View {
                 .stroke(Color("OutlineColor"), lineWidth: 2)
         )
         .sheet(isPresented: $vm.showReminderSheet) {
-            SheetView(show: $vm.show)
+            NowPlayingSheetView(show: $vm.show)
                 .environmentObject(notificationService)
                 .environment(\.colorScheme, .dark)
                 .presentationDetents([.height(450), .large])
                 .background(Color("RemindBackground"))
-            
         }
         .task {
             await vm.start()
