@@ -11,6 +11,7 @@ import MediaPlayer
 import SwiftSoup
 
 struct ContentView: View {
+    @EnvironmentObject private var notificationService: NotificationService
     let audioService = AudioPlayerService()
     let socketService = SocketService()
     let showService: ShowService
@@ -42,6 +43,7 @@ struct ContentView: View {
             .background(Color("BackgroundColor"))
             .sheet(isPresented: $isRemindPresented) {
                 SheetView(show: $show)
+                    .environmentObject(notificationService)
                     .environment(\.colorScheme, .dark)
                     .presentationDetents([.height(450), .large])
                     .background(Color("RemindBackground"))
@@ -49,6 +51,7 @@ struct ContentView: View {
             }
             .sheet(isPresented: $isSettingsPresented) {
                 SettingsView()
+                    .environmentObject(notificationService)
                     .environment(\.colorScheme, .dark)
                     .presentationDetents([.height(500), .large])
                     .background(Color("RemindBackground"))

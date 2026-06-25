@@ -10,6 +10,7 @@ import SwiftUI
 struct PlayerView: View {
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var vm: PlayerViewModel
+    @EnvironmentObject private var notificationService: NotificationService
 
     init(
         audioService: AudioPlayerService,
@@ -42,6 +43,7 @@ struct PlayerView: View {
         )
         .sheet(isPresented: $vm.showReminderSheet) {
             SheetView(show: $vm.show)
+                .environmentObject(notificationService)
                 .environment(\.colorScheme, .dark)
                 .presentationDetents([.height(450), .large])
                 .background(Color("RemindBackground"))

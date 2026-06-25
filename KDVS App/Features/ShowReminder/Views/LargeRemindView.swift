@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct LargeRemindView: View {
+    @EnvironmentObject private var notificationService: NotificationService
+
     @StateObject private var vm: LargeRemindViewModel
+    
     
     init(show: Show) {
         _vm = StateObject(
             wrappedValue: LargeRemindViewModel(
-                show: show,
-                notificationService: NotificationService(
-                    apiService: KDVSAPIService()
-                )
+                show: show
             )
         )
     }
@@ -95,28 +95,10 @@ struct LargeRemindView: View {
                     }
                 }
                 Spacer()
-                Button {
-                    Task {
-                        await vm.toggleRemindButton()
-                    }
-                } label: {
-                    ZStack {
-                        Color("NotiButtonColor2")
-
-                        if vm.isLoadingSubscription || vm.isPerformingNotificationAction {
-                            ProgressView()
-                        } else {
-                            Text(vm.isSubscribed ? "Turn off Notifications" : "Notify Me!")
-                                .font(.system(size: 15, weight: .bold))
-                                .foregroundColor(.white)
-                        }
-                    }
-                    .frame(height: 50)
-                    .cornerRadius(10)
-                }
-                .disabled(vm.isLoadingSubscription || vm.isPerformingNotificationAction)
-                .padding(.horizontal, 20)
-                .padding(.bottom, 20)
+                ShowNotificationButton(
+                    showId: vm.show.id,
+                    notificationService: notificationService
+                )
             } else {
                 Spacer()
                 HStack {
@@ -135,7 +117,6 @@ struct LargeRemindView: View {
         .onAppear {
             Task {
                 await vm.loadImage()
-                await vm.loadSubscriptionStatus()
                 vm.loadDates()
             }
         }

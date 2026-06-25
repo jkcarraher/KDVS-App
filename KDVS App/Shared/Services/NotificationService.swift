@@ -7,7 +7,8 @@
 
 import Foundation
 
-final class NotificationService {
+final class NotificationService: ObservableObject {
+    public let description = "Hi"
     private let apiService: KDVSAPIService
 
     init(apiService: KDVSAPIService) {

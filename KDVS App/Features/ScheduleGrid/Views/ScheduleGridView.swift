@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ScheduleGridView: View {
+    @EnvironmentObject private var notificationService: NotificationService
     @StateObject private var vm = ScheduleGridViewModel()
-
-
+    
+    
     var body: some View {
         List(vm.filteredShows, id: \.id) { show in
             Button {
@@ -40,11 +41,9 @@ struct ScheduleGridView: View {
                 CustomFilterButton(selectedDay: $vm.selectedDay)
             }
         }
-        .sheet(isPresented: $vm.isShowingSheet) {
-            if let show = vm.selectedShow {
-                LargeRemindView( show: show )
-                .presentationDetents([.height(575), .large])
-            }
+        .sheet(item: $vm.selectedShow) { show in
+            LargeRemindView(show: show)
+                .environmentObject(notificationService)
         }
         .task {
             await vm.load()

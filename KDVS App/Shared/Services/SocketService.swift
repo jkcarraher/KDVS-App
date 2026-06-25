@@ -8,7 +8,7 @@
 import SocketIO
 import Foundation
 
-final class SocketService {
+final class SocketService: ObservableObject {
     
     private let manager = SocketManager (
         socketURL: URL(string: "https://acute-scientific-corleggy.glitch.me")!

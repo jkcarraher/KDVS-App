@@ -19,8 +19,6 @@ final class LargeRemindViewModel: ObservableObject {
     @Published var isLoadingSubscription = true
     @Published var isPerformingNotificationAction = false
     @Published var errorMessage: String?
-
-    private let notificationService: NotificationService
     
     private var showCalendar: Calendar {
         var cal = Calendar(identifier: .gregorian)
@@ -28,9 +26,8 @@ final class LargeRemindViewModel: ObservableObject {
         return cal
     }
 
-    init(show: Show, notificationService: NotificationService) {
+    init(show: Show) {
         self.show = show
-        self.notificationService = notificationService
     }
     
     func loadImage() async {
@@ -48,52 +45,4 @@ final class LargeRemindViewModel: ObservableObject {
         })
         isDatesLoading = false
     }
-
-    func loadSubscriptionStatus() async {
-        isLoadingSubscription = true
-
-        defer {
-            isLoadingSubscription = false
-        }
-
-        do {
-            isSubscribed = try await notificationService.isSubscribed(
-                showId: show.id
-            )
-        } catch {
-            print("Failed to load subscription status:", error)
-            isSubscribed = false
-        }
-    }
-
-    func toggleRemindButton() async {
-        guard !isPerformingNotificationAction else {
-            return
-        }
-        
-        isPerformingNotificationAction = true
-        
-        defer {
-            isPerformingNotificationAction = false
-        }
-        
-        do {
-            if isSubscribed {
-                try await notificationService.unsubscribe(
-                    showId: show.id
-                )
-                
-                isSubscribed = false
-            } else {
-                try await notificationService.subscribe(
-                    showId: show.id
-                )
-                
-                isSubscribed = true
-            }
-        } catch {
-            print("Notification action failed:", error)
-        }
-    }
-
 }

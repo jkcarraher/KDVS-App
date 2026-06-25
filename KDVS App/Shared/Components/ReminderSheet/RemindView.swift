@@ -12,6 +12,8 @@ import UIKit
 import EventKit
 
 struct RemindView: View {
+    @EnvironmentObject private var notificationService: NotificationService
+
     @Binding var show : Show
     @Binding var label : String
     
@@ -20,10 +22,6 @@ struct RemindView: View {
     @State private var isSubscribed = false
     @State private var isLoadingSubscription = true
     @State private var isPerformingNotificationAction = false
-    
-    let notificationService = NotificationService(
-        apiService: KDVSAPIService()
-    )
     
     var body: some View {
         VStack {
@@ -65,29 +63,7 @@ struct RemindView: View {
                     }.padding([.leading], 5)
                     Spacer()
                 }.padding([.leading, .trailing], 20)
-                Button {
-                    Task {
-                        await toggleRemindButton()
-                    }
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color("NotiButtonColor2"))
-
-                        if isLoadingSubscription || isPerformingNotificationAction {
-                            ProgressView()
-                        } else {
-                            Text(isSubscribed ? "Turn off Notifications" : "Notify Me!")
-                                .font(.system(size: 15, weight: .bold))
-                                .foregroundColor(.white)
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 5)
-                .disabled(!isLoaded)
+                ShowNotificationButton(showId: show.id, notificationService: notificationService)
             }else {
                 Spacer()
                 HStack{
@@ -106,7 +82,6 @@ struct RemindView: View {
             .onAppear {
                 Task {
                     await loadImage()
-                    await loadSubscriptionStatus()
                     isLoaded = true
                 }
             }
@@ -119,54 +94,4 @@ struct RemindView: View {
 
         showImage = await ImageCacheService.shared.loadImage(from: url)
     }
-    @MainActor
-    func loadSubscriptionStatus() async {
-        isLoadingSubscription = true
-
-        defer {
-            isLoadingSubscription = false
-        }
-
-        do {
-            isSubscribed = try await notificationService.isSubscribed(
-                showId: show.id
-            )
-        } catch {
-            print("Failed to load subscription status:", error)
-            isSubscribed = false
-        }
-    }
-    
-    @MainActor
-    func toggleRemindButton() async {
-        guard !isPerformingNotificationAction else {
-            return
-        }
-
-        isPerformingNotificationAction = true
-
-        defer {
-            isPerformingNotificationAction = false
-        }
-
-        do {
-            if isSubscribed {
-                try await notificationService.unsubscribe(
-                    showId: show.id
-                )
-
-                isSubscribed = false
-            } else {
-                try await notificationService.subscribe(
-                    showId: show.id
-                )
-
-                isSubscribed = true
-            }
-        } catch {
-            print("Notification action failed:", error)
-        }
-    }
-    
-    
 }

@@ -12,19 +12,25 @@ struct KDVS_AppApp: App {
 
     @UIApplicationDelegateAdaptor(AppDelegate.self)
     var appDelegate
-
+    
     let audioService = AudioPlayerService()
     let socketService = SocketService()
     let apiService = KDVSAPIService()
+    
+    let notificationService: NotificationService
     let showService: ShowService
 
     init() {
         self.showService = ShowService(apiService: apiService)
+        self.notificationService = NotificationService(apiService: apiService)
     }
 
     var body: some Scene {
         WindowGroup {
             ContentView(showService: showService)
+                .environmentObject(notificationService)
+                .environmentObject(audioService)
+                .environmentObject(socketService)
                 .task {
                     await registerForNotifications()
                 }
