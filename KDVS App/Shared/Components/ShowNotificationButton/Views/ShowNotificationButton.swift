@@ -43,7 +43,5 @@ struct ShowNotificationButton: View {
             Task { await vm.loadSubscriptionStatus() }
         }
         .disabled(vm.isLoading || vm.isPerformingNotificationAction)
-        .padding(.horizontal, 20)
-        .padding(.bottom, 20)
     }
 }

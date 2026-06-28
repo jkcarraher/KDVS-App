@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ReminderManagerView: View {
-    let notificationService = NotificationService(apiService: KDVSAPIService())
+    @EnvironmentObject private var notificationService: NotificationService
     
     @State private var notificationEnabledShows: [ShowDTO] = []
     @State private var isLoading = false

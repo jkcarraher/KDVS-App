@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C647CA552A7511A900766E7D /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = C647CA542A7511A900766E7D /* AudioKit */; };
 		C65522AB2FD9FD9D001E6E21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65522AA2FD9FD99001E6E21 /* AppDelegate.swift */; };
-		C65522FB2FDA692F001E6E21 /* ReminderManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65522FA2FDA6927001E6E21 /* ReminderManagerView.swift */; };
 		C68E638D29A0714100D075F5 /* KDVS_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */; };
 		C68E638F29A0714100D075F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C68E638E29A0714100D075F5 /* ContentView.swift */; };
 		C68E639129A0714200D075F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C68E639029A0714200D075F5 /* Assets.xcassets */; };
@@ -20,7 +19,6 @@
 /* Begin PBXFileReference section */
 		C65233A62A63B572009520A1 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		C65522AA2FD9FD99001E6E21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C65522FA2FDA6927001E6E21 /* ReminderManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderManagerView.swift; sourceTree = "<group>"; };
 		C68E638C29A0714100D075F5 /* KDVS_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDVS_AppApp.swift; sourceTree = "<group>"; };
 		C68E638E29A0714100D075F5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C68E639029A0714200D075F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,7 +66,6 @@
 		C68E638B29A0714100D075F5 /* KDVS App */ = {
 			isa = PBXGroup;
 			children = (
-				C65522FA2FDA6927001E6E21 /* ReminderManagerView.swift */,
 				C65522AA2FD9FD99001E6E21 /* AppDelegate.swift */,
 				C6977E3B2FB18CF30061118B /* Shared */,
 				C6977E362FB18C900061118B /* Features */,
@@ -165,7 +162,6 @@
 				C68E638F29A0714100D075F5 /* ContentView.swift in Sources */,
 				C65522AB2FD9FD9D001E6E21 /* AppDelegate.swift in Sources */,
 				C68E638D29A0714100D075F5 /* KDVS_AppApp.swift in Sources */,
-				C65522FB2FDA692F001E6E21 /* ReminderManagerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

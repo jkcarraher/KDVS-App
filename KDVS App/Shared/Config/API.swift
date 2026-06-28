@@ -11,7 +11,7 @@ enum API {
     enum KDVS_App {
         static var v1: URL {
             #if DEBUG
-            return URL(string: "http://localhost:3000/v1")!
+            return URL(string: "http://192.168.254.204:3000/v1")!
             #else
             return URL(string: "https://kdvs-api.jkcarraher.com/v1")!
             #endif

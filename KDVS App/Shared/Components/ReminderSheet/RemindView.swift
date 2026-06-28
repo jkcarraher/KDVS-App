@@ -63,7 +63,12 @@ struct RemindView: View {
                     }.padding([.leading], 5)
                     Spacer()
                 }.padding([.leading, .trailing], 20)
-                ShowNotificationButton(showId: show.id, notificationService: notificationService)
+                HStack(spacing: 5){
+                    ShowNotificationButton(showId: show.id, notificationService: notificationService)
+                    ShareShowButton(show: show)
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
             }else {
                 Spacer()
                 HStack{
