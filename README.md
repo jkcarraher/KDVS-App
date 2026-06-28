@@ -1,4 +1,6 @@
 # KDVS Radio App
+![iTunes App Store](https://img.shields.io/itunes/v/6448074725)
+
 Listen to 24/7 Freeform Radio anywhere in the world
 
 <p align="center">
