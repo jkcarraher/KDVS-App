@@ -35,7 +35,8 @@ extension Color {
             blue: Double(rgb & 0xFF) / 255
         )
     }
-    
+
+        
     func brightened(by factor: Double) -> Color {
         let uiColor = UIColor(self)
         guard let modifiedColor = uiColor.adjustedBrightness(by: CGFloat(factor)) else {

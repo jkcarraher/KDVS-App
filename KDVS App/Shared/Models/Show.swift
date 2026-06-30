@@ -61,7 +61,7 @@ struct Show: Codable, Identifiable, Hashable{
 
 extension Show {
     var color: Color {
-        Color(hex: showColor ?? "#000000")
+        Color(hex: showColor) ?? Color.gray
     }
 }
 
