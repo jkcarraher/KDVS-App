@@ -63,12 +63,6 @@ struct ContentView: View {
                     print("Failed to fetch current show:", error)
                 }
 
-                fetchShows { shows in
-                    self.currentSeasonShows = shows
-                    startTimer()
-                    isLoading = false
-                }
-
                 let playerItem = AVPlayerItem(url: streamURL)
                 try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
                 audioPlayer.replaceCurrentItem(with: playerItem)
