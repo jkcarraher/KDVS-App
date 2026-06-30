@@ -13,13 +13,11 @@ struct PlayerView: View {
 
     init(
         audioService: AudioPlayerService,
-        socketService: SocketService,
         showService: ShowService
     ) {
         _vm = StateObject(
             wrappedValue: PlayerViewModel(
                 playerService: audioService,
-                socketService: socketService,
                 showService: showService,
             )
         )

@@ -11,12 +11,15 @@ import MediaPlayer
 
 final class AudioPlayerService: ObservableObject {
     @Published private(set) var isPlaying = false
+    let socketService = SocketService.shared
     
     func play() {
+        socketService.startListening()
         player.play()
     }
     
     func stop() {
+        socketService.stopListening()
         player.pause()
     }
     
@@ -25,6 +28,7 @@ final class AudioPlayerService: ObservableObject {
     private var statusObserver: NSKeyValueObservation?
     
     init() {
+        socketService.connect()
         setupAudioSession()
         setupRemoteCommands()
         observePlayer()

@@ -22,7 +22,6 @@ final class PlayerViewModel: ObservableObject {
     
 
     private let playerService: AudioPlayerService
-    private let socketService: SocketService
     private let showService: ShowService
 
     private var showRefreshTask: Task<Void, Never>?
@@ -30,11 +29,9 @@ final class PlayerViewModel: ObservableObject {
 
     init(
         playerService: AudioPlayerService,
-        socketService: SocketService,
         showService: ShowService
     ) {
         self.playerService = playerService
-        self.socketService = socketService
         self.showService = showService
 
         let streamURL = Stream.kdvsArchive
@@ -165,11 +162,8 @@ final class PlayerViewModel: ObservableObject {
     func togglePlayback() {
         if isPlaying {
             playerService.stop()
-            socketService.disconnect()
         } else {
             playerService.play()
-            socketService.connect()
-
         }
     }
     

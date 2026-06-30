@@ -9,20 +9,26 @@ import SocketIO
 import Foundation
 
 final class SocketService {
-    
-    private let manager = SocketManager (
-        socketURL: URL(string: "https://acute-scientific-corleggy.glitch.me")!
-    )
-    
-    // Make this lazy connection after we create a socketService (after self exists)
+
+    static let shared = SocketService()
+
+    private let manager = SocketManager( socketURL: Socket.server! )
+
     private lazy var socket = manager.defaultSocket
 
-    func connect(){
+    func connect() {
         socket.connect()
     }
 
-    func disconnect(){
+    func disconnect() {
         socket.disconnect()
     }
 
+    func startListening() {
+        socket.emit("startListening")
+    }
+
+    func stopListening() {
+        socket.emit("stopListening")
+    }
 }
