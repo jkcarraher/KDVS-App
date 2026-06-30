@@ -1,5 +1,6 @@
 # KDVS Radio App
 [![App Store Version](https://img.shields.io/itunes/v/6448074725?logo=app-store&logoColor=white&label=Apple%20App%20Store&labelColor=%60&color=blue)](https://apps.apple.com/us/app/kdvs/id6448074725)
+![listeners](https://img.shields.io/endpoint?url=https://kdvs-app.jkcarraher.com/api/v1/metrics/listeners)
 
 Listen to 24/7 Freeform Radio anywhere in the world
 
