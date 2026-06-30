@@ -13,10 +13,14 @@ enum API {
             #if DEBUG
             return URL(string: "http://localhost:3000/v1")!
             #else
-            return URL(string: "https://kdvs-api.jkcarraher.com/v1")!
+            return URL(string: "https://kdvs-app.jkcarraher.com/api/v1")!
             #endif
         }
     }
+}
+
+enum Socket {
+    static let server = URL(string: "https://kdvs-app.jkcarraher.com/")
 }
 
 enum Stream {

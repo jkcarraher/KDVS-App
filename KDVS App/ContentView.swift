@@ -12,7 +12,6 @@ import SwiftSoup
 
 struct ContentView: View {
     let audioService = AudioPlayerService()
-    let socketService = SocketService()
     let showService: ShowService
     
     init(showService: ShowService) {
@@ -35,7 +34,7 @@ struct ContentView: View {
             VStack {
                 myHeader(openCredit: $isSettingsPresented, currentScheduleList: $currentSeasonShows)
                 Spacer()
-                PlayerView(audioService: audioService, socketService: socketService, showService: showService)
+                PlayerView(audioService: audioService, showService: showService)
                 Spacer()
             }
             .frame(maxWidth: .infinity)

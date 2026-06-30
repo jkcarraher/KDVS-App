@@ -14,7 +14,6 @@ struct KDVS_AppApp: App {
     var appDelegate
 
     let audioService = AudioPlayerService()
-    let socketService = SocketService()
     let apiService = KDVSAPIService()
     let showService: ShowService
 
